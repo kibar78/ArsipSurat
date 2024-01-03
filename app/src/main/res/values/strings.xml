@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Arsip Surat</string>
+    <string name="title_home">Home</string>
+    <string name="surat_masuk">Surat Masuk</string>
+    <string name="surat_keluar">Surat Keluar</string>
+    <string name="profile">Profile</string>
+    <string name="cari_surat_masuk">Cari Surat Masuk</string>
+    <string name="cari_surat_keluar">Cari Surat Keluar</string>
+    <string name="asal_surat">Asal Surat:</string>
+    <string name="tgl_surat">Tanggal Surat:</string>
+    <string name="search">Search</string>
+    <string name="perihal">Perihal</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="tgl_penerimaan">Tanggal Penerimaan</string>
+    <string name="tanggal_surat">Tanggal Surat</string>
+    <string name="no_surat">No Surat</string>
+    <string name="keterangan">Keterangan</string>
+</resources>
