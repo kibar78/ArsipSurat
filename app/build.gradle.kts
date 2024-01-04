@@ -69,4 +69,10 @@ dependencies {
 
     //Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    //PhotoView
+    implementation ("com.github.chrisbanes:PhotoView:2.3.0")
+
+    //ViewPager2
+    implementation ("androidx.viewpager2:viewpager2:1.0.0")
 }
