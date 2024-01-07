@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.detail.surat_masuk.DetailSuratMasukActivity">
+    tools:context=".ui.detail.surat_keluar.DetailSuratKeluarActivity">
 
     <TableLayout
         android:id="@+id/tableLayout"
@@ -22,15 +22,15 @@
 
             <TextView
                 android:padding="6dip"
-                android:text="@string/tgl_penerimaan" />
+                android:text="@string/tgl_catat" />
 
             <TextView
-                android:id="@+id/tv_tanggal_penerimaan"
+                android:id="@+id/tv_tanggal_catat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="6dip"
-                android:text="@string/tgl_penerimaan" />
+                android:text="@string/tgl_catat" />
         </TableRow>
 
         <TableRow>
@@ -52,15 +52,15 @@
 
             <TextView
                 android:padding="6dip"
-                android:text="@string/asal_surat" />
+                android:text="@string/tujuan_surat" />
 
             <TextView
-                android:id="@+id/tv_dari_mana"
+                android:id="@+id/tv_tujuan_surat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:padding="6dip"
-                android:text="@string/asal_surat" />
+                android:text="@string/tujuan_surat" />
         </TableRow>
 
         <TableRow>
@@ -113,7 +113,7 @@
     </TableLayout>
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
+        android:id="@+id/tabs_keluar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -122,13 +122,12 @@
         app:tabTextColor="@color/black" />
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
+        android:id="@+id/view_pager_keluar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabs" />
-
+        app:layout_constraintTop_toBottomOf="@id/tabs_keluar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

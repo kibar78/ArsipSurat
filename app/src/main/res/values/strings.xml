@@ -6,8 +6,9 @@
     <string name="profile">Profile</string>
     <string name="cari_surat_masuk">Cari Surat Masuk</string>
     <string name="cari_surat_keluar">Cari Surat Keluar</string>
-    <string name="asal_surat">Asal Surat:</string>
-    <string name="tgl_surat">Tanggal Surat:</string>
+    <string name="asal_surat">Asal Surat</string>
+    <string name="tujuan_surat">Tujuan Surat</string>
+    <string name="tgl_surat">Tanggal Surat</string>
     <string name="search">Search</string>
     <string name="perihal">Perihal</string>
     <string name="title_activity_login">LoginActivity</string>
@@ -20,6 +21,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="tgl_penerimaan">Tanggal Penerimaan</string>
+    <string name="tgl_catat">Tanggal Catat</string>
     <string name="tanggal_surat">Tanggal Surat</string>
     <string name="no_surat">No Surat</string>
     <string name="keterangan">Keterangan</string>
@@ -28,4 +30,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tab_text_1">Surat</string>
     <string name="tab_text_2">Lampiran</string>
+    <string name="submit">Submit</string>
 </resources>

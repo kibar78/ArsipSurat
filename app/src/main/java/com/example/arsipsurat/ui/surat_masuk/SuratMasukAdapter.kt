@@ -4,7 +4,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.arsipsurat.data.model.SuratMasukItem
 import com.example.arsipsurat.databinding.ItemSuratBinding
 import com.example.arsipsurat.ui.detail.surat_masuk.DetailSuratMasukActivity
@@ -23,16 +22,13 @@ class SuratMasukAdapter(private val listSuratMasuk: List<SuratMasukItem?>,):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val perihal = listSuratMasuk[position]?.perihal
-        //val dariMana = listSuratMasuk[position]?.dariMana
         val tgl_surat = listSuratMasuk[position]?.tglSurat
-        val image = listSuratMasuk[position]?.imageSurat
+        val perihal = listSuratMasuk[position]?.perihal
+        val keterangan = listSuratMasuk[position]?.keterangan
+
+        holder.binding.tvTanggalSurat.text = tgl_surat
         holder.binding.tvPerihal.text = perihal
-        //holder.binding.tvDariMana.text = dariMana
-        holder.binding.tvTglSurat.text = tgl_surat
-        Glide.with(holder.itemView)
-            .load(image)
-            .into(holder.binding.imageSurat)
+        holder.binding.tvKeterangan.text = keterangan
 
         holder.itemView.setOnClickListener {v->
             val intent = Intent(v.context, DetailSuratMasukActivity::class.java)

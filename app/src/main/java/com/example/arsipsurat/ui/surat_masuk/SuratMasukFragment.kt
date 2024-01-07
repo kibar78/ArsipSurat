@@ -1,5 +1,6 @@
 package com.example.arsipsurat.ui.surat_masuk
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.example.arsipsurat.data.ViewModelFactory
 import com.example.arsipsurat.data.model.SuratMasukItem
 import com.example.arsipsurat.data.repository.Result
 import com.example.arsipsurat.databinding.FragmentSuratMasukBinding
+import com.example.arsipsurat.ui.insert.surat_masuk.AddSuratMasukActivity
 
 class SuratMasukFragment : Fragment() {
 
@@ -77,7 +79,8 @@ class SuratMasukFragment : Fragment() {
         }
 
         binding.fab.setOnClickListener{
-            Toast.makeText(requireActivity(),"cek", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireActivity(), AddSuratMasukActivity::class.java)
+            startActivity(intent)
         }
     }
 

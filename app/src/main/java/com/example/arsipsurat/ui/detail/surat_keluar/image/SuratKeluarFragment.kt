@@ -1,13 +1,13 @@
-package com.example.arsipsurat.ui.detail.surat_masuk.image
+package com.example.arsipsurat.ui.detail.surat_keluar.image
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.example.arsipsurat.data.model.SuratMasukItem
-import com.example.arsipsurat.databinding.FragmentImageBinding
+import com.example.arsipsurat.data.model.SuratKeluarItem
+import com.example.arsipsurat.databinding.FragmentSuratBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -16,15 +16,15 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [SuratFragment.newInstance] factory method to
+ * Use the [SuratKeluarFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SuratFragment : Fragment() {
+class SuratKeluarFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private var _binding : FragmentImageBinding? = null
+    private var _binding : FragmentSuratBinding? = null
     private val binding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +40,7 @@ class SuratFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentImageBinding.inflate(inflater,container,false)
+        _binding = FragmentSuratBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
@@ -52,10 +52,9 @@ class SuratFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val image = arguments?.getParcelable<SuratMasukItem>(IMAGE_SURAT)
-
-        binding?.ivSuratMasuk?.let {
-            Glide.with(binding?.ivSuratMasuk!!)
+        val image = arguments?.getParcelable<SuratKeluarItem>(IMAGE_SURAT)
+        binding?.ivSuratKeluar?.let {
+            Glide.with(binding?.ivSuratKeluar!!)
                 .load(image?.imageSurat)
                 .into(it)
         }
@@ -69,12 +68,12 @@ class SuratFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment ImageFragment.
+         * @return A new instance of fragment SuratFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            SuratFragment().apply {
+            SuratKeluarFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

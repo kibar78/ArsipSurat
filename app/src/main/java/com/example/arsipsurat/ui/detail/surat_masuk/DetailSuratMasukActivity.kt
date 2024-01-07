@@ -16,7 +16,7 @@ class DetailSuratMasukActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDetailSuratMasukBinding
 
     companion object{
-        const val EXTRA_SURAT = "extra_surat"
+        const val EXTRA_SURAT = "extra_masuk"
 
         private val TAB_TITLES = intArrayOf(
             R.string.tab_text_1,
@@ -33,22 +33,22 @@ class DetailSuratMasukActivity : AppCompatActivity() {
         actionBar!!.title = "Detail Surat Masuk"
         actionBar.setDisplayHomeAsUpEnabled(true)
 
-        val surat = if (Build.VERSION.SDK_INT >= 33){
-            intent.getParcelableExtra<SuratMasukItem>(EXTRA_SURAT, SuratMasukItem::class.java)
+        val suratMasuk = if (Build.VERSION.SDK_INT >= 33){
+            intent.getParcelableExtra(EXTRA_SURAT, SuratMasukItem::class.java)
         } else{
-            intent.getParcelableExtra<SuratMasukItem>(EXTRA_SURAT)
+            intent.getParcelableExtra(EXTRA_SURAT)
         }
 
-        if (surat != null){
-            binding.tvTanggalPenerimaan.text = surat.tglPenerimaan
-            binding.tvTglSurat.text = surat.tglSurat
-            binding.tvNoSurat.text = surat.noSurat
-            binding.tvDariMana.text = surat.dariMana
-            binding.tvPerihal.text = surat.perihal
-            binding.tvKeterangan.text = surat.keterangan
+        if (suratMasuk != null){
+            binding.tvTanggalPenerimaan.text = suratMasuk.tglPenerimaan
+            binding.tvTglSurat.text = suratMasuk.tglSurat
+            binding.tvNoSurat.text = suratMasuk.noSurat
+            binding.tvDariMana.text = suratMasuk.dariMana
+            binding.tvPerihal.text = suratMasuk.perihal
+            binding.tvKeterangan.text = suratMasuk.keterangan
 
             val sectionsPagerAdapter = SectionsPagerAdapter(this)
-            sectionsPagerAdapter.image = surat
+            sectionsPagerAdapter.image = suratMasuk
             val viewPager: ViewPager2 = findViewById(R.id.view_pager)
             viewPager.adapter = sectionsPagerAdapter
             val tabs: TabLayout = findViewById(R.id.tabs)

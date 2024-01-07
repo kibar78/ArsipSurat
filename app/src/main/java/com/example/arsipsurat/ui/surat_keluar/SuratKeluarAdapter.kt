@@ -1,11 +1,12 @@
 package com.example.arsipsurat.ui.surat_keluar
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.arsipsurat.data.model.SuratKeluarItem
 import com.example.arsipsurat.databinding.ItemSuratBinding
+import com.example.arsipsurat.ui.detail.surat_keluar.DetailSuratKeluarActivity
 
 class SuratKeluarAdapter(private val listSuratKeluar: List<SuratKeluarItem?>,):
     RecyclerView.Adapter<SuratKeluarAdapter.ViewHolderSuratKeluar>(){
@@ -22,15 +23,18 @@ class SuratKeluarAdapter(private val listSuratKeluar: List<SuratKeluarItem?>,):
     override fun getItemCount(): Int = listSuratKeluar.size
 
     override fun onBindViewHolder(holder: ViewHolderSuratKeluar, position: Int) {
-        val perihal = listSuratKeluar[position]?.perihal
-        //val dariMana = listSuratKeluar[position]?.dariMana
         val tglSurat = listSuratKeluar[position]?.tglSurat
-        val imageSurat = listSuratKeluar[position]?.imageSurat
+        val perihal = listSuratKeluar[position]?.perihal
+        val keterangan  = listSuratKeluar[position]?.keterangan
+
+        holder.binding.tvTanggalSurat.text = tglSurat
         holder.binding.tvPerihal.text = perihal
-        //holder.binding.tvDariMana.text = dariMana
-        holder.binding.tvTglSurat.text = tglSurat
-        Glide.with(holder.itemView)
-            .load(imageSurat)
-            .into(holder.binding.imageSurat)
+        holder.binding.tvKeterangan.text = keterangan
+
+        holder.itemView.setOnClickListener {v->
+            val intent = Intent(v.context, DetailSuratKeluarActivity::class.java)
+            intent.putExtra(DetailSuratKeluarActivity.EXTRA_SURAT, listSuratKeluar[position])
+            v.context.startActivity(intent)
+        }
     }
 }
