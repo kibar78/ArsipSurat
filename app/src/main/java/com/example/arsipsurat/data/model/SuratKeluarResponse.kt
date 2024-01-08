@@ -27,10 +27,10 @@ data class SuratKeluarItem(
 	@field:SerializedName("image_surat")
 	val imageSurat: String? = null,
 
-	@field:SerializedName("tgl_catat")
+	@field:SerializedName("tgl_penerimaan")
 	val tglCatat: String? = null,
 
-	@field:SerializedName("dikirim_kepada")
+	@field:SerializedName("dari_mana")
 	val dikirimKepada: String? = null,
 
 	@field:SerializedName("id")

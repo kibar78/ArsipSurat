@@ -28,11 +28,11 @@ class SuratKeluarViewModel(private val suratRepository: SuratRepository) : ViewM
         getPerihalKeluar(PERIHAL)
     }
 
-    fun getPerihalKeluar(perihal: String) {
+    fun getPerihalKeluar(perihalkeluar: String) {
         _uiStateSuratKeluar.value = Result.Loading
         viewModelScope.launch {
             try {
-                _uiStateSuratKeluar.value = Result.Success(suratRepository.getSuratKeluar(perihal).suratKeluar!!)
+                _uiStateSuratKeluar.value = Result.Success(suratRepository.getSuratKeluar(perihalkeluar).suratKeluar!!)
             }catch (e: Exception){
                 _uiStateSuratKeluar.value = Result.Error(e.message.toString())
             }

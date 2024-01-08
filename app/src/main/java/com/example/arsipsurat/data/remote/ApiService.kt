@@ -16,7 +16,7 @@ interface ApiService {
     @GET("SURAT/surat_masuk/search")
     suspend fun getPerihalMasuk(@Query("perihal")perihalSuratMasuk: String): SuratMasukResponse
 
-    @Headers("ngrok-skip-browser-warning: 1234")
+    @Headers("ngrok-skip-browser-warning: 123")
     @GET("SURAT/surat_keluar/search")
     suspend fun getPerihalKeluar(@Query("perihal")perihalSuratKeluar: String): SuratKeluarResponse
 

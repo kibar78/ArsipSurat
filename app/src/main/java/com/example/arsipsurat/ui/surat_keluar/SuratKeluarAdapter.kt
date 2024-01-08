@@ -8,7 +8,7 @@ import com.example.arsipsurat.data.model.SuratKeluarItem
 import com.example.arsipsurat.databinding.ItemSuratBinding
 import com.example.arsipsurat.ui.detail.surat_keluar.DetailSuratKeluarActivity
 
-class SuratKeluarAdapter(private val listSuratKeluar: List<SuratKeluarItem?>,):
+class SuratKeluarAdapter(private val listSuratKeluar: List<SuratKeluarItem?>):
     RecyclerView.Adapter<SuratKeluarAdapter.ViewHolderSuratKeluar>(){
 
     class ViewHolderSuratKeluar(var binding: ItemSuratBinding): RecyclerView.ViewHolder(binding.root) {
@@ -23,6 +23,7 @@ class SuratKeluarAdapter(private val listSuratKeluar: List<SuratKeluarItem?>,):
     override fun getItemCount(): Int = listSuratKeluar.size
 
     override fun onBindViewHolder(holder: ViewHolderSuratKeluar, position: Int) {
+
         val tglSurat = listSuratKeluar[position]?.tglSurat
         val perihal = listSuratKeluar[position]?.perihal
         val keterangan  = listSuratKeluar[position]?.keterangan
