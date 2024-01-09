@@ -2,8 +2,10 @@ package com.example.arsipsurat.data.remote
 
 import com.example.arsipsurat.data.model.PostSuratMasukResponse
 import com.example.arsipsurat.data.model.SuratKeluarResponse
+import com.example.arsipsurat.data.model.SuratMasuk
 import com.example.arsipsurat.data.model.SuratMasukResponse
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -20,18 +22,8 @@ interface ApiService {
     @GET("SURAT/surat_keluar/search")
     suspend fun getPerihalKeluar(@Query("perihal")perihalSuratKeluar: String): SuratKeluarResponse
 
-    @FormUrlEncoded
     @Headers("ngrok-skip-browser-warning: 1234")
     @POST("SURAT/surat_masuk/create")
-    fun postSuratMasuk(
-        @Field("id") id: Int,
-        @Field("tgl_penerimaan") tglPenerimaan: String,
-        @Field("tgl_surat") tglSurat: String,
-        @Field("no_surat") noSurat: String,
-        @Field("lampiran") lampiran: String,
-        @Field("dari_mana") dariMana: String,
-        @Field("perihal") perihal: String,
-        @Field("keterangan") keterangan: String,
-        @Field("image_surat") imageSurat: String
+    fun postSuratMasuk(@Body suratMasuk: SuratMasuk
     ): Call<PostSuratMasukResponse>
 }
