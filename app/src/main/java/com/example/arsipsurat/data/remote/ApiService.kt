@@ -1,11 +1,13 @@
 package com.example.arsipsurat.data.remote
 
+import com.example.arsipsurat.data.model.DeleteSuratMasuk
 import com.example.arsipsurat.data.model.PostSuratMasukResponse
 import com.example.arsipsurat.data.model.SuratKeluarResponse
 import com.example.arsipsurat.data.model.SuratMasuk
 import com.example.arsipsurat.data.model.SuratMasukResponse
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -25,4 +27,8 @@ interface ApiService {
     @Headers("ngrok-skip-browser-warning: 1234")
     @POST("SURAT/surat_masuk/create")
     fun postSuratMasuk(@Body suratMasuk: SuratMasuk): Call<PostSuratMasukResponse>
+
+    @Headers("ngrok-skip-browser-warning: 1234")
+    @DELETE("SURAT/surat_masuk/delete")
+    suspend fun deleteSuratMasuk(@Body param: DeleteSuratMasuk): PostSuratMasukResponse
 }

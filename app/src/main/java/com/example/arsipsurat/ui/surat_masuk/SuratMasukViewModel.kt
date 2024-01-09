@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.arsipsurat.data.model.SuratMasukItem
 import com.example.arsipsurat.data.repository.Result
 import com.example.arsipsurat.data.repository.SuratRepository
+import com.example.arsipsurat.utils.Event
 import kotlinx.coroutines.launch
 
 class SuratMasukViewModel(private val suratRepository: SuratRepository) : ViewModel() {
@@ -18,6 +19,9 @@ class SuratMasukViewModel(private val suratRepository: SuratRepository) : ViewMo
 
     private val _uiStateSuratMasuk = MutableLiveData<Result<List<SuratMasukItem?>>>()
     val uiStateSuratMasuk : LiveData<Result<List<SuratMasukItem?>>> = _uiStateSuratMasuk
+
+    private val _deleteDataSuccess = MutableLiveData<Event<Boolean>>()
+    val deleteDataSuccess : LiveData<Event<Boolean>> = _deleteDataSuccess
 
     companion object {
         private val TAG = "SuratMasukViewModel"
@@ -32,6 +36,21 @@ class SuratMasukViewModel(private val suratRepository: SuratRepository) : ViewMo
             } catch (e: Exception){
                 _uiStateSuratMasuk.value = Result.Error(e.message.toString())
             }
+        }
+    }
+
+    fun delete(suratMasukItem: SuratMasukItem) {
+        viewModelScope.launch {
+            try {
+                _deleteDataSuccess.postValue(
+                    suratRepository.deleteSuratMasuk(suratMasukItem)
+                )
+            }
+            catch (e: Exception) {
+                _deleteDataSuccess.postValue(Event(false))
+            }
+
+            getPerihalMasuk(PERIHAL)
         }
     }
 }

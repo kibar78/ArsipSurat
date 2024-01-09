@@ -1,8 +1,11 @@
 package com.example.arsipsurat.data.repository
 
+import com.example.arsipsurat.data.model.DeleteSuratMasuk
 import com.example.arsipsurat.data.model.SuratKeluarResponse
+import com.example.arsipsurat.data.model.SuratMasukItem
 import com.example.arsipsurat.data.model.SuratMasukResponse
 import com.example.arsipsurat.data.remote.ApiService
+import com.example.arsipsurat.utils.Event
 
 class SuratRepository private constructor(
     private val apiService: ApiService
@@ -13,6 +16,16 @@ class SuratRepository private constructor(
 
     suspend fun getSuratKeluar(perihalSuratKeluar: String): SuratKeluarResponse{
         return apiService.getPerihalKeluar(perihalSuratKeluar)
+    }
+
+    suspend fun deleteSuratMasuk(suratMasukItem: SuratMasukItem): Event<Boolean> {
+        if (suratMasukItem.id == null) return Event(false)
+
+        val response = apiService.deleteSuratMasuk(
+            DeleteSuratMasuk(suratMasukItem.id)
+        )
+
+        return Event(response.message?.contains("deleted") == true)
     }
 
     companion object{

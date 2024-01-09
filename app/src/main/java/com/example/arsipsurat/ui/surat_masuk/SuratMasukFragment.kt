@@ -1,5 +1,6 @@
 package com.example.arsipsurat.ui.surat_masuk
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.example.arsipsurat.data.model.SuratMasukItem
 import com.example.arsipsurat.data.repository.Result
 import com.example.arsipsurat.databinding.FragmentSuratMasukBinding
 import com.example.arsipsurat.ui.insert.surat_masuk.AddSuratMasukActivity
+import com.google.android.material.snackbar.Snackbar
 
 class SuratMasukFragment : Fragment() {
 
@@ -22,6 +24,8 @@ class SuratMasukFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    val suratAdapter = SuratMasukAdapter()
+
 
     private val viewModelSuratMasuk by viewModels<SuratMasukViewModel>(){
         ViewModelFactory.getInstance(requireActivity())
@@ -66,6 +70,19 @@ class SuratMasukFragment : Fragment() {
             }
         }
 
+        viewModelSuratMasuk.deleteDataSuccess.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let {
+                if (it) {
+                    val mySnackbar = Snackbar.make(binding.root, "Surat masuk telah dihapus", Snackbar.LENGTH_SHORT)
+                    mySnackbar.show()
+                }
+                else {
+                    val mySnackbar = Snackbar.make(binding.root, "Surat masuk gagal dihapus", Snackbar.LENGTH_SHORT)
+                    mySnackbar.show()
+                }
+            }
+        }
+
         with(binding){
             searchView.setupWithSearchBar(searchBar)
             searchView
@@ -88,9 +105,26 @@ class SuratMasukFragment : Fragment() {
 
     private fun setSurat(dataSurat: List<SuratMasukItem?>){
         binding.rvSuratMasuk.layoutManager = LinearLayoutManager(requireActivity())
-        val suratAdapter = SuratMasukAdapter(dataSurat)
+        suratAdapter.listSuratMasuk = dataSurat
         binding.rvSuratMasuk.adapter = suratAdapter
+        binding.rvSuratMasuk.visibility = View.VISIBLE
         binding.rvSuratMasuk.setHasFixedSize(true)
+        suratAdapter.onLongClick = {
+            val alertDialog = AlertDialog.Builder(requireContext()).apply {
+                setTitle("Peringatan")
+                setMessage("Apa anda yakin untuk menghapus data ini?\nSurat Masuk : ${it.noSurat}")
+                setNegativeButton("Tidak") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                setPositiveButton("Ya") { _, _ ->
+                    binding.rvSuratMasuk.visibility = View.INVISIBLE
+                    showLoading(true)
+                    viewModelSuratMasuk.delete(it)
+                }
+            }
+            alertDialog.show()
+        }
+        suratAdapter.notifyDataSetChanged()
     }
 
     private fun showLoading(isLoading: Boolean){

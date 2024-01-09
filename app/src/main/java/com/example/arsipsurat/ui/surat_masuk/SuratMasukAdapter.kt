@@ -4,14 +4,17 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.arsipsurat.data.model.SuratMasuk
 import com.example.arsipsurat.data.model.SuratMasukItem
 import com.example.arsipsurat.databinding.ItemSuratBinding
 import com.example.arsipsurat.ui.detail.surat_masuk.DetailSuratMasukActivity
 
-class SuratMasukAdapter(private val listSuratMasuk: List<SuratMasukItem?>,):
-    RecyclerView.Adapter<SuratMasukAdapter.ViewHolder>(){
+class SuratMasukAdapter() : RecyclerView.Adapter<SuratMasukAdapter.ViewHolder>() {
 
-    class ViewHolder(var binding: ItemSuratBinding): RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(var binding: ItemSuratBinding) : RecyclerView.ViewHolder(binding.root)
+
+    var onLongClick : (suratMasukItem: SuratMasukItem) -> Unit = {}
+    var listSuratMasuk: List<SuratMasukItem?> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemSuratBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -30,10 +33,15 @@ class SuratMasukAdapter(private val listSuratMasuk: List<SuratMasukItem?>,):
         holder.binding.tvPerihal.text = perihal
         holder.binding.tvKeterangan.text = keterangan
 
-        holder.itemView.setOnClickListener {v->
+        holder.itemView.setOnClickListener { v ->
             val intent = Intent(v.context, DetailSuratMasukActivity::class.java)
             intent.putExtra(DetailSuratMasukActivity.EXTRA_SURAT, listSuratMasuk[position])
             v.context.startActivity(intent)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            onLongClick(listSuratMasuk[position]!!)
+            return@setOnLongClickListener true
         }
     }
 }
