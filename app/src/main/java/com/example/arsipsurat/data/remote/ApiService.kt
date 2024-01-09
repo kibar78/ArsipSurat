@@ -24,6 +24,5 @@ interface ApiService {
 
     @Headers("ngrok-skip-browser-warning: 1234")
     @POST("SURAT/surat_masuk/create")
-    fun postSuratMasuk(@Body suratMasuk: SuratMasuk
-    ): Call<PostSuratMasukResponse>
+    fun postSuratMasuk(@Body suratMasuk: SuratMasuk): Call<PostSuratMasukResponse>
 }

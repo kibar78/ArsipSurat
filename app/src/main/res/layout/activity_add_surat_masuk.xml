@@ -1,153 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
+    android:fillViewport="true"
     tools:context=".ui.insert.surat_masuk.AddSuratMasukActivity">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:padding="8dp"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn_tgl_penerimaan"
+                style="?attr/materialIconButtonFilledStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/baseline_date_range_24" />
+            <TextView
+                android:id="@+id/tv_tgl_penerimaan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tgl_penerimaan" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn_tgl_surat"
+                style="?attr/materialIconButtonFilledStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/baseline_date_range_24" />
+            <TextView
+                android:id="@+id/tv_tgl_surat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tgl_surat" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/edt_no_surat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/no_surat"
+                android:inputType="textCapSentences"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/edt_asal_surat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/asal_surat"
+                android:inputType="textCapSentences"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/edt_perihal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/perihal"
+                android:inputType="textCapSentences"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/edt_keterangan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/keterangan"
+                android:inputType="textCapSentences"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_surat"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_launcher_background" />
+
+            <Button
+                android:id="@+id/btn_surat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Surat"
+                app:layout_constraintEnd_toEndOf="@+id/iv_surat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_surat" />
+
+            <ImageView
+                android:id="@+id/iv_lampiran"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_launcher_background" />
+
+            <Button
+                android:id="@+id/btn_lampiran"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lampiran"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/iv_lampiran"
+                app:layout_constraintTop_toBottomOf="@+id/iv_lampiran" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <Button
-            android:id="@+id/btn_tgl_penerimaan"
-            style="?attr/materialIconButtonFilledStyle"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_submit"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@drawable/baseline_date_range_24" />
-        <TextView
-            android:id="@+id/tv_tgl_penerimaan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tgl_penerimaan" />
+            android:text="@string/submit" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:padding="8dp"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_tgl_surat"
-            style="?attr/materialIconButtonFilledStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:icon="@drawable/baseline_date_range_24" />
-        <TextView
-            android:id="@+id/tv_tgl_surat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tgl_surat" />
-    </LinearLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
-
-        <EditText
-            android:id="@+id/edt_no_surat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/no_surat"
-            android:inputType="textCapSentences"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
-
-        <EditText
-            android:id="@+id/edt_asal_surat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/asal_surat"
-            android:inputType="textCapSentences"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
-
-        <EditText
-            android:id="@+id/edt_perihal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/perihal"
-            android:inputType="textCapSentences"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
-
-        <EditText
-            android:id="@+id/edt_keterangan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/keterangan"
-            android:inputType="textCapSentences"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/iv_surat"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_background" />
-
-        <Button
-            android:id="@+id/btn_surat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Surat"
-            app:layout_constraintEnd_toEndOf="@+id/iv_surat"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_surat" />
-
-        <ImageView
-            android:id="@+id/iv_lampiran"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_background" />
-
-        <Button
-            android:id="@+id/btn_lampiran"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lampiran"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/iv_lampiran"
-            app:layout_constraintTop_toBottomOf="@+id/iv_lampiran" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/btn_submit"
-        style="@style/Base.Widget.AppCompat.Button.Colored"
-        android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/submit" />
-</LinearLayout>
+</ScrollView>

@@ -38,6 +38,8 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
 
     private var _binding: ActivityAddSuratMasukBinding? = null
     private val binding get() = _binding
+    private var base64Lampiran = ""
+    private var base64Surat = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,38 +52,33 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
 
         binding?.btnSurat?.setOnClickListener {
             var i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(i, 123)
+            startActivityForResult(i, IMAGE_SURAT_PICKCODE)
         }
 
         binding?.btnLampiran?.setOnClickListener {
             var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, 321)
+            startActivityForResult(intent, IMAGE_LAMPIRAN_PICKCODE)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_SURAT_PICKCODE){
-            val imageUri = data?.data
-            binding?.ivSurat?.setImageURI(data?.data)
-            imageUri?.let {
-                val bitmap = getBitmapFromUri(it)
-                val base64String = bitmapToBase64(bitmap)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == IMAGE_SURAT_PICKCODE) {
+                val bmp = data?.extras?.get("data") as? Bitmap
+                binding?.ivSurat?.setImageBitmap(bmp)
+                val base64String = bitmapToBase64(bmp)
+                base64Surat = base64String
+                Log.d("Base64", base64String)
+            }
+            else if (requestCode == IMAGE_LAMPIRAN_PICKCODE) {
+                val bmp = data?.extras?.get("data") as? Bitmap
+                binding?.ivLampiran?.setImageBitmap(bmp)
+                val base64String = bitmapToBase64(bmp)
+                base64Lampiran = base64String
                 Log.d("Base64", base64String)
             }
         }
-        if (requestCode == Activity.RESULT_OK && requestCode == IMAGE_LAMPIRAN_PICKCODE)
-            binding?.ivLampiran?.setImageURI(data?.data)
 
-        if (requestCode == 123){
-            val bmp = data?.extras?.get("data") as? Bitmap
-            binding?.ivSurat?.setImageBitmap(bmp)
-            val base64String = bitmapToBase64(bmp)
-            Log.d("Base64", base64String)
-
-        }else if (requestCode == 321) {
-            val bmp2 = data?.extras?.get("data") as? Bitmap
-            binding?.ivLampiran?.setImageBitmap(bmp2)
-        }
         super.onActivityResult(requestCode, resultCode, data)
 
     }
@@ -122,11 +119,9 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                 val asalSurat = binding?.edtAsalSurat?.text.toString()
                 val perihal = binding?.edtPerihal?.text.toString()
                 val keterangan = binding?.edtKeterangan?.text.toString()
-                val suratMasuk = binding?.ivSurat.toString()
-                val lampiran = binding?.ivLampiran.toString()
 
                 postSuratMasuk(suratMasuk = SuratMasuk(
-                    tglPenerimaan,tglSurat,noSurat,lampiran,asalSurat,perihal,keterangan,suratMasuk)
+                    tglPenerimaan,tglSurat,noSurat,base64Lampiran,asalSurat,perihal,keterangan,base64Surat)
                 )
             }
         }
