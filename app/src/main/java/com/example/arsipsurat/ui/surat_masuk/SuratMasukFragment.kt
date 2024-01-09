@@ -50,7 +50,7 @@ class SuratMasukFragment : Fragment() {
 //            showLoading(it)
 //        }
 
-        viewModelSuratMasuk.uiStateSuratMasuk.observe(requireActivity()){uiStateSuratMasuk->
+        viewModelSuratMasuk.uiStateSuratMasuk.observe(viewLifecycleOwner){uiStateSuratMasuk->
             when(uiStateSuratMasuk){
                 is Result.Loading->{
                     showLoading(true)
@@ -82,6 +82,8 @@ class SuratMasukFragment : Fragment() {
             val intent = Intent(requireActivity(), AddSuratMasukActivity::class.java)
             startActivity(intent)
         }
+        viewModelSuratMasuk.getPerihalMasuk(SuratMasukViewModel.PERIHAL)
+
     }
 
     private fun setSurat(dataSurat: List<SuratMasukItem?>){

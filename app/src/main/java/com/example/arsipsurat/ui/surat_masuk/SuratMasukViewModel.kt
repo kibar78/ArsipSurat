@@ -21,11 +21,7 @@ class SuratMasukViewModel(private val suratRepository: SuratRepository) : ViewMo
 
     companion object {
         private val TAG = "SuratMasukViewModel"
-        private val PERIHAL = ""
-    }
-
-    init {
-        getPerihalMasuk(PERIHAL)
+        val PERIHAL = ""
     }
 
     fun getPerihalMasuk(perihal: String) {

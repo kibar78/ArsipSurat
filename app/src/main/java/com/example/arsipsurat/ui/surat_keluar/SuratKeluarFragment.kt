@@ -48,7 +48,7 @@ class SuratKeluarFragment : Fragment() {
 //            showLoading(it)
 //        }
 
-        viewModelSuratKeluar.uiStateKeluar.observe(requireActivity()){uiStateSuratKeluar->
+        viewModelSuratKeluar.uiStateKeluar.observe(viewLifecycleOwner){uiStateSuratKeluar->
             when(uiStateSuratKeluar){
                 is Result.Loading->{
                     showLoading(true)
@@ -76,6 +76,8 @@ class SuratKeluarFragment : Fragment() {
                     false
                 }
         }
+
+        viewModelSuratKeluar.getPerihalKeluar(SuratKeluarViewModel.PERIHAL)
     }
 
     private fun setSurat(dataSurat: List<SuratKeluarItem?>){
