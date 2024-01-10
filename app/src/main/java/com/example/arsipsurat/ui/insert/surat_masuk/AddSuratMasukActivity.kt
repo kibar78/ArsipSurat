@@ -3,13 +3,12 @@ package com.example.arsipsurat.ui.insert.surat_masuk
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.model.PostSuratMasukResponse
@@ -20,7 +19,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -91,15 +89,6 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         }
         return ""
     }
-    fun getBitmapFromUri(uri: Uri): Bitmap? {
-        return try {
-            val inputStream = contentResolver.openInputStream(uri)
-            BitmapFactory.decodeStream(inputStream)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
-    }
 
     override fun onClick(p0: View?) {
         when(p0?.id){
@@ -123,6 +112,8 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                 postSuratMasuk(suratMasuk = SuratMasuk(
                     tglPenerimaan,tglSurat,noSurat,base64Lampiran,asalSurat,perihal,keterangan,base64Surat)
                 )
+                Toast.makeText(this,"Berhasil Menambahkan Surat Masuk", Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
     }
