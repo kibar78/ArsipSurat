@@ -1,5 +1,6 @@
 package com.example.arsipsurat.ui.surat_keluar
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import com.example.arsipsurat.data.ViewModelFactory
 import com.example.arsipsurat.data.model.SuratKeluarItem
 import com.example.arsipsurat.data.repository.Result
 import com.example.arsipsurat.databinding.FragmentSuratKeluarBinding
+import com.example.arsipsurat.ui.insert.surat_keluar.AddSuratKeluarActivity
+import com.example.arsipsurat.ui.insert.surat_masuk.AddSuratMasukActivity
 
 class SuratKeluarFragment : Fragment() {
 
@@ -75,6 +78,10 @@ class SuratKeluarFragment : Fragment() {
                     viewModelSuratKeluar.getPerihalKeluar(searchView.text.toString())
                     false
                 }
+        }
+        binding.fab.setOnClickListener{
+            val intent = Intent(requireActivity(), AddSuratKeluarActivity::class.java)
+            startActivity(intent)
         }
 
         viewModelSuratKeluar.getPerihalKeluar(SuratKeluarViewModel.PERIHAL)

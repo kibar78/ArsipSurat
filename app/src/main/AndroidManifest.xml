@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.camera" />
-
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
@@ -18,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ArsipSurat"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.insert.surat_keluar.AddSuratKeluarActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.insert.surat_masuk.AddSuratMasukActivity"
             android:exported="false" />

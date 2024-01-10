@@ -1,6 +1,8 @@
 package com.example.arsipsurat.ui.detail.surat_keluar.image
 
 import android.os.Bundle
+import android.util.Base64
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -52,10 +54,17 @@ class SuratKeluarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val image = arguments?.getParcelable<SuratKeluarItem>(IMAGE_SURAT)
+        val imageArgs = arguments?.getParcelable<SuratKeluarItem>(IMAGE_SURAT)
+        val image = if (Patterns.WEB_URL.matcher(imageArgs?.imageSurat!!).matches()) {
+            imageArgs?.imageSurat
+        }
+        else {
+            Base64.decode(imageArgs?.imageSurat, Base64.DEFAULT)
+        }
+
         binding?.ivSuratKeluar?.let {
             Glide.with(binding?.ivSuratKeluar!!)
-                .load(image?.imageSurat)
+                .load(image)
                 .into(it)
         }
     }
