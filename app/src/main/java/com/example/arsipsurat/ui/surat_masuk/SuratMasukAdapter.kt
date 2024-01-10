@@ -4,7 +4,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.arsipsurat.data.model.SuratMasuk
 import com.example.arsipsurat.data.model.SuratMasukItem
 import com.example.arsipsurat.databinding.ItemSuratBinding
 import com.example.arsipsurat.ui.detail.surat_masuk.DetailSuratMasukActivity

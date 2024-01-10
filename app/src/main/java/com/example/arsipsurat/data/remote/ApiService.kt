@@ -1,5 +1,6 @@
 package com.example.arsipsurat.data.remote
 
+import com.example.arsipsurat.data.model.DeleteSuratKeluar
 import com.example.arsipsurat.data.model.DeleteSuratMasuk
 import com.example.arsipsurat.data.model.PostSuratKeluarResponse
 import com.example.arsipsurat.data.model.PostSuratMasukResponse
@@ -35,4 +36,8 @@ interface ApiService {
     @Headers("ngrok-skip-browser-warning: 1234")
     @HTTP(method = "DELETE", path = "SURAT/surat_masuk/delete", hasBody = true)
     suspend fun deleteSuratMasuk(@Body param: DeleteSuratMasuk): PostSuratMasukResponse
+
+    @Headers("ngrok-skip-browser-warning: 1234")
+    @HTTP(method = "DELETE", path = "SURAT/surat_keluar/delete", hasBody = true)
+    suspend fun deleteSuratKeluar(@Body param: DeleteSuratKeluar): PostSuratKeluarResponse
 }

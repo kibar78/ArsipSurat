@@ -8,12 +8,12 @@ import com.example.arsipsurat.data.model.SuratKeluarItem
 import com.example.arsipsurat.databinding.ItemSuratBinding
 import com.example.arsipsurat.ui.detail.surat_keluar.DetailSuratKeluarActivity
 
-class SuratKeluarAdapter(private val listSuratKeluar: List<SuratKeluarItem?>):
-    RecyclerView.Adapter<SuratKeluarAdapter.ViewHolderSuratKeluar>(){
+class SuratKeluarAdapter(): RecyclerView.Adapter<SuratKeluarAdapter.ViewHolderSuratKeluar>(){
 
-    class ViewHolderSuratKeluar(var binding: ItemSuratBinding): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolderSuratKeluar(var binding: ItemSuratBinding): RecyclerView.ViewHolder(binding.root)
 
-    }
+        var onLongClick : (suratKeluarItem: SuratKeluarItem) -> Unit = {}
+        var listSuratKeluar: List<SuratKeluarItem?> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderSuratKeluar {
         val binding = ItemSuratBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -32,10 +32,14 @@ class SuratKeluarAdapter(private val listSuratKeluar: List<SuratKeluarItem?>):
         holder.binding.tvPerihal.text = perihal
         holder.binding.tvKeterangan.text = keterangan
 
-        holder.itemView.setOnClickListener {v->
+        holder.itemView.setOnClickListener { v->
             val intent = Intent(v.context, DetailSuratKeluarActivity::class.java)
             intent.putExtra(DetailSuratKeluarActivity.EXTRA_SURAT, listSuratKeluar[position])
             v.context.startActivity(intent)
+        }
+        holder.itemView.setOnLongClickListener {
+            onLongClick(listSuratKeluar[position]!!)
+            return@setOnLongClickListener true
         }
     }
 }
