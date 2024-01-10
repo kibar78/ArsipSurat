@@ -9,6 +9,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -27,6 +28,6 @@ interface ApiService {
     fun postSuratMasuk(@Body suratMasuk: SuratMasuk): Call<PostSuratMasukResponse>
 
     @Headers("ngrok-skip-browser-warning: 1234")
-    @DELETE("SURAT/surat_masuk/delete")
+    @HTTP(method = "DELETE", path = "SURAT/surat_masuk/delete", hasBody = true)
     suspend fun deleteSuratMasuk(@Body param: DeleteSuratMasuk): PostSuratMasukResponse
 }

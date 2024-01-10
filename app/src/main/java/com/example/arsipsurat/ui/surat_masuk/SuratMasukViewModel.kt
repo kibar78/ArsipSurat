@@ -47,6 +47,7 @@ class SuratMasukViewModel(private val suratRepository: SuratRepository) : ViewMo
                 )
             }
             catch (e: Exception) {
+                e.printStackTrace()
                 _deleteDataSuccess.postValue(Event(false))
             }
 
