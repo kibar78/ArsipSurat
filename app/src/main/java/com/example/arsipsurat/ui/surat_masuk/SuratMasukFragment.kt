@@ -99,8 +99,11 @@ class SuratMasukFragment : Fragment() {
             val intent = Intent(requireActivity(), AddSuratMasukActivity::class.java)
             startActivity(intent)
         }
-        viewModelSuratMasuk.getPerihalMasuk(SuratMasukViewModel.PERIHAL)
+    }
 
+    override fun onResume() {
+        viewModelSuratMasuk.getPerihalMasuk(SuratMasukViewModel.PERIHAL)
+        super.onResume()
     }
 
     private fun setSurat(dataSurat: List<SuratMasukItem?>){
@@ -128,7 +131,14 @@ class SuratMasukFragment : Fragment() {
     }
 
     private fun showLoading(isLoading: Boolean){
-        binding.pbLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) {
+            binding.pbLoading.visibility = View.VISIBLE
+            binding.rvSuratMasuk.visibility = View.INVISIBLE
+        }
+        else {
+            binding.pbLoading.visibility = View.GONE
+            binding.rvSuratMasuk.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {

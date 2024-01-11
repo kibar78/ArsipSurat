@@ -1,21 +1,32 @@
-package com.example.arsipsurat.ui.insert.surat_masuk
+package com.example.arsipsurat.ui.update.surat_masuk
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.arsipsurat.R
+import com.example.arsipsurat.data.SharedPreferences
+import com.example.arsipsurat.data.model.ParamUpdateSuratMasuk
 import com.example.arsipsurat.data.model.PostSuratMasukResponse
 import com.example.arsipsurat.data.model.SuratMasuk
+import com.example.arsipsurat.data.model.SuratMasukItem
+import com.example.arsipsurat.data.model.UpdateSuratMasukResponse
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ActivityAddSuratMasukBinding
+import com.example.arsipsurat.ui.detail.surat_masuk.DetailSuratMasukActivity
+import com.example.arsipsurat.utils.DateFormat
 import com.example.arsipsurat.utils.DatePickerFragment
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,7 +35,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
+class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
     DatePickerFragment.DialogDateListener{
 
     companion object{
@@ -40,13 +51,15 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
     private var base64Lampiran = ""
     private var base64Surat = ""
 
+    private var suratMasuk : SuratMasukItem? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAddSuratMasukBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
         val actionBar = supportActionBar
-        actionBar!!.title = "Tambah Surat Masuk"
+        actionBar!!.title = "Ubah Surat Masuk"
         actionBar.setDisplayHomeAsUpEnabled(true)
 
 
@@ -62,6 +75,52 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         binding?.btnLampiran?.setOnClickListener {
             var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(intent, IMAGE_LAMPIRAN_PICKCODE)
+        }
+
+        val sharedPreferences = getSharedPreferences(
+            getString(R.string.shared_preferences_name),
+            Context.MODE_PRIVATE
+        )
+        val gson = Gson()
+        suratMasuk = gson.fromJson(sharedPreferences.getString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, ""), SuratMasukItem::class.java)
+
+        suratMasuk?.let { suratMasuk ->
+            binding?.let { binding ->
+                binding.btnTglPenerimaan.text = DateFormat.format(suratMasuk.tglPenerimaan ?: "", "yyyy-MM-dd")
+                binding.btnTglSurat.text = DateFormat.format(suratMasuk.tglSurat ?: "", "yyyy-MM-dd")
+                binding.edtNoSurat.setText(suratMasuk.noSurat)
+                binding.edtAsalSurat.setText(suratMasuk.dariMana)
+                binding.edtPerihal.setText(suratMasuk.perihal)
+                binding.edtKeterangan.setText(suratMasuk.keterangan)
+
+                base64Lampiran = suratMasuk.lampiran ?: ""
+                if (base64Lampiran.isNotEmpty()) {
+                    val imageLampiran = if (Patterns.WEB_URL.matcher(base64Lampiran).matches()) {
+                        base64Lampiran
+                    }
+                    else {
+                        Base64.decode(base64Lampiran, Base64.DEFAULT)
+                    }
+
+                    Glide.with(binding.root.context)
+                        .load(imageLampiran)
+                        .into(binding.ivLampiran)
+                }
+
+                base64Surat = suratMasuk.imageSurat ?: ""
+                if (base64Surat.isNotEmpty()) {
+                    val imageSurat = if (Patterns.WEB_URL.matcher(base64Surat).matches()) {
+                        base64Surat
+                    }
+                    else {
+                        Base64.decode(base64Surat, Base64.DEFAULT)
+                    }
+
+                    Glide.with(binding.root.context)
+                        .load(imageSurat)
+                        .into(binding.ivSurat)
+                }
+            }
         }
     }
 
@@ -115,28 +174,47 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                 val perihal = binding?.edtPerihal?.text.toString()
                 val keterangan = binding?.edtKeterangan?.text.toString()
 
-                postSuratMasuk(suratMasuk = SuratMasuk(
-                    tglPenerimaan,tglSurat,noSurat,base64Lampiran,asalSurat,perihal,keterangan,base64Surat)
+                updateSuratMasuk(
+                    ParamUpdateSuratMasuk(
+                        suratMasuk?.id ?: 0,
+                        tglPenerimaan,
+                        tglSurat,
+                        noSurat,
+                        base64Lampiran,
+                        asalSurat,
+                        perihal,
+                        keterangan,
+                        base64Surat
+                    )
                 )
             }
         }
     }
 
-    private fun postSuratMasuk(suratMasuk: SuratMasuk) {
-        val client = ApiConfig.getApiService().postSuratMasuk(suratMasuk)
-        client.enqueue(object : Callback<PostSuratMasukResponse>{
+    private fun updateSuratMasuk(suratMasuk: ParamUpdateSuratMasuk) {
+        val client = ApiConfig.getApiService().updateSuratMasuk(suratMasuk)
+        client.enqueue(object : Callback<UpdateSuratMasukResponse>{
             override fun onResponse(
-                call: Call<PostSuratMasukResponse>,
-                response: Response<PostSuratMasukResponse>
+                call: Call<UpdateSuratMasukResponse>,
+                response: Response<UpdateSuratMasukResponse>
             ) {
                 val responseBody = response.body()
                 if (response.isSuccessful && responseBody != null){
-                    Toast.makeText(this@AddSuratMasukActivity,"Berhasil Menambahkan Surat Masuk", Toast.LENGTH_SHORT).show()
+                    val sharedPreferences = getSharedPreferences(
+                        getString(R.string.shared_preferences_name),
+                        Context.MODE_PRIVATE
+                    )
+                    val editor = sharedPreferences.edit()
+                    val gson = Gson()
+                    editor.putString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, gson.toJson(suratMasuk))
+                    editor.apply()
+
+                    Toast.makeText(this@UpdateSuratMasukActivity,"Berhasil Mengubah Surat Masuk", Toast.LENGTH_SHORT).show()
                     finish()
                     Log.i("AddSuratMasuk","onSuccess: ${response.isSuccessful}")
                 }
             }
-            override fun onFailure(call: Call<PostSuratMasukResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UpdateSuratMasukResponse>, t: Throwable) {
                 Log.e("AddSuratMasuk", "onFailure: ${t.message}")
             }
         })
@@ -166,4 +244,5 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         onBackPressed()
         return true
     }
+
 }

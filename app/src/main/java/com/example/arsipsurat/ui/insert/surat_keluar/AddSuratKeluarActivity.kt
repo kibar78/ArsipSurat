@@ -13,11 +13,9 @@ import android.widget.Toast
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.model.PostSuratKeluarResponse
 import com.example.arsipsurat.data.model.SuratKeluar
-import com.example.arsipsurat.data.model.SuratMasuk
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ActivityAddSuratKeluarBinding
-import com.example.arsipsurat.ui.insert.surat_masuk.AddSuratMasukActivity
-import com.example.arsipsurat.ui.insert.surat_masuk.DatePickerFragment
+import com.example.arsipsurat.utils.DatePickerFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -85,8 +83,6 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
                 postSuratKeluar(suratKeluar = SuratKeluar(
                     tglCatat,tglSurat,noSurat,base64Lampiran,tujuanSurat,perihal,keterangan,base64Surat)
                 )
-                Toast.makeText(this,"Berhasil Menambahkan Surat Keluar", Toast.LENGTH_SHORT).show()
-                finish()
             }
         }
     }
@@ -130,6 +126,8 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
             ) {
                 val responseBody = response.body()
                 if (response.isSuccessful && responseBody != null){
+                    Toast.makeText(this@AddSuratKeluarActivity,"Berhasil Menambahkan Surat Keluar", Toast.LENGTH_SHORT).show()
+                    finish()
                     Log.i("AddSuratKeluar","onSuccess: ${response.isSuccessful}")
                 }
             }

@@ -18,10 +18,6 @@ class SectionsPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(a
             0 -> fragment = SuratFragment()
             1 -> fragment = LampiranFragment()
         }
-        fragment?.arguments = Bundle().apply {
-            putParcelable(SuratFragment.IMAGE_SURAT, image)
-            putParcelable(LampiranFragment.IMAGE_LAMPIRAN, image)
-        }
         return fragment as Fragment
     }
 }
