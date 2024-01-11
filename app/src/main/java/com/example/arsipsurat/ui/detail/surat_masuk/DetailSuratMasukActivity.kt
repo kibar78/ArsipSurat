@@ -2,6 +2,9 @@ package com.example.arsipsurat.ui.detail.surat_masuk
 
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.arsipsurat.R
@@ -56,6 +59,23 @@ class DetailSuratMasukActivity : AppCompatActivity() {
                 tab.text = resources.getString(TAB_TITLES[position])
             }.attach()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater : MenuInflater = menuInflater
+        inflater.inflate(R.menu.option_menu, menu)
+        return true
+
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.menu_edit->{
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+
     }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

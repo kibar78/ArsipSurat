@@ -2,12 +2,14 @@ package com.example.arsipsurat.data.remote
 
 import com.example.arsipsurat.data.model.DeleteSuratKeluar
 import com.example.arsipsurat.data.model.DeleteSuratMasuk
+import com.example.arsipsurat.data.model.LoginResponse
 import com.example.arsipsurat.data.model.PostSuratKeluarResponse
 import com.example.arsipsurat.data.model.PostSuratMasukResponse
 import com.example.arsipsurat.data.model.SuratKeluar
 import com.example.arsipsurat.data.model.SuratKeluarResponse
 import com.example.arsipsurat.data.model.SuratMasuk
 import com.example.arsipsurat.data.model.SuratMasukResponse
+import com.example.arsipsurat.data.model.UserLogin
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -40,4 +42,8 @@ interface ApiService {
     @Headers("ngrok-skip-browser-warning: 1234")
     @HTTP(method = "DELETE", path = "SURAT/surat_keluar/delete", hasBody = true)
     suspend fun deleteSuratKeluar(@Body param: DeleteSuratKeluar): PostSuratKeluarResponse
+
+    @Headers("ngrok-skip-browser-warning: 1234")
+    @POST("SURAT/user/login")
+    suspend fun login(@Body userLogin: UserLogin): LoginResponse
 }
