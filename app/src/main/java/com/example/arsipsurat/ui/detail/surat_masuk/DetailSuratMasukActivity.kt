@@ -49,7 +49,9 @@ class DetailSuratMasukActivity : AppCompatActivity() {
             Context.MODE_PRIVATE
         )
         val gson = Gson()
-        suratMasuk = gson.fromJson(sharedPreferences.getString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, ""), SuratMasukItem::class.java)
+        suratMasuk = gson.fromJson(sharedPreferences.getString(
+            SharedPreferences.KEY_CURRENT_SURAT_MASUK, ""),
+            SuratMasukItem::class.java)
 
         suratMasuk?.let { suratMasuk ->
             binding.tvTanggalPenerimaan.text = suratMasuk.tglPenerimaan
@@ -83,10 +85,8 @@ class DetailSuratMasukActivity : AppCompatActivity() {
                 startActivity(intent)
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
-
     }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

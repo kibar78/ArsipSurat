@@ -38,6 +38,8 @@
         <activity
             android:name=".ui.update.surat_masuk.UpdateSuratMasukActivity"
             android:exported="false" />
+        <activity android:name=".ui.update.surat_keluar.UpdateSuratKeluarActivity"
+            android:exported="false"/>
         <activity
             android:name=".ui.SplashScreenActivity"
             android:exported="true"

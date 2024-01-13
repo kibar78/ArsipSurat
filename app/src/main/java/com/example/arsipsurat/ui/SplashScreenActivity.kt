@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.example.arsipsurat.databinding.ActivitySplashScreenBinding
+import com.example.arsipsurat.ui.login.LoginActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -15,7 +16,7 @@ class SplashScreenActivity : AppCompatActivity() {
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Handler().postDelayed({
-            startActivity(Intent( this, MainActivity::class.java))
+            startActivity(Intent( this, LoginActivity::class.java))
             finish()
         }, 3000)
 

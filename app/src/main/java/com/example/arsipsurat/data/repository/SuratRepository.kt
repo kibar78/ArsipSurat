@@ -2,12 +2,10 @@ package com.example.arsipsurat.data.repository
 
 import com.example.arsipsurat.data.model.DeleteSuratKeluar
 import com.example.arsipsurat.data.model.DeleteSuratMasuk
-import com.example.arsipsurat.data.model.LoginResponse
 import com.example.arsipsurat.data.model.SuratKeluarItem
 import com.example.arsipsurat.data.model.SuratKeluarResponse
 import com.example.arsipsurat.data.model.SuratMasukItem
 import com.example.arsipsurat.data.model.SuratMasukResponse
-import com.example.arsipsurat.data.model.UserLogin
 import com.example.arsipsurat.data.remote.ApiService
 import com.example.arsipsurat.utils.Event
 
@@ -39,10 +37,6 @@ class SuratRepository private constructor(
             DeleteSuratKeluar(suratKeluarItem.id)
         )
         return Event(response.message?.contains("deleted") == true)
-    }
-
-    suspend fun userLogin(userLogin: UserLogin): LoginResponse{
-        return apiService.login(userLogin)
     }
 
     companion object{

@@ -21,7 +21,7 @@ class ApiConfig {
                 .addInterceptor(authInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://4bbf-114-79-57-10.ngrok-free.app")
+                .baseUrl("https://dc73-114-79-56-58.ngrok-free.app")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

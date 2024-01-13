@@ -1,12 +1,17 @@
 package com.example.arsipsurat.ui.surat_keluar
 
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.arsipsurat.R
+import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.model.SuratKeluarItem
 import com.example.arsipsurat.databinding.ItemSuratBinding
 import com.example.arsipsurat.ui.detail.surat_keluar.DetailSuratKeluarActivity
+import com.example.arsipsurat.ui.detail.surat_masuk.DetailSuratMasukActivity
+import com.google.gson.Gson
 
 class SuratKeluarAdapter(): RecyclerView.Adapter<SuratKeluarAdapter.ViewHolderSuratKeluar>(){
 
@@ -33,8 +38,16 @@ class SuratKeluarAdapter(): RecyclerView.Adapter<SuratKeluarAdapter.ViewHolderSu
         holder.binding.tvKeterangan.text = keterangan
 
         holder.itemView.setOnClickListener { v->
+            val sharedPreferences = v.context.getSharedPreferences(
+                v.context.getString(R.string.shared_preferences_name_keluar),
+                Context.MODE_PRIVATE
+            )
+            val editor = sharedPreferences.edit()
+            val gson = Gson()
+            editor.putString(SharedPreferences.KEY_CURRENT_SURAT_KELUAR, gson.toJson(listSuratKeluar[position]))
+            editor.apply()
+
             val intent = Intent(v.context, DetailSuratKeluarActivity::class.java)
-            intent.putExtra(DetailSuratKeluarActivity.EXTRA_SURAT, listSuratKeluar[position])
             v.context.startActivity(intent)
         }
         holder.itemView.setOnLongClickListener {

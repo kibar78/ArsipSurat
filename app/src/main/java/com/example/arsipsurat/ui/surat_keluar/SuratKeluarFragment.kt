@@ -1,5 +1,6 @@
 package com.example.arsipsurat.ui.surat_keluar
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -101,6 +102,12 @@ class SuratKeluarFragment : Fragment() {
         viewModelSuratKeluar.getPerihalKeluar(SuratKeluarViewModel.PERIHAL)
     }
 
+    override fun onResume() {
+        viewModelSuratKeluar.getPerihalKeluar(SuratKeluarViewModel.PERIHAL)
+        super.onResume()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     private fun setSurat(dataSurat: List<SuratKeluarItem?>) {
         binding.rvSuratKeluar.layoutManager = LinearLayoutManager(requireActivity())
         suratkeluarAdapter.listSuratKeluar = dataSurat
@@ -125,7 +132,14 @@ class SuratKeluarFragment : Fragment() {
         suratkeluarAdapter.notifyDataSetChanged()
     }
     private fun showLoading(isLoading: Boolean){
-        binding.pbLoadingSuratKeluar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) {
+            binding.pbLoadingSuratKeluar.visibility = View.VISIBLE
+            binding.rvSuratKeluar.visibility = View.INVISIBLE
+        }
+        else {
+            binding.pbLoadingSuratKeluar.visibility = View.GONE
+            binding.rvSuratKeluar.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {
