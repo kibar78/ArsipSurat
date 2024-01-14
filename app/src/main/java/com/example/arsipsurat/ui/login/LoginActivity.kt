@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arsipsurat.data.model.LoginResponse
 import com.example.arsipsurat.data.model.LoginUser
@@ -19,17 +18,19 @@ class LoginActivity : AppCompatActivity() {
 
     private var _binding : ActivityLoginBinding? = null
     private val binding get() = _binding
-    private var user = ""
-    private var pass = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
+        showLoading(false)
+
         binding?.btnLogin?.setOnClickListener {
             val username = binding?.edtUsername?.text.toString()
             val password = binding?.edtPassword?.text.toString()
             loginUser(userLogin = LoginUser(username, password))
+            showLoading(true)
         }
         supportActionBar?.hide()
     }

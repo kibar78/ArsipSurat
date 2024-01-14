@@ -58,6 +58,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/password"
             android:inputType="textCapSentences"
+            android:password="true"
             android:maxLines="1"
             tools:ignore="TextFields" />
     </com.google.android.material.textfield.TextInputLayout>

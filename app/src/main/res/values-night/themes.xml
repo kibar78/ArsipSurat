@@ -1,16 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.ArsipSurat" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+    <style name="Theme.ArsipSurat" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">#1B1A17</item>
+        <item name="colorOnPrimary">#F0A500</item>
+        <item name="colorPrimaryContainer">#E45826</item>
+        <item name="colorOnPrimaryContainer">#E6D5B8</item>
+
+        <item name="colorSecondary">#2C2D34</item>
+        <item name="colorOnSecondary">#E94822</item>
+        <item name="colorSecondaryContainer">#F2910A</item>
+        <item name="colorOnSecondaryContainer">#EFD510</item>
+
+        <item name="colorTertiary">#1A2634</item>
+        <item name="colorOnTertiary">#203E5F</item>
+        <item name="colorTertiaryContainer">#FFCC00</item>
+        <item name="colorOnTertiaryContainer">#FEE5B1</item>
     </style>
 </resources>
