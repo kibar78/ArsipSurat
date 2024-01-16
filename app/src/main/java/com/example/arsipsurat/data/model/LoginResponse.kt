@@ -10,6 +10,9 @@ data class LoginResponse(
 	@field:SerializedName("level")
 	val level: String? = null,
 
+	@field:SerializedName("image_profile")
+	val imageProfile: String? = null,
+
 	@field:SerializedName("nama_lengkap")
 	val namaLengkap: String? = null,
 

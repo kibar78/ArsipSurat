@@ -37,4 +37,9 @@
     <string name="login">Login</string>
     <string name="shared_preferences_name" translatable="false">default_shared_preferences</string>
     <string name="shared_preferences_name_keluar" translatable="false">default_shared_preferences_keluar</string>
+    <string name="user_information">User Information</string>
+    <string name="no_hp">No Hp</string>
+    <string name="bidang_pekerjaan">Bidang Pekerjaan</string>
+    <string name="Logout">logout</string>
+    <string name="surat">Surat</string>
 </resources>

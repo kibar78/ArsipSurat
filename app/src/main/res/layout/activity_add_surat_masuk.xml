@@ -122,7 +122,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Surat"
+                android:drawableTop="@drawable/baseline_upload_24"
+                android:text="@string/surat"
                 app:layout_constraintEnd_toEndOf="@+id/iv_surat"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_surat" />
@@ -140,6 +141,8 @@
                 android:id="@+id/btn_lampiran"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:drawableTop="@drawable/baseline_upload_24"
                 android:text="Lampiran"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/iv_lampiran"
@@ -148,10 +151,10 @@
 
         <Button
             android:id="@+id/btn_submit"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
             android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/submit" />
+            android:text="@string/submit"
+            android:layout_gravity="center"/>
     </LinearLayout>
 </ScrollView>
