@@ -2,7 +2,6 @@ package com.example.arsipsurat.ui.detail.surat_masuk
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -57,6 +56,7 @@ class DetailSuratMasukActivity : AppCompatActivity() {
             binding.tvTanggalPenerimaan.text = suratMasuk.tglPenerimaan
             binding.tvTglSurat.text = suratMasuk.tglSurat
             binding.tvNoSurat.text = suratMasuk.noSurat
+            binding.tvKategoriSurat.text = suratMasuk.kategori
             binding.tvDariMana.text = suratMasuk.dariMana
             binding.tvPerihal.text = suratMasuk.perihal
             binding.tvKeterangan.text = suratMasuk.keterangan

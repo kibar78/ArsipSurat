@@ -10,6 +10,8 @@ import android.util.Base64
 import android.util.Log
 import android.util.Patterns
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -69,6 +71,11 @@ class UpdateSuratKeluarActivity: AppCompatActivity(),
             var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(intent, IMAGE_LAMPIRAN_PICKCODE)
         }
+
+        val category = arrayOf("Surat Keputusan","Surat Permohonan","Surat Kuasa",
+            "Surat Pengantar","Surat Perintah","Surat Undangan","Surat Edaran")
+        val adapter = ArrayAdapter(this,R.layout.dropdown_item, category)
+        (binding?.textField?.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
         val sharedPreferences = getSharedPreferences(
             getString(R.string.shared_preferences_name_keluar),
@@ -166,6 +173,7 @@ class UpdateSuratKeluarActivity: AppCompatActivity(),
                 val tglCatat = binding?.btnTglCatat?.text.toString()
                 val tglSurat = binding?.btnTglSurat?.text.toString()
                 val noSurat = binding?.edtNoSurat?.text.toString()
+                val category = binding?.autoCompleteTextView?.text.toString()
                 val tujuanSurat = binding?.edtTujuanSurat?.text.toString()
                 val perihal = binding?.edtPerihal?.text.toString()
                 val keterangan = binding?.edtKeterangan?.text.toString()
@@ -176,6 +184,7 @@ class UpdateSuratKeluarActivity: AppCompatActivity(),
                         tglCatat,
                         tglSurat,
                         noSurat,
+                        category,
                         base64Lampiran,
                         tujuanSurat,
                         perihal,

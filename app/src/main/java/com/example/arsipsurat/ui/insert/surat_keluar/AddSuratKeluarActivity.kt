@@ -9,6 +9,8 @@ import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.model.PostSuratKeluarResponse
@@ -60,6 +62,10 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
             var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(intent, IMAGE_LAMPIRAN_PICKCODE)
         }
+        val category = arrayOf("Surat Keputusan","Surat Permohonan","Surat Kuasa",
+            "Surat Pengantar","Surat Perintah","Surat Undangan","Surat Edaran")
+        val adapter = ArrayAdapter(this,R.layout.dropdown_item, category)
+        (binding?.textField?.editText as? AutoCompleteTextView)?.setAdapter(adapter)
     }
 
     override fun onClick(p0: View?) {
@@ -79,9 +85,10 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
                 val tujuanSurat = binding?.edtTujuanSurat?.text.toString()
                 val perihal = binding?.edtPerihal?.text.toString()
                 val keterangan = binding?.edtKeterangan?.text.toString()
+                val category = binding?.autoCompleteTextView?.text.toString()
 
                 postSuratKeluar(suratKeluar = SuratKeluar(
-                    tglCatat,tglSurat,noSurat,base64Lampiran,tujuanSurat,perihal,keterangan,base64Surat)
+                    tglCatat,tglSurat,noSurat,category,base64Lampiran,tujuanSurat,perihal,keterangan,base64Surat)
                 )
             }
         }

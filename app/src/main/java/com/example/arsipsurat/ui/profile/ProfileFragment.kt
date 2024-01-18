@@ -53,9 +53,6 @@ class ProfileFragment : Fragment() {
         val bidangPekerjaan = listUser?.bidangPekerjaan
         val image = listUser?.imageProfile
 
-        binding?.tvName?.text = namaLengkap
-        binding?.tvUsername?.text = username
-        binding?.tvNoHp?.text = noHp
     }
 
 }

@@ -21,6 +21,9 @@ data class SuratKeluarItem(
 	@field:SerializedName("no_surat")
 	val noSurat: String? = null,
 
+	@field:SerializedName("kategori")
+	val kategori: String? = null,
+
 	@field:SerializedName("lampiran")
 	val lampiran: String? = null,
 

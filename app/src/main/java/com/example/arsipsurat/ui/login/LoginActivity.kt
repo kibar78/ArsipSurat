@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.example.arsipsurat.R
 import com.example.arsipsurat.data.model.LoginResponse
 import com.example.arsipsurat.data.model.LoginUser
 import com.example.arsipsurat.data.remote.ApiConfig
@@ -27,8 +28,15 @@ class LoginActivity : AppCompatActivity() {
         showLoading(false)
 
         binding?.btnLogin?.setOnClickListener {
+            binding?.edtUsername?.error = getString(R.string.error)
+            binding?.edtUsername?.error = null
             val username = binding?.edtUsername?.text.toString()
+
+
+            binding?.edtPassword?.error = getString(R.string.error)
+            binding?.edtPassword?.error = null
             val password = binding?.edtPassword?.text.toString()
+
             loginUser(userLogin = LoginUser(username, password))
             showLoading(true)
         }

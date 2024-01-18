@@ -42,4 +42,7 @@
     <string name="bidang_pekerjaan">Bidang Pekerjaan</string>
     <string name="Logout">logout</string>
     <string name="surat">Surat</string>
+    <string name="lampiran">Lampiran</string>
+    <string name="kategori_surat">Kategori Surat</string>
+    <string name="error">Tidak Boleh Kosong</string>
 </resources>

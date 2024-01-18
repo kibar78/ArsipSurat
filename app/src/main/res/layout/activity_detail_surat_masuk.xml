@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
@@ -32,7 +33,7 @@
                 android:id="@+id/tv_tanggal_penerimaan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:textStyle="bold"
                 android:padding="6dip"
                 android:text="@string/tgl_penerimaan" />
         </TableRow>
@@ -47,24 +48,9 @@
                 android:id="@+id/tv_tgl_surat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:textStyle="bold"
                 android:padding="6dip"
                 android:text="@string/tanggal_surat" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:padding="6dip"
-                android:text="@string/asal_surat" />
-
-            <TextView
-                android:id="@+id/tv_dari_mana"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:padding="6dip"
-                android:text="@string/asal_surat" />
         </TableRow>
 
         <TableRow>
@@ -77,9 +63,40 @@
                 android:id="@+id/tv_no_surat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
+                android:textStyle="bold"
                 android:padding="6dip"
                 android:text="@string/no_surat" />
+        </TableRow>
+        <TableRow>
+
+            <TextView
+                android:padding="6dip"
+                android:text="@string/asal_surat" />
+
+            <TextView
+                android:id="@+id/tv_dari_mana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_weight="2"
+                android:maxLines="2"
+                android:padding="6dip"
+                android:text="@string/asal_surat" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:padding="6dip"
+                android:text="@string/kategori_surat" />
+
+            <TextView
+                android:id="@+id/tv_kategori_surat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:padding="6dip"
+                android:text="@string/kategori_surat" />
         </TableRow>
 
         <TableRow>
@@ -92,9 +109,8 @@
                 android:id="@+id/tv_perihal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ellipsize="end"
-                android:gravity="right"
+                android:layout_weight="3"
+                android:textStyle="bold"
                 android:maxLines="3"
                 android:padding="6dip"
                 android:text="@string/perihal" />
@@ -110,7 +126,7 @@
                 android:id="@+id/tv_keterangan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
+                android:textStyle="bold"
                 android:padding="6dip"
                 android:text="@string/keterangan" />
         </TableRow>

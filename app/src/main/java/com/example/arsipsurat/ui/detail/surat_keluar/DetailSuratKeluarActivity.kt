@@ -59,6 +59,7 @@ class DetailSuratKeluarActivity : AppCompatActivity() {
             binding.tvTanggalCatat.text = suratkeluar.tglCatat
             binding.tvTglSurat.text = suratkeluar.tglSurat
             binding.tvNoSurat.text = suratkeluar.noSurat
+            binding.tvKategoriSurat.text = suratkeluar.kategori
             binding.tvTujuanSurat.text = suratkeluar.dikirimKepada
             binding.tvPerihal.text = suratkeluar.perihal
             binding.tvKeterangan.text = suratkeluar.keterangan
