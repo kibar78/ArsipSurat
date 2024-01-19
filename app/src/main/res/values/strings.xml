@@ -16,7 +16,7 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
+    <string name="welcome">Welcome</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
@@ -34,15 +34,18 @@
     <string name="edit">Edit</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="login">Login</string>
+    <string name="login">LOGIN</string>
     <string name="shared_preferences_name" translatable="false">default_shared_preferences</string>
     <string name="shared_preferences_name_keluar" translatable="false">default_shared_preferences_keluar</string>
+    <string name="shared_preferences_name_login" translatable="false">default_shared_preferences_login</string>
     <string name="user_information">User Information</string>
     <string name="no_hp">No Hp</string>
     <string name="bidang_pekerjaan">Bidang Pekerjaan</string>
-    <string name="Logout">logout</string>
+    <string name="logout">Logout</string>
     <string name="surat">Surat</string>
     <string name="lampiran">Lampiran</string>
     <string name="kategori_surat">Kategori Surat</string>
     <string name="error">Tidak Boleh Kosong</string>
+    <string name="e_arsip_surat">E-ARSIP SURAT</string>
+    <string name="please_login_with_your_information">Please login with your information</string>
 </resources>

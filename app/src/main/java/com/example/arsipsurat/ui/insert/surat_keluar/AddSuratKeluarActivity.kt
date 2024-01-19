@@ -87,9 +87,32 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
                 val keterangan = binding?.edtKeterangan?.text.toString()
                 val category = binding?.autoCompleteTextView?.text.toString()
 
-                postSuratKeluar(suratKeluar = SuratKeluar(
-                    tglCatat,tglSurat,noSurat,category,base64Lampiran,tujuanSurat,perihal,keterangan,base64Surat)
-                )
+                var isEmptyFields = false
+                when{
+                    noSurat.isEmpty()->{
+                        isEmptyFields = true
+                        binding?.edtNoSurat?.error = "Tidak Boleh Kosong"
+                    }
+                    tujuanSurat.isEmpty()->{
+                        isEmptyFields = true
+                        binding?.edtTujuanSurat?.error = "Tidak Boleh Kosong"
+                    }
+                    perihal.isEmpty()->{
+                        isEmptyFields = true
+                        binding?.edtPerihal?.error = "Tidak Boleh Kosong"
+                    }
+                    keterangan.isEmpty()->{
+                        isEmptyFields = true
+                        binding?.edtKeterangan?.error = "Tidak Boleh Kosong"
+                    }
+                    else->{
+                        postSuratKeluar(suratKeluar = SuratKeluar(
+                            tglCatat,tglSurat,noSurat,category,base64Lampiran,tujuanSurat,perihal,keterangan,base64Surat)
+                        )
+                    }
+                }
+
+
             }
         }
     }

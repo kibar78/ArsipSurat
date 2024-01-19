@@ -1,16 +1,20 @@
 package com.example.arsipsurat.ui.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arsipsurat.R
+import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.model.LoginResponse
 import com.example.arsipsurat.data.model.LoginUser
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ActivityLoginBinding
 import com.example.arsipsurat.ui.MainActivity
+import com.google.gson.Gson
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,18 +31,24 @@ class LoginActivity : AppCompatActivity() {
 
         showLoading(false)
 
-        binding?.btnLogin?.setOnClickListener {
-            binding?.edtUsername?.error = getString(R.string.error)
-            binding?.edtUsername?.error = null
+        binding?.btnLogin?.setOnClickListener { v->
             val username = binding?.edtUsername?.text.toString()
-
-
-            binding?.edtPassword?.error = getString(R.string.error)
-            binding?.edtPassword?.error = null
             val password = binding?.edtPassword?.text.toString()
 
-            loginUser(userLogin = LoginUser(username, password))
-            showLoading(true)
+            var isEmptyFields = false
+            if (username.isEmpty()){
+                isEmptyFields = true
+                binding?.edtUsername?.error = "Masukkan Username Anda"
+            }
+            if (password.isEmpty()){
+                isEmptyFields = true
+                binding?.edtPassword?.error = "Masukkan Password Anda"
+            }
+            if (!isEmptyFields){
+                loginUser(userLogin = LoginUser(username, password))
+                showLoading(true)
+            }
+
         }
         supportActionBar?.hide()
     }
@@ -51,6 +61,18 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful && responseBody != null){
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     Log.i("LoginActivity", "onSuccess: ${response.isSuccessful}")
+
+                    val sharedPreferences = this@LoginActivity.getSharedPreferences(
+                        this@LoginActivity.getString(R.string.shared_preferences_name_login),
+                        Context.MODE_PRIVATE
+                    )
+                    val editor = sharedPreferences.edit()
+                    val gson = Gson()
+                    editor.putString(SharedPreferences.KEY_CURRENT_USER_LOGIN, gson.toJson(
+                        responseBody))
+                    editor.apply()
+
+                    finish()
                 }
             }
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {

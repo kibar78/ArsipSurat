@@ -154,21 +154,25 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginTop="15dp">
                     <TextView
+                        android:id="@+id/tv_bidang_pekerjaan1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/bidang_pekerjaan"
                         android:textSize="15sp"
                         android:layout_alignParentStart="true"
                         android:textStyle="bold"/>
+
                     <TextView
                         android:id="@+id/tv_bidang_pekerjaan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#6E6C6C"
-                        android:text="@string/bidang_pekerjaan"
-                        android:textSize="15sp"
                         android:layout_alignParentEnd="true"
-                        android:textStyle="bold"/>
+                        android:layout_marginStart="97dp"
+                        android:layout_toEndOf="@+id/tv_bidang_pekerjaan1"
+                        android:text="@string/bidang_pekerjaan"
+                        android:textColor="#6E6C6C"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
                 </RelativeLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -178,7 +182,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/Logout"
+            android:text="@string/logout"
             android:layout_marginTop="16dp"/>
     </LinearLayout>
 </ScrollView>

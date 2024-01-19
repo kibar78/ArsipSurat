@@ -4,8 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.lifecycle.lifecycleScope
 import com.example.arsipsurat.databinding.ActivitySplashScreenBinding
 import com.example.arsipsurat.ui.login.LoginActivity
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -15,10 +19,11 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Handler().postDelayed({
-            startActivity(Intent( this, LoginActivity::class.java))
+        lifecycleScope.launch {
+            delay(3.seconds)
+            startActivity(Intent(this@SplashScreenActivity, LoginActivity::class.java))
             finish()
-        }, 3000)
+        }
 
         supportActionBar?.hide()
     }
