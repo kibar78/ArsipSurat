@@ -124,51 +124,78 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp">
 
-            <ImageView
-                android:id="@+id/iv_surat"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/baseline_add_a_photo_24" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/surat"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/iv_surat"
+                app:layout_constraintStart_toStartOf="@+id/iv_surat"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_surat"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="8dp"
+                android:padding="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                app:srcCompat="@drawable/baseline_image_24" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_surat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:drawableTop="@drawable/baseline_upload_24"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/baseline_add_a_photo_24"
+                android:tint="@color/black"
+                android:backgroundTint="@color/black"
                 android:text="@string/surat"
-                app:layout_constraintEnd_toEndOf="@+id/iv_surat"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_surat" />
+                app:layout_constraintBottom_toBottomOf="@+id/iv_surat"
+                app:layout_constraintEnd_toEndOf="@+id/iv_surat" />
 
-            <ImageView
-                android:id="@+id/iv_lampiran"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginEnd="8dp"
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/lampiran"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/baseline_add_a_photo_24" />
+                app:layout_constraintStart_toStartOf="@+id/iv_lampiran"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_lampiran"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginEnd="8dp"
+                android:padding="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4"
+                app:srcCompat="@drawable/baseline_image_24" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_lampiran"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:drawableTop="@drawable/baseline_upload_24"
-                android:text="Lampiran"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/iv_lampiran"
-                app:layout_constraintTop_toBottomOf="@+id/iv_lampiran" />
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:tint="@color/black"
+                android:backgroundTint="@color/black"
+                android:src="@drawable/baseline_add_a_photo_24"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_lampiran"
+                app:layout_constraintEnd_toEndOf="@+id/iv_lampiran" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/btn_submit"
-            android:layout_marginTop="8dp"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/submit"
             android:layout_gravity="center"/>
