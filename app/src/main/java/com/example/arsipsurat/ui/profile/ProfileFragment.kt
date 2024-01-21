@@ -71,10 +71,10 @@ class ProfileFragment : Fragment() {
             binding?.tvEmail?.text = listUser.email
             binding?.tvNoHp?.text = listUser.noHp
             binding?.tvBidangPekerjaan?.text = listUser.bidangPekerjaan
-            binding?.tvName?.text = listUser.namaLengkap
-            Glide.with(binding?.profilImage!!)
+            binding?.tvNamaLengkap?.text = listUser.namaLengkap
+            Glide.with(binding?.ivProfile!!)
                 .load(listUser.imageProfile)
-                .into(binding?.profilImage!!)
+                .into(binding?.ivProfile!!)
         }
 
     }

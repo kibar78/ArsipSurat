@@ -8,16 +8,21 @@ import com.example.arsipsurat.data.repository.SuratRepository
 import com.example.arsipsurat.ui.surat_keluar.SuratKeluarViewModel
 import com.example.arsipsurat.ui.surat_masuk.SuratMasukViewModel
 
-class ViewModelFactory private constructor(private val suratMasukRepository: SuratRepository):
+class ViewModelFactory private constructor(private val suratRepository: SuratRepository):
     ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(SuratMasukViewModel::class.java)) {
-            return SuratMasukViewModel(suratMasukRepository) as T
-        }else if(modelClass.isAssignableFrom(SuratKeluarViewModel::class.java)){
-            return SuratKeluarViewModel(suratMasukRepository) as T
+        return when{
+            modelClass.isAssignableFrom(SuratMasukViewModel::class.java)->{
+                SuratMasukViewModel(suratRepository) as T
+            }
+            modelClass.isAssignableFrom(SuratKeluarViewModel::class.java)->{
+                SuratKeluarViewModel(suratRepository) as T
+            }
+            else->{
+                throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
+            }
         }
-            throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     companion object {
         @Volatile

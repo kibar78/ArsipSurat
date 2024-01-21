@@ -4,6 +4,7 @@ import com.example.arsipsurat.data.model.DeleteSuratKeluar
 import com.example.arsipsurat.data.model.DeleteSuratMasuk
 import com.example.arsipsurat.data.model.LoginResponse
 import com.example.arsipsurat.data.model.LoginUser
+import com.example.arsipsurat.data.model.ParamUpdateStatusSuratMasuk
 import com.example.arsipsurat.data.model.ParamUpdateSuratKeluar
 import com.example.arsipsurat.data.model.ParamUpdateSuratMasuk
 import com.example.arsipsurat.data.model.PostSuratKeluarResponse
@@ -12,6 +13,7 @@ import com.example.arsipsurat.data.model.SuratKeluar
 import com.example.arsipsurat.data.model.SuratKeluarResponse
 import com.example.arsipsurat.data.model.SuratMasuk
 import com.example.arsipsurat.data.model.SuratMasukResponse
+import com.example.arsipsurat.data.model.UpdateStatusSuratMasukResponse
 import com.example.arsipsurat.data.model.UpdateSuratKeluarResponse
 import com.example.arsipsurat.data.model.UpdateSuratMasukResponse
 import retrofit2.Call
@@ -58,4 +60,8 @@ interface ApiService {
     @Headers("ngrok-skip-browser-warning: 1234")
     @HTTP(method = "PUT", path = "SURAT/surat_keluar/update", hasBody = true)
     fun updateSuratKeluar(@Body suratKeluar: ParamUpdateSuratKeluar): Call<UpdateSuratKeluarResponse>
+
+    @Headers("ngrok-skip-browser-warning: 1234")
+    @HTTP(method = "PUT", path = "SURAT/surat_masuk/update_status", hasBody = true)
+    fun updateStatus(@Body statusSuratMasuk: ParamUpdateStatusSuratMasuk): Call<UpdateStatusSuratMasukResponse>
 }
