@@ -6,19 +6,22 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.model.SuratMasukItem
 import com.example.arsipsurat.databinding.ActivityDetailSuratMasukBinding
+import com.example.arsipsurat.ui.detail.surat_masuk.disposisi.AddDisposisiActivity
+import com.example.arsipsurat.ui.detail.surat_masuk.disposisi.DisposisiActivity
 import com.example.arsipsurat.ui.detail.surat_masuk.image.SectionsPagerAdapter
 import com.example.arsipsurat.ui.update.surat_masuk.UpdateSuratMasukActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 
-class DetailSuratMasukActivity : AppCompatActivity() {
+class DetailSuratMasukActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding : ActivityDetailSuratMasukBinding
 
@@ -39,6 +42,9 @@ class DetailSuratMasukActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar!!.title = "Detail Surat Masuk"
         actionBar.setDisplayHomeAsUpEnabled(true)
+
+        binding.btnDisposisi.setOnClickListener(this)
+        binding.btnAddDisposisi.setOnClickListener(this)
     }
 
     override fun onResume() {
@@ -91,5 +97,18 @@ class DetailSuratMasukActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onClick(p0: View?) {
+        when(p0?.id){
+            R.id.btn_disposisi->{
+                val detailDisposisi = Intent(this, DisposisiActivity::class.java)
+                startActivity(detailDisposisi)
+            }
+            R.id.btn_add_disposisi->{
+                val addDisposisi = Intent(this, AddDisposisiActivity::class.java)
+                startActivity(addDisposisi)
+            }
+        }
     }
 }

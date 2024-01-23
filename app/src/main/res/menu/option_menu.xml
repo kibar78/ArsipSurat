@@ -6,6 +6,5 @@
         android:id="@+id/menu_edit"
         android:icon="@drawable/baseline_edit_24"
         android:title="@string/edit"
-        app:showAsAction="ifRoom"
-        />
+        app:showAsAction="ifRoom"/>
 </menu>

@@ -6,7 +6,7 @@
     <string name="profile">Profile</string>
     <string name="cari_surat_masuk">Cari Surat Masuk</string>
     <string name="cari_surat_keluar">Cari Surat Keluar</string>
-    <string name="asal_surat">Asal Surat</string>
+    <string name="asal_surat">Surat Dari</string>
     <string name="tujuan_surat">Tujuan Surat</string>
     <string name="tgl_surat">Tanggal Surat</string>
     <string name="search">Search</string>
@@ -23,14 +23,14 @@
     <string name="tgl_penerimaan">Tanggal Penerimaan</string>
     <string name="tgl_catat">Tanggal Catat</string>
     <string name="tanggal_surat">Tanggal Surat</string>
-    <string name="no_surat">No Surat</string>
+    <string name="no_surat">Nomor Surat</string>
     <string name="keterangan">Keterangan</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tab_text_1">Surat</string>
     <string name="tab_text_2">Lampiran</string>
-    <string name="submit">Submit</string>
+    <string name="submit">SUBMIT</string>
     <string name="edit">Edit</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -48,4 +48,29 @@
     <string name="error">Tidak Boleh Kosong</string>
     <string name="e_arsip_surat">E-ARSIP SURAT</string>
     <string name="please_login_with_your_information">Please login with your information</string>
+    <string name="disposisi">DISPOSISI</string>
+    <string name="buat_disposisi">BUAT DISPOSISI</string>
+    <string name="lihat_disposisi">LIHAT DISPOSISI</string>
+
+    <string name="klasifikasi">KLASIFIKASI :</string>
+    <string name="klasifikasi2">Klasifikasi</string>
+    <string name="derajat">DERAJAT :</string>
+    <string name="derajat2">Derajat</string>
+    <string name="nomor_agenda">Nomor Agenda</string>
+    <string name="isi_disposisi">Isi Disposisi</string>
+    <string name="diteruskan_kepada">Diteruskan Kepada</string>
+
+    <string name="waka">WAKA</string>
+    <string name="kanit_lantas">KANIT LANTAS</string>
+    <string name="kasi_umum">KASI UMUM</string>
+    <string name="kanit_reskrim">KANIT RESKRIM</string>
+    <string name="kanit_propam">KANIT PROPAM</string>
+    <string name="kasi_humas">KASI HUMAS</string>
+    <string name="kanit_samapta">KANIT SAMAPTA</string>
+    <string name="kanit_spktI">KANIT SPKT I</string>
+    <string name="kasi_hukum">KASI HUKUM</string>
+    <string name="kanit_intelkam">KANIT INTELKAM</string>
+    <string name="kanit_spktII">KANIT SPKT II</string>
+    <string name="kanit_binmas">KANIT BINMAS</string>
+    <string name="kanit_spktIII">KANIT SPKT III</string>
 </resources>

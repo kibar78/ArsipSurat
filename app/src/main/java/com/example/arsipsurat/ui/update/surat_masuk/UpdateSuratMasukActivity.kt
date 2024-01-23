@@ -93,6 +93,7 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                 binding.btnTglSurat.text = DateFormat.format(suratMasuk.tglSurat ?: "", "yyyy-MM-dd")
                 binding.edtNoSurat.setText(suratMasuk.noSurat)
                 binding.edtAsalSurat.setText(suratMasuk.dariMana)
+                binding.autoCompleteTextView.setText(suratMasuk.kategori)
                 binding.edtPerihal.setText(suratMasuk.perihal)
                 binding.edtKeterangan.setText(suratMasuk.keterangan)
 
