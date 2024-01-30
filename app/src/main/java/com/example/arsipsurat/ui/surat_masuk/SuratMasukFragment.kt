@@ -1,6 +1,7 @@
 package com.example.arsipsurat.ui.surat_masuk
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,12 +11,17 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.arsipsurat.R
+import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.ViewModelFactory
 import com.example.arsipsurat.data.model.SuratMasukItem
+import com.example.arsipsurat.data.model.user.LoginResponse
 import com.example.arsipsurat.data.repository.Result
 import com.example.arsipsurat.databinding.FragmentSuratMasukBinding
+import com.example.arsipsurat.ui.insert.surat_keluar.AddSuratKeluarActivity
 import com.example.arsipsurat.ui.insert.surat_masuk.AddSuratMasukActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 
 class SuratMasukFragment : Fragment() {
 
@@ -26,6 +32,7 @@ class SuratMasukFragment : Fragment() {
     private val binding get() = _binding!!
     val suratAdapter = SuratMasukAdapter()
 
+    private var userLogin : LoginResponse? = null
 
     private val viewModelSuratMasuk by viewModels<SuratMasukViewModel>(){
         ViewModelFactory.getInstance(requireActivity())
@@ -43,16 +50,6 @@ class SuratMasukFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        viewModelSuratMasuk.suratMasuk.observe(requireActivity()){suratMasuk->
-//            if (suratMasuk != null) {
-//                setSurat(suratMasuk)
-//            }
-//        }
-//
-//        viewModelSuratMasuk.isLoading.observe(requireActivity()){
-//            showLoading(it)
-//        }
 
         viewModelSuratMasuk.uiStateSuratMasuk.observe(viewLifecycleOwner){uiStateSuratMasuk->
             when(uiStateSuratMasuk){
@@ -95,9 +92,26 @@ class SuratMasukFragment : Fragment() {
                 }
         }
 
-        binding.fab.setOnClickListener{
-            val intent = Intent(requireActivity(), AddSuratMasukActivity::class.java)
-            startActivity(intent)
+        val sharedPreferences = context?.getSharedPreferences(
+            getString(R.string.shared_preferences_name_login),
+            Context.MODE_PRIVATE
+        )
+        val gson = Gson()
+        userLogin = gson.fromJson(
+            sharedPreferences?.getString
+                (SharedPreferences.KEY_CURRENT_USER_LOGIN, ""),
+            LoginResponse::class.java
+        )
+        userLogin.let {userLogin->
+            if (userLogin?.level == "pimpinan"){
+                binding.fab.hide()
+            }
+            else{
+                binding.fab.setOnClickListener{
+                    val intent = Intent(requireActivity(), AddSuratMasukActivity::class.java)
+                    startActivity(intent)
+                }
+            }
         }
     }
 
@@ -112,22 +126,42 @@ class SuratMasukFragment : Fragment() {
         binding.rvSuratMasuk.adapter = suratAdapter
         binding.rvSuratMasuk.visibility = View.VISIBLE
         binding.rvSuratMasuk.setHasFixedSize(true)
-        suratAdapter.onLongClick = {
-            val alertDialog = AlertDialog.Builder(requireContext()).apply {
-                setTitle("Peringatan")
-                setMessage("Apa anda yakin untuk menghapus data ini?\nSurat Masuk : ${it.noSurat}")
-                setNegativeButton("Tidak") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                setPositiveButton("Ya") { _, _ ->
-                    binding.rvSuratMasuk.visibility = View.INVISIBLE
-                    showLoading(true)
-                    viewModelSuratMasuk.delete(it)
+
+        val sharedPreferences = context?.getSharedPreferences(
+            getString(R.string.shared_preferences_name_login),
+            Context.MODE_PRIVATE
+        )
+        val gson = Gson()
+        userLogin = gson.fromJson(
+            sharedPreferences?.getString
+                (SharedPreferences.KEY_CURRENT_USER_LOGIN, ""),
+            LoginResponse::class.java)
+
+        userLogin.let { userLogin->
+            if (userLogin?.level == "pimpinan"){
+                suratAdapter.onLongClick = {
+                    Toast.makeText(requireActivity(),"Tidak Bisa dihapus", Toast.LENGTH_SHORT).show()
                 }
             }
-            alertDialog.show()
+            else{
+                suratAdapter.onLongClick = {
+                    val alertDialog = AlertDialog.Builder(requireContext()).apply {
+                        setTitle("Peringatan")
+                        setMessage("Apa anda yakin untuk menghapus data ini?\nSurat Masuk : ${it.noSurat}")
+                        setNegativeButton("Tidak") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        setPositiveButton("Ya") { _, _ ->
+                            binding.rvSuratMasuk.visibility = View.INVISIBLE
+                            showLoading(true)
+                            viewModelSuratMasuk.delete(it)
+                        }
+                    }
+                    alertDialog.show()
+                }
+                suratAdapter.notifyDataSetChanged()
+            }
         }
-        suratAdapter.notifyDataSetChanged()
     }
 
     private fun showLoading(isLoading: Boolean){

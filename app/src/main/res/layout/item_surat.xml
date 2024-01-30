@@ -8,7 +8,6 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_item_note"
         android:layout_width="match_parent"

@@ -20,5 +20,9 @@
         android:icon="@drawable/ic_account_circle_black"
         android:title="@string/profile"
         />
+    <item
+        android:id="@+id/navigation_register"
+        android:icon="@drawable/baseline_person_add_24"
+        android:title="@string/register"/>
 
 </menu>

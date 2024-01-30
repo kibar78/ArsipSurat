@@ -1,4 +1,4 @@
-package com.example.arsipsurat.data.model
+package com.example.arsipsurat.data.model.user
 
 import com.google.gson.annotations.SerializedName
 

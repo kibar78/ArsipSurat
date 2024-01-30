@@ -6,6 +6,10 @@ import com.example.arsipsurat.data.model.SuratKeluarItem
 import com.example.arsipsurat.data.model.SuratKeluarResponse
 import com.example.arsipsurat.data.model.SuratMasukItem
 import com.example.arsipsurat.data.model.SuratMasukResponse
+import com.example.arsipsurat.data.model.user.LoginResponse
+import com.example.arsipsurat.data.model.user.ReadResponse
+import com.example.arsipsurat.data.model.user.UserItem
+import com.example.arsipsurat.data.model.user.delete.DeleteAkun
 import com.example.arsipsurat.data.remote.ApiService
 import com.example.arsipsurat.utils.Event
 
@@ -35,6 +39,19 @@ class SuratRepository private constructor(
 
         val response = apiService.deleteSuratKeluar(
             DeleteSuratKeluar(suratKeluarItem.id)
+        )
+        return Event(response.message?.contains("deleted") == true)
+    }
+
+    suspend fun readUser(id: String): ReadResponse{
+        return apiService.getUser(id)
+    }
+
+    suspend fun deleteUser(userItem: UserItem): Event<Boolean> {
+        if (userItem.id == null) return Event(false)
+
+        val response = apiService.deleteUser(
+            DeleteAkun(userItem.id)
         )
         return Event(response.message?.contains("deleted") == true)
     }

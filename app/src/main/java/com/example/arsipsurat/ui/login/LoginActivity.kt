@@ -5,25 +5,30 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
-import com.example.arsipsurat.data.model.LoginResponse
-import com.example.arsipsurat.data.model.LoginUser
+import com.example.arsipsurat.data.model.user.LoginResponse
+import com.example.arsipsurat.data.model.user.LoginUser
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ActivityLoginBinding
 import com.example.arsipsurat.ui.MainActivity
 import com.google.gson.Gson
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.security.MessageDigest
+import javax.crypto.Cipher
+import javax.crypto.spec.SecretKeySpec
 
 class LoginActivity : AppCompatActivity() {
 
     private var _binding : ActivityLoginBinding? = null
     private val binding get() = _binding
 
+    lateinit var ivValue: ByteArray
+    lateinit var cipherTextNew: ByteArray
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -32,6 +37,9 @@ class LoginActivity : AppCompatActivity() {
         showLoading(false)
 
         binding?.btnLogin?.setOnClickListener { v->
+
+            cipherTextNew = encrypt(applicationContext, binding?.edtPassword?.text.toString())
+
             val username = binding?.edtUsername?.text.toString()
             val password = binding?.edtPassword?.text.toString()
 
@@ -61,7 +69,6 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful && responseBody != null){
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     Log.i("LoginActivity", "onSuccess: ${response.isSuccessful}")
-
                     val sharedPreferences = this@LoginActivity.getSharedPreferences(
                         this@LoginActivity.getString(R.string.shared_preferences_name_login),
                         Context.MODE_PRIVATE
@@ -73,6 +80,9 @@ class LoginActivity : AppCompatActivity() {
                     editor.apply()
 
                     finish()
+                }
+                else{
+                    Toast.makeText(this@LoginActivity,"Hanya Admin & Pimpinan yang dapat menggunakan aplikasi ini", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
@@ -88,5 +98,24 @@ class LoginActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun encrypt(context:Context, strToEncrypt: String): ByteArray {
+        val plainText = strToEncrypt.toByteArray(Charsets.UTF_8)
+        val key = generateKey(binding?.edtPassword?.text.toString())
+        val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
+        cipher.init(Cipher.ENCRYPT_MODE, key)
+        val cipherText = cipher.doFinal(plainText)
+        ivValue = cipher.iv
+        return cipherText
+    }
+
+    private fun generateKey(password: String): SecretKeySpec {
+        val digest: MessageDigest = MessageDigest.getInstance("SHA-256")
+        val bytes = password.toByteArray()
+        digest.update(bytes, 0, bytes.size)
+        val key = digest.digest()
+        val secretKeySpec = SecretKeySpec(key, "AES")
+        return secretKeySpec
     }
 }

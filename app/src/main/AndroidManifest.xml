@@ -18,6 +18,18 @@
         android:theme="@style/Theme.ArsipSurat"
         tools:targetApi="31">
         <activity
+            android:name=".ui.register.detail.DetailUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.register.create.BuatAkunActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profile.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.detail.surat_masuk.disposisi.UpdateDisposisiActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.detail.surat_masuk.disposisi.AddDisposisiActivity"
             android:exported="false" />
         <activity

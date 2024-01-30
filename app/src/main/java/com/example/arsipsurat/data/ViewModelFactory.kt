@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.arsipsurat.data.di.Injection
 import com.example.arsipsurat.data.repository.SuratRepository
+import com.example.arsipsurat.ui.register.RegisterViewModel
 import com.example.arsipsurat.ui.surat_keluar.SuratKeluarViewModel
 import com.example.arsipsurat.ui.surat_masuk.SuratMasukViewModel
 
@@ -18,6 +19,9 @@ class ViewModelFactory private constructor(private val suratRepository: SuratRep
             }
             modelClass.isAssignableFrom(SuratKeluarViewModel::class.java)->{
                 SuratKeluarViewModel(suratRepository) as T
+            }
+            modelClass.isAssignableFrom(RegisterViewModel::class.java)->{
+                RegisterViewModel(suratRepository) as T
             }
             else->{
                 throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

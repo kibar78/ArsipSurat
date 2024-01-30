@@ -27,5 +27,10 @@
         android:name="com.example.arsipsurat.ui.profile.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/navigation_register"
+        android:name="com.example.arsipsurat.ui.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
 
 </navigation>

@@ -24,57 +24,47 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/klasifikasi"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/derajat"
-            app:layout_constraintEnd_toStartOf="@+id/tv_derajat"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/tv_klasifikasi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/klasifikasi2"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/textView7"
-            app:layout_constraintTop_toTopOf="@+id/textView7" />
-
-        <TextView
-            android:id="@+id/tv_derajat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="@string/derajat2"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView8" />
-
         <TableLayout
             android:id="@+id/tableLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:stretchColumns="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_klasifikasi">
+            app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+            <TableRow>
+
+                <TextView
+                    android:padding="6dip"
+                    android:text="@string/klasifikasi2" />
+
+                <TextView
+                    android:id="@+id/tv_klasifikasi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="6dip"
+                    android:text="@string/klasifikasi2"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:padding="6dip"
+                    android:text="@string/derajat2" />
+
+                <TextView
+                    android:id="@+id/tv_derajat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="6dip"
+                    android:text="@string/derajat2"
+                    android:textStyle="bold" />
+            </TableRow>
 
             <TableRow>
 
@@ -91,84 +81,7 @@
                     android:textStyle="bold" />
             </TableRow>
 
-            <TableRow>
 
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/tgl_penerimaan" />
-
-                <TextView
-                    android:id="@+id/tv_tgl_diterima"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dip"
-                    android:text="@string/tgl_penerimaan"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/tgl_surat" />
-
-                <TextView
-                    android:id="@+id/tv_tgl_surat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dip"
-                    android:text="@string/tgl_surat"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/no_surat" />
-
-                <TextView
-                    android:id="@+id/tv_no_surat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:maxLines="2"
-                    android:padding="6dip"
-                    android:text="@string/no_surat"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/asal_surat" />
-
-                <TextView
-                    android:id="@+id/tv_asal_surat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dip"
-                    android:text="@string/asal_surat"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/perihal" />
-
-                <TextView
-                    android:id="@+id/tv_perihal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:maxLines="3"
-                    android:padding="6dip"
-                    android:text="@string/perihal"
-                    android:textStyle="bold" />
-            </TableRow>
 
             <TableRow>
 

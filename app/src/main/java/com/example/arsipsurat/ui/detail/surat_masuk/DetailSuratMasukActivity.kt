@@ -7,11 +7,14 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.model.SuratMasukItem
+import com.example.arsipsurat.data.model.user.LoginResponse
 import com.example.arsipsurat.databinding.ActivityDetailSuratMasukBinding
 import com.example.arsipsurat.ui.detail.surat_masuk.disposisi.AddDisposisiActivity
 import com.example.arsipsurat.ui.detail.surat_masuk.disposisi.DisposisiActivity
@@ -34,6 +37,8 @@ class DetailSuratMasukActivity : AppCompatActivity(), View.OnClickListener {
 
     private var suratMasuk : SuratMasukItem? = null
 
+    private var userLogin : LoginResponse? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailSuratMasukBinding.inflate(layoutInflater)
@@ -43,8 +48,27 @@ class DetailSuratMasukActivity : AppCompatActivity(), View.OnClickListener {
         actionBar!!.title = "Detail Surat Masuk"
         actionBar.setDisplayHomeAsUpEnabled(true)
 
-        binding.btnDisposisi.setOnClickListener(this)
-        binding.btnAddDisposisi.setOnClickListener(this)
+        binding.btnLihatDisposisi.setOnClickListener(this)
+
+
+        val sharedPreferences = getSharedPreferences(
+            getString(R.string.shared_preferences_name_login),
+            Context.MODE_PRIVATE
+        )
+        val gson = Gson()
+        userLogin = gson.fromJson(
+            sharedPreferences?.getString
+                (SharedPreferences.KEY_CURRENT_USER_LOGIN, ""),
+            LoginResponse::class.java)
+
+        userLogin.let { userLogin->
+            if (userLogin?.level == "admin"){
+                binding.btnAddDisposisi.isVisible = false
+            }
+            else{
+                binding.btnAddDisposisi.setOnClickListener(this)
+            }
+        }
     }
 
     override fun onResume() {
@@ -79,10 +103,26 @@ class DetailSuratMasukActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater : MenuInflater = menuInflater
-        inflater.inflate(R.menu.option_menu, menu)
-        return true
+        val sharedPreferences = getSharedPreferences(
+            getString(R.string.shared_preferences_name_login),
+            Context.MODE_PRIVATE
+        )
+        val gson = Gson()
+        userLogin = gson.fromJson(
+            sharedPreferences?.getString
+                (SharedPreferences.KEY_CURRENT_USER_LOGIN, ""),
+            LoginResponse::class.java)
 
+        userLogin.let {userLogin->
+            if (userLogin?.level == "pimpinan"){
+                return false
+            }
+            else{
+                val inflater : MenuInflater = menuInflater
+                inflater.inflate(R.menu.option_menu, menu)
+            }
+        }
+        return true
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
@@ -101,13 +141,19 @@ class DetailSuratMasukActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when(p0?.id){
-            R.id.btn_disposisi->{
+            R.id.btn_lihat_disposisi->{
                 val detailDisposisi = Intent(this, DisposisiActivity::class.java)
                 startActivity(detailDisposisi)
+                finish()
             }
             R.id.btn_add_disposisi->{
-                val addDisposisi = Intent(this, AddDisposisiActivity::class.java)
-                startActivity(addDisposisi)
+                if (suratMasuk?.klasifikasi == ""){
+                    val addDisposisi = Intent(this, AddDisposisiActivity::class.java)
+                    startActivity(addDisposisi)
+                    finish()
+                }else{
+                    Toast.makeText(this,"Disposisi Sudah Dibuat", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

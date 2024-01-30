@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home,
                 R.id.navigation_surat_masuk,
                 R.id.navigation_surat_keluar,
-                R.id.navigation_profile
+                R.id.navigation_profile,
+                R.id.navigation_register
             )
         )
         navView.setupWithNavController(navController)

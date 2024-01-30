@@ -1,7 +1,6 @@
 package com.example.arsipsurat.ui.detail.surat_masuk.disposisi
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,16 +15,15 @@ import com.example.arsipsurat.data.model.disposisi.ParamUpdateDisposisi
 import com.example.arsipsurat.data.model.disposisi.UpdateDisposisiResponse
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ActivityAddDisposisiBinding
+import com.example.arsipsurat.utils.DateFormat
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.Calendar
-import java.util.Locale
 
-class AddDisposisiActivity : AppCompatActivity(),View.OnClickListener{
+class UpdateDisposisiActivity: AppCompatActivity(),View.OnClickListener  {
 
-    private var _binding : ActivityAddDisposisiBinding? = null
+    private var _binding: ActivityAddDisposisiBinding? = null
     private val binding get() = _binding
 
     private var suratMasuk : SuratMasukItem? = null
@@ -35,17 +33,17 @@ class AddDisposisiActivity : AppCompatActivity(),View.OnClickListener{
         setContentView(binding?.root)
 
         val actionBar = supportActionBar
-        actionBar!!.title = "Add Disposisi"
+        actionBar!!.title = "Update Disposisi"
         actionBar.setDisplayHomeAsUpEnabled(true)
 
         binding?.btnSubmit?.setOnClickListener(this)
 
         val klasifikasi = arrayOf("Biasa","-")
-        val adapterKlasifikasi = ArrayAdapter(this,R.layout.dropdown_item, klasifikasi)
+        val adapterKlasifikasi = ArrayAdapter(this, R.layout.dropdown_item, klasifikasi)
         (binding?.textFieldKlasifikasi?.editText as? AutoCompleteTextView)?.setAdapter(adapterKlasifikasi)
 
         val derajat = arrayOf("Biasa","Kilat","-")
-        val adapterDerajat = ArrayAdapter(this,R.layout.dropdown_item, derajat)
+        val adapterDerajat = ArrayAdapter(this, R.layout.dropdown_item, derajat)
         (binding?.textFieldDerajat?.editText as? AutoCompleteTextView)?.setAdapter(adapterDerajat)
 
         val sharedPreferences = getSharedPreferences(
@@ -54,8 +52,20 @@ class AddDisposisiActivity : AppCompatActivity(),View.OnClickListener{
         )
         val gson = Gson()
         suratMasuk = gson.fromJson(sharedPreferences.getString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, ""), SuratMasukItem::class.java)
+
+        suratMasuk?.let { suratMasuk ->
+            binding?.let { binding ->
+                binding.edtNomorAgenda.setText(suratMasuk.nomorAgenda)
+                binding.edtIsiDisposisi.setText(suratMasuk.isiDisposisi)
+            }
+        }
+
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
     private fun updateDisposisi(disposisi: ParamUpdateDisposisi){
         val client = ApiConfig.getApiService().updateDisposisi(disposisi)
         client.enqueue(object : Callback<UpdateDisposisiResponse> {
@@ -74,18 +84,13 @@ class AddDisposisiActivity : AppCompatActivity(),View.OnClickListener{
                     val gson = Gson()
                     editor.putString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, gson.toJson(disposisi))
                     editor.apply()
-
-                    Toast.makeText(this@AddDisposisiActivity,"Berhasil Menambahkan Disposisi", Toast.LENGTH_SHORT).show()
-
-                    val intent = Intent(this@AddDisposisiActivity, DisposisiActivity::class.java)
-                    startActivity(intent)
-
+                    Toast.makeText(this@UpdateDisposisiActivity,"Berhasil Update Disposisi", Toast.LENGTH_SHORT).show()
                     finish()
                     Log.i("AddDisposisi","onSuccess: ${response.isSuccessful}")
                 }
             }
             override fun onFailure(call: Call<UpdateDisposisiResponse>, t: Throwable) {
-                Toast.makeText(this@AddDisposisiActivity,"Gagal Menambahkan Disposisi", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@UpdateDisposisiActivity,"Gagal Update Disposisi", Toast.LENGTH_SHORT).show()
                 Log.e("AddDisposisi", "onFailure: ${t.message}")
             }
         })
@@ -94,11 +99,6 @@ class AddDisposisiActivity : AppCompatActivity(),View.OnClickListener{
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 
     override fun onClick(p0: View?) {
@@ -130,14 +130,13 @@ class AddDisposisiActivity : AppCompatActivity(),View.OnClickListener{
                                 nomorAgenda,
                                 isiDisposisi,
                                 diteruskanKepada
-                        )
+                            )
                         )
                     }
                 }
             }
         }
     }
-
     private fun submitCheckBox(): String{
         val checkBoxWakaStatus = if (binding?.checkBoxWaka?.isChecked == true) "Waka" else ""
         val checkBoxKanitReskrimStatus = if (binding?.checkBoxKanitReskrim?.isChecked == true) "Kanit Reskrim" else ""

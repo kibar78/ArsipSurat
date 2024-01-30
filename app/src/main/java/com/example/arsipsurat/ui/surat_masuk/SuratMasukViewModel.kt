@@ -11,11 +11,6 @@ import com.example.arsipsurat.utils.Event
 import kotlinx.coroutines.launch
 
 class SuratMasukViewModel(private val suratRepository: SuratRepository) : ViewModel() {
-//    private val _suratMasuk = MutableLiveData<List<SuratMasukItem?>?>()
-//    val suratMasuk : LiveData<List<SuratMasukItem?>?> = _suratMasuk
-//
-//    private val _isLoading = MutableLiveData<Boolean>()
-//    val isLoading : LiveData<Boolean> = _isLoading
 
     private val _uiStateSuratMasuk = MutableLiveData<Result<List<SuratMasukItem?>>>()
     val uiStateSuratMasuk : LiveData<Result<List<SuratMasukItem?>>> = _uiStateSuratMasuk

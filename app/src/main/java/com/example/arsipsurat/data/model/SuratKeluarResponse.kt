@@ -9,6 +9,7 @@ data class SuratKeluarResponse(
 	@field:SerializedName("surat_keluar")
 	val suratKeluar: List<SuratKeluarItem?>? = null
 )
+
 @Parcelize
 data class SuratKeluarItem(
 
@@ -21,9 +22,6 @@ data class SuratKeluarItem(
 	@field:SerializedName("no_surat")
 	val noSurat: String? = null,
 
-	@field:SerializedName("kategori")
-	val kategori: String? = null,
-
 	@field:SerializedName("lampiran")
 	val lampiran: String? = null,
 
@@ -32,6 +30,9 @@ data class SuratKeluarItem(
 
 	@field:SerializedName("tgl_catat")
 	val tglCatat: String? = null,
+
+	@field:SerializedName("kategori")
+	val kategori: String? = null,
 
 	@field:SerializedName("dikirim_kepada")
 	val dikirimKepada: String? = null,

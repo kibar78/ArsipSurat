@@ -2,23 +2,19 @@ package com.example.arsipsurat.ui.detail.surat_keluar
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
-import com.example.arsipsurat.data.model.SuratKeluar
 import com.example.arsipsurat.data.model.SuratKeluarItem
-import com.example.arsipsurat.data.model.SuratMasukItem
+import com.example.arsipsurat.data.model.user.LoginResponse
 import com.example.arsipsurat.databinding.ActivityDetailSuratKeluarBinding
 import com.example.arsipsurat.ui.detail.surat_keluar.image.SectionPagerKeluarAdapter
 import com.example.arsipsurat.ui.update.surat_keluar.UpdateSuratKeluarActivity
-import com.example.arsipsurat.ui.update.surat_masuk.UpdateSuratMasukActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
@@ -34,6 +30,8 @@ class DetailSuratKeluarActivity : AppCompatActivity() {
         )
     }
     private var suratKeluar : SuratKeluarItem? = null
+
+    private var userLogin : LoginResponse? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailSuratKeluarBinding.inflate(layoutInflater)
@@ -77,8 +75,25 @@ class DetailSuratKeluarActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater : MenuInflater = menuInflater
-        inflater.inflate(R.menu.option_menu, menu)
+        val sharedPreferences = getSharedPreferences(
+            getString(R.string.shared_preferences_name_login),
+            Context.MODE_PRIVATE
+        )
+        val gson = Gson()
+        userLogin = gson.fromJson(
+            sharedPreferences?.getString
+                (SharedPreferences.KEY_CURRENT_USER_LOGIN, ""),
+            LoginResponse::class.java
+        )
+        userLogin.let {userLogin->
+            if (userLogin?.level == "pimpinan"){
+                return false
+            }
+            else{
+                val inflater : MenuInflater = menuInflater
+                inflater.inflate(R.menu.option_menu, menu)
+            }
+        }
         return true
     }
 

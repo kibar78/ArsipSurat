@@ -2,8 +2,7 @@ package com.example.arsipsurat.data.remote
 
 import com.example.arsipsurat.data.model.DeleteSuratKeluar
 import com.example.arsipsurat.data.model.DeleteSuratMasuk
-import com.example.arsipsurat.data.model.LoginResponse
-import com.example.arsipsurat.data.model.LoginUser
+import com.example.arsipsurat.data.model.user.LoginUser
 import com.example.arsipsurat.data.model.ParamUpdateSuratKeluar
 import com.example.arsipsurat.data.model.ParamUpdateSuratMasuk
 import com.example.arsipsurat.data.model.PostSuratKeluarResponse
@@ -14,10 +13,15 @@ import com.example.arsipsurat.data.model.SuratMasuk
 import com.example.arsipsurat.data.model.SuratMasukResponse
 import com.example.arsipsurat.data.model.UpdateSuratKeluarResponse
 import com.example.arsipsurat.data.model.UpdateSuratMasukResponse
-import com.example.arsipsurat.data.model.disposisi.AddDisposisiResponse
-import com.example.arsipsurat.data.model.disposisi.ParamAddDisposisi
 import com.example.arsipsurat.data.model.disposisi.ParamUpdateDisposisi
 import com.example.arsipsurat.data.model.disposisi.UpdateDisposisiResponse
+import com.example.arsipsurat.data.model.user.LoginResponse
+import com.example.arsipsurat.data.model.user.ParamUpdateUser
+import com.example.arsipsurat.data.model.user.ReadResponse
+import com.example.arsipsurat.data.model.user.UpdateUserResponse
+import com.example.arsipsurat.data.model.user.create.CreateUserResponse
+import com.example.arsipsurat.data.model.user.create.ParamCreateUser
+import com.example.arsipsurat.data.model.user.delete.DeleteAkun
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -52,10 +56,6 @@ interface ApiService {
     suspend fun deleteSuratKeluar(@Body param: DeleteSuratKeluar): PostSuratKeluarResponse
 
     @Headers("ngrok-skip-browser-warning: 1234")
-    @POST("SURAT/user/login")
-    fun login(@Body loginUser: LoginUser): Call<LoginResponse>
-
-    @Headers("ngrok-skip-browser-warning: 1234")
     @HTTP(method = "PUT", path = "SURAT/surat_masuk/update", hasBody = true)
     fun updateSuratMasuk(@Body suratMasuk: ParamUpdateSuratMasuk): Call<UpdateSuratMasukResponse>
 
@@ -64,11 +64,26 @@ interface ApiService {
     fun updateSuratKeluar(@Body suratKeluar: ParamUpdateSuratKeluar): Call<UpdateSuratKeluarResponse>
 
     @Headers("ngrok-skip-browser-warning: 1234")
-    @POST("SURAT/disposisi/create")
-    fun postDisposisi(@Body disposisi: ParamAddDisposisi): Call<AddDisposisiResponse>
-
-    @Headers("ngrok-skip-browser-warning: 1234")
-    @HTTP(method = "PUT", path = "SURAT/disposisi/update", hasBody = true)
+    @HTTP(method = "PUT", path = "SURAT/surat_masuk/update_disposisi", hasBody = true)
     fun updateDisposisi(@Body disposisi: ParamUpdateDisposisi): Call<UpdateDisposisiResponse>
 
+    @Headers("ngrok-skip-browser-warning: 1234")
+    @POST("SURAT/user/login")
+    fun login(@Body loginUser: LoginUser): Call<LoginResponse>
+
+    @Headers("ngrok-skip-browser-warning: 1234")
+    @HTTP(method = "PUT", path = "SURAT/user/update", hasBody = true)
+    fun updateUser(@Body updateUser: ParamUpdateUser): Call<UpdateUserResponse>
+
+    @Headers("ngrok-skip-browser-warning: 123")
+    @GET("SURAT/user/read")
+    suspend fun getUser(@Query("id")id: String): ReadResponse
+
+    @Headers("ngrok-skip-browser-warning: 1234")
+    @POST("SURAT/user/create")
+    fun createUser(@Body user: ParamCreateUser): Call<CreateUserResponse>
+
+    @Headers("ngrok-skip-browser-warning: 1234")
+    @HTTP(method = "DELETE", path = "SURAT/user/delete", hasBody = true)
+    suspend fun deleteUser(@Body param: DeleteAkun): CreateUserResponse
 }

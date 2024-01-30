@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.model.SuratMasukItem
+import com.example.arsipsurat.data.model.user.LoginResponse
 import com.example.arsipsurat.databinding.ItemSuratBinding
 import com.example.arsipsurat.ui.detail.surat_masuk.DetailSuratMasukActivity
 import com.google.gson.Gson
 
-class SuratMasukAdapter() : RecyclerView.Adapter<SuratMasukAdapter.ViewHolder>() {
+class SuratMasukAdapter: RecyclerView.Adapter<SuratMasukAdapter.ViewHolder>() {
 
     class ViewHolder(var binding: ItemSuratBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -49,7 +50,6 @@ class SuratMasukAdapter() : RecyclerView.Adapter<SuratMasukAdapter.ViewHolder>()
             val intent = Intent(v.context, DetailSuratMasukActivity::class.java)
             v.context.startActivity(intent)
         }
-
         holder.itemView.setOnLongClickListener {
             onLongClick(listSuratMasuk[position]!!)
             return@setOnLongClickListener true

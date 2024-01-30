@@ -1,6 +1,7 @@
 package com.example.arsipsurat.ui.profile
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -17,8 +18,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
-import com.example.arsipsurat.data.model.LoginResponse
-import com.example.arsipsurat.data.model.SuratKeluarItem
+import com.example.arsipsurat.data.model.user.LoginResponse
 import com.example.arsipsurat.databinding.FragmentProfileBinding
 import com.google.gson.Gson
 
@@ -32,6 +32,8 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding
 
     private lateinit var viewModel: ProfileViewModel
+
+    private var userLogin : LoginResponse? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,27 +57,72 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding?.btnEditProfile?.setOnClickListener {
+            val intent = Intent(requireActivity(), EditProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         val sharedPreferences = context?.getSharedPreferences(
             getString(R.string.shared_preferences_name_login),
             Context.MODE_PRIVATE
         )
         val gson = Gson()
-        val listUser = gson.fromJson(
+        userLogin = gson.fromJson(
             sharedPreferences?.getString
                 (SharedPreferences.KEY_CURRENT_USER_LOGIN, ""),
             LoginResponse::class.java
         )
 
-        listUser.let {
-            binding?.tvUsername?.text = listUser.username
-            binding?.tvEmail?.text = listUser.email
-            binding?.tvNoHp?.text = listUser.noHp
-            binding?.tvBidangPekerjaan?.text = listUser.bidangPekerjaan
-            binding?.tvNamaLengkap?.text = listUser.namaLengkap
-            Glide.with(binding?.ivProfile!!)
-                .load(listUser.imageProfile)
-                .into(binding?.ivProfile!!)
-        }
+        userLogin.let { userLogin->
+            binding?.tvUsername?.text = userLogin?.username
+            binding?.tvPassword?.text = userLogin?.password
+            binding?.tvLevel?.text = userLogin?.level
+            binding?.tvEmail?.text = userLogin?.email
+            binding?.tvNoHp?.text = userLogin?.noHp
+            binding?.tvBidangPekerjaan?.text = userLogin?.bidangPekerjaan
+            binding?.tvNamaLengkap?.text = userLogin?.namaLengkap
 
+            val imageArgs = userLogin?.imageProfile ?: ""
+
+            var image = if (Patterns.WEB_URL.matcher(imageArgs).matches()) {
+                imageArgs
+            }
+            else {
+                Base64.decode(imageArgs, Base64.DEFAULT)
+            }
+
+            binding?.ivProfile?.let {
+                Glide.with(binding?.ivProfile!!)
+                    .load(image)
+                    .listener(object : RequestListener<Drawable>{
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable>,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            model: Any,
+                            target: Target<Drawable>?,
+                            dataSource: DataSource,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            image = null
+                            return false
+                        }
+
+                    })
+                    .into(it)
+            }
+        }
     }
 }
