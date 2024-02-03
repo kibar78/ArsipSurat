@@ -6,40 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.model.surat_masuk.SuratMasukItem
-import com.example.arsipsurat.data.remote.ApiConfig
-import com.example.arsipsurat.databinding.FragmentImageBinding
+import com.example.arsipsurat.databinding.FragmentDetailSuratMasukBinding
 import com.google.gson.Gson
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [SuratFragment.newInstance] factory method to
+ * Use the [DetailSuratMasukFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SuratFragment : Fragment() {
-    private var _binding : FragmentImageBinding? = null
-    private val binding get() = _binding
+class DetailSuratMasukFragment : Fragment() {
 
+    private var _binding: FragmentDetailSuratMasukBinding? = null
+    private val binding get() = _binding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        _binding = FragmentImageBinding.inflate(inflater,container,false)
+        _binding = FragmentDetailSuratMasukBinding.inflate(inflater,container,false)
         return binding?.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,30 +39,36 @@ class SuratFragment : Fragment() {
         val gson = Gson()
         val suratMasuk = gson.fromJson(sharedPreferences?.getString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, ""), SuratMasukItem::class.java)
 
-        val imageUrl = ApiConfig.BASE_URL + IMAGE_SURAT
-        val image = imageUrl + "/" + suratMasuk.imageSurat
-        binding?.ivSuratMasuk.let {
-                Glide.with(requireActivity())
-                    .load(image)
-                    .into(binding?.ivSuratMasuk!!)
+        suratMasuk.let {suratMasukItem ->
+            binding?.tvTanggalPenerimaan?.text = suratMasukItem.tglPenerimaan
+            binding?.tvTglSurat?.text = suratMasukItem.tglSurat
+            binding?.tvNoSurat?.text = suratMasukItem.noSurat
+            binding?.tvKategoriSurat?.text = suratMasukItem.kategori
+            binding?.tvDariMana?.text = suratMasukItem.dariMana
+            binding?.tvPerihal?.text = suratMasukItem.perihal
+            binding?.tvKeterangan?.text = suratMasukItem.keterangan
 
+            //Disposisi
+            binding?.tvKlasifikasi?.text = suratMasukItem.klasifikasi
+            binding?.tvDerajat?.text = suratMasukItem.derajat
+            binding?.tvNomorAgenda?.text = suratMasukItem.nomorAgenda
+            binding?.tvIsiDisposisi?.text = suratMasukItem.isiDisposisi
+            binding?.tvDiteruskanKepada?.text = suratMasukItem.diteruskanKepada
         }
     }
 
-
     companion object {
-        const val IMAGE_SURAT = "/SURAT/assets/surat_masuk"
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment ImageFragment.
+         * @return A new instance of fragment DetailSuratMasukFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SuratFragment()
+        fun newInstance() =
+            DetailSuratMasukFragment
     }
 }

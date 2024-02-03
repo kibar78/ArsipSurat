@@ -15,7 +15,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.model.PostSuratMasukResponse
-import com.example.arsipsurat.data.model.SuratMasuk
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ActivityAddSuratMasukBinding
 import com.example.arsipsurat.ui.insert.upload.UploadRequestBody
@@ -29,7 +28,6 @@ import retrofit2.Response
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -114,13 +112,10 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                 datePickerFragment.show(supportFragmentManager, DATE_SURAT_PICKER_TAG)
             }
             R.id.btn_submit->{
-                val tglPenerimaan = binding?.btnTglPenerimaan?.text.toString()
-                val tglSurat = binding?.btnTglSurat?.text.toString()
                 val noSurat = binding?.edtNoSurat?.text.toString()
                 val asalSurat = binding?.edtAsalSurat?.text.toString()
                 val perihal = binding?.edtPerihal?.text.toString()
                 val keterangan = binding?.edtKeterangan?.text.toString()
-                val category = binding?.autoCompleteTextView?.text.toString()
 
                 doUploadImage(
                     binding?.btnTglPenerimaan?.text.toString(),
@@ -153,8 +148,6 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                         isEmptyFields = true
                         binding?.edtKeterangan?.error = "Tidak Boleh Kosong"
                     }
-                    else->{
-                    }
                 }
             }
         }
@@ -167,9 +160,8 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                              kategori: String,
                              dariMana: String,
                              perihal: String,
-                             keterangan: String,
+                             keterangan: String
                               ){
-
         if (selectedImageSurat == null || selectedImageLampiran == null) {
             Toast.makeText(applicationContext, "Pilih gambar terlebih dahulu", Toast.LENGTH_SHORT).show()
             return
@@ -190,8 +182,8 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
             inputStreamSurat.copyTo(outputStream2)
 
         binding?.progressBar?.progress = 0
-        val imageLampiran = UploadRequestBody(fileLampiran,"image", this)
-        val imageSurat = UploadRequestBody(fileSurat,"image", this)
+        val imageLampiran = UploadRequestBody(fileLampiran,"lampiran", this)
+        val imageSurat = UploadRequestBody(fileSurat,"image_surat", this)
 
         val ctglPenerimaan = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),tglPenerimaan)
         val ctglSurat = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),tglSurat)
@@ -201,7 +193,7 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         val cperihal = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),perihal)
         val cketerangan = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),keterangan)
         val lampiranPart = MultipartBody.Part.createFormData("lampiran", fileLampiran.name, imageLampiran)
-        val imageSuratPart = MultipartBody.Part.createFormData("imageSurat", fileSurat.name, imageSurat)
+        val imageSuratPart = MultipartBody.Part.createFormData("image_surat", fileSurat.name, imageSurat)
 
         ApiConfig.getApiService().createSuratMasuk(
             ctglPenerimaan,
@@ -222,9 +214,11 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                 if (response.isSuccessful){
                     Toast.makeText(this@AddSuratMasukActivity,"Berhasil Menambahkan Surat Masuk", Toast.LENGTH_SHORT).show()
                     Log.i("AddSuratMasuk","onSuccess: ${response.isSuccessful}")
+                    finish()
+                }else{
+                    Toast.makeText(this@AddSuratMasukActivity,"Gagal Menambahkan Surat Masuk", Toast.LENGTH_SHORT).show()
                 }
             }
-
             override fun onFailure(call: Call<PostSuratMasukResponse>, t: Throwable) {
                 Log.e("AddSuratMasuk", "onFailure: ${t.message}")
             }
@@ -241,26 +235,6 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
             returnCursor.close()
         }
         return name
-    }
-
-    private fun postSuratMasuk(suratMasuk: SuratMasuk) {
-        val client = ApiConfig.getApiService().postSuratMasuk(suratMasuk)
-        client.enqueue(object : Callback<PostSuratMasukResponse>{
-            override fun onResponse(
-                call: Call<PostSuratMasukResponse>,
-                response: Response<PostSuratMasukResponse>
-            ) {
-                val responseBody = response.body()
-                if (response.isSuccessful && responseBody != null){
-                    Toast.makeText(this@AddSuratMasukActivity,"Berhasil Menambahkan Surat Masuk", Toast.LENGTH_SHORT).show()
-                    finish()
-                    Log.i("AddSuratMasuk","onSuccess: ${response.isSuccessful}")
-                }
-            }
-            override fun onFailure(call: Call<PostSuratMasukResponse>, t: Throwable) {
-                Log.e("AddSuratMasuk", "onFailure: ${t.message}")
-            }
-        })
     }
 
     override fun onDestroy() {

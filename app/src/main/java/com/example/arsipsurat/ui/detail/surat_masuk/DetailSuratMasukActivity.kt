@@ -24,14 +24,15 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 
-class DetailSuratMasukActivity : AppCompatActivity(), View.OnClickListener {
+class DetailSuratMasukActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityDetailSuratMasukBinding
 
     companion object{
         private val TAB_TITLES = intArrayOf(
             R.string.tab_text_1,
-            R.string.tab_text_2
+            R.string.tab_text_2,
+            R.string.tab_text_3,
         )
     }
 
@@ -48,27 +49,7 @@ class DetailSuratMasukActivity : AppCompatActivity(), View.OnClickListener {
         actionBar!!.title = "Detail Surat Masuk"
         actionBar.setDisplayHomeAsUpEnabled(true)
 
-        binding.btnLihatDisposisi.setOnClickListener(this)
 
-
-        val sharedPreferences = getSharedPreferences(
-            getString(R.string.shared_preferences_name_login),
-            Context.MODE_PRIVATE
-        )
-        val gson = Gson()
-        userLogin = gson.fromJson(
-            sharedPreferences?.getString
-                (SharedPreferences.KEY_CURRENT_USER_LOGIN, ""),
-            LoginResponse::class.java)
-
-        userLogin.let { userLogin->
-            if (userLogin?.level == "admin"){
-                binding.btnAddDisposisi.isVisible = false
-            }
-            else{
-                binding.btnAddDisposisi.setOnClickListener(this)
-            }
-        }
     }
 
     override fun onResume() {
@@ -78,28 +59,20 @@ class DetailSuratMasukActivity : AppCompatActivity(), View.OnClickListener {
             Context.MODE_PRIVATE
         )
         val gson = Gson()
+
         suratMasuk = gson.fromJson(sharedPreferences.getString(
             SharedPreferences.KEY_CURRENT_SURAT_MASUK, ""),
             SuratMasukItem::class.java)
 
-        suratMasuk?.let { suratMasuk ->
-            binding.tvTanggalPenerimaan.text = suratMasuk.tglPenerimaan
-            binding.tvTglSurat.text = suratMasuk.tglSurat
-            binding.tvNoSurat.text = suratMasuk.noSurat
-            binding.tvKategoriSurat.text = suratMasuk.kategori
-            binding.tvDariMana.text = suratMasuk.dariMana
-            binding.tvPerihal.text = suratMasuk.perihal
-            binding.tvKeterangan.text = suratMasuk.keterangan
-
             val sectionsPagerAdapter = SectionsPagerAdapter(this)
             sectionsPagerAdapter.image = suratMasuk
-            val viewPager: ViewPager2 = findViewById(R.id.view_pager)
+            val viewPager: ViewPager2 = binding.viewPager
             viewPager.adapter = sectionsPagerAdapter
-            val tabs: TabLayout = findViewById(R.id.tabs)
+            val tabs: TabLayout = binding.tabs
             TabLayoutMediator(tabs, viewPager) { tab, position ->
                 tab.text = resources.getString(TAB_TITLES[position])
             }.attach()
-        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -137,24 +110,5 @@ class DetailSuratMasukActivity : AppCompatActivity(), View.OnClickListener {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
-    }
-
-    override fun onClick(p0: View?) {
-        when(p0?.id){
-            R.id.btn_lihat_disposisi->{
-                val detailDisposisi = Intent(this, DisposisiActivity::class.java)
-                startActivity(detailDisposisi)
-                finish()
-            }
-            R.id.btn_add_disposisi->{
-                if (suratMasuk?.klasifikasi == ""){
-                    val addDisposisi = Intent(this, AddDisposisiActivity::class.java)
-                    startActivity(addDisposisi)
-                    finish()
-                }else{
-                    Toast.makeText(this,"Disposisi Sudah Dibuat", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
     }
 }

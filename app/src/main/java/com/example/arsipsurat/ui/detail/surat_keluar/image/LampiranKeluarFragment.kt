@@ -17,7 +17,9 @@ import com.bumptech.glide.request.target.Target
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.model.SuratKeluarItem
+import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.FragmentLampiran2Binding
+import com.example.arsipsurat.ui.detail.surat_masuk.image.LampiranFragment
 import com.google.gson.Gson
 
 // TODO: Rename parameter arguments, choose names that match
@@ -60,46 +62,18 @@ class LampiranKeluarFragment : Fragment() {
         val gson = Gson()
         val suratKeluar = gson.fromJson(sharedPreferences?.getString(SharedPreferences.KEY_CURRENT_SURAT_KELUAR, ""), SuratKeluarItem::class.java)
 
-        val imageArgs = suratKeluar.lampiran ?: ""
-
-        var image = if (Patterns.WEB_URL.matcher(imageArgs).matches()) {
-            imageArgs
-        }
-        else {
-            Base64.decode(imageArgs, Base64.DEFAULT)
-        }
-
-        binding?.ivLampiran?.let {
-            Glide.with(binding?.ivLampiran!!)
+        val imageUrl = ApiConfig.BASE_URL + IMAGE_LAMPIRAN
+        val image = imageUrl + "/" + suratKeluar.lampiran
+        binding?.ivLampiran.let {
+            Glide.with(requireActivity())
                 .load(image)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        image = null
-                        return false
-                    }
-
-                })
-                .into(it)
+                .into(binding?.ivLampiran!!)
         }
+
     }
 
     companion object {
-        const val IMAGE_LAMPIRAN = "image_lampiran"
+        const val IMAGE_LAMPIRAN = "/SURAT/assets/surat_keluar"
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.

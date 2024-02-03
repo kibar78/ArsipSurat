@@ -123,70 +123,81 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="8dp">
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/surat"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/iv_surat"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/iv_surat"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <ImageView
                 android:id="@+id/iv_surat"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="8dp"
                 android:padding="5dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
                 app:srcCompat="@drawable/baseline_image_24" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_surat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/baseline_add_a_photo_24"
-                android:tint="@color/black"
-                android:backgroundTint="@color/black"
-                android:text="@string/surat"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/iv_surat" />
-
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/lampiran"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/iv_lampiran"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/iv_lampiran"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <ImageView
                 android:id="@+id/iv_lampiran"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
+                android:padding="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                app:layout_constraintTop_toBottomOf="@+id/textView4"
                 app:srcCompat="@drawable/baseline_image_24" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_lampiran"
+            <TextView
+                android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/baseline_add_a_photo_24"
-                android:tint="@color/black"
-                android:backgroundTint="@color/black"
-                android:text="@string/lampiran"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_lampiran"
-                app:layout_constraintEnd_toEndOf="@+id/iv_lampiran" />
+                android:text="@string/tap_to_select_image"
+                app:layout_constraintEnd_toEndOf="@+id/iv_surat"
+                app:layout_constraintStart_toStartOf="@+id/iv_surat"
+                app:layout_constraintTop_toBottomOf="@+id/iv_surat" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tap_to_select_image"
+                app:layout_constraintEnd_toEndOf="@+id/iv_lampiran"
+                app:layout_constraintStart_toStartOf="@+id/iv_lampiran"
+                app:layout_constraintTop_toBottomOf="@+id/iv_lampiran" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+                tools:progress="40"
+                android:progressBackgroundTint="@color/brown"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button

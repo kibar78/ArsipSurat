@@ -19,6 +19,7 @@ import com.bumptech.glide.request.target.Target
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.model.user.LoginResponse
+import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.FragmentProfileBinding
 import com.google.gson.Gson
 
@@ -26,6 +27,7 @@ class ProfileFragment : Fragment() {
 
     companion object {
         fun newInstance() = ProfileFragment()
+        private const val GET_IMAGE_PROFILE = "/SURAT/assets/user"
     }
 
     private var _binding : FragmentProfileBinding? = null
@@ -87,41 +89,13 @@ class ProfileFragment : Fragment() {
             binding?.tvBidangPekerjaan?.text = userLogin?.bidangPekerjaan
             binding?.tvNamaLengkap?.text = userLogin?.namaLengkap
 
-            val imageArgs = userLogin?.imageProfile ?: ""
-
-            var image = if (Patterns.WEB_URL.matcher(imageArgs).matches()) {
-                imageArgs
-            }
-            else {
-                Base64.decode(imageArgs, Base64.DEFAULT)
-            }
-
-            binding?.ivProfile?.let {
-                Glide.with(binding?.ivProfile!!)
+            val imageUrl = ApiConfig.BASE_URL + GET_IMAGE_PROFILE
+            val image = imageUrl + "/" + userLogin?.imageProfile
+            binding?.ivProfile.let {
+                Glide.with(this)
                     .load(image)
-                    .listener(object : RequestListener<Drawable>{
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable>,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            return false
-                        }
+                    .into(binding?.ivProfile!!)
 
-                        override fun onResourceReady(
-                            resource: Drawable,
-                            model: Any,
-                            target: Target<Drawable>?,
-                            dataSource: DataSource,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            image = null
-                            return false
-                        }
-
-                    })
-                    .into(it)
             }
         }
     }

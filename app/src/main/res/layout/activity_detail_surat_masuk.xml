@@ -11,134 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TableLayout
-            android:id="@+id/tableLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:stretchColumns="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/tgl_penerimaan" />
-
-                <TextView
-                    android:id="@+id/tv_tanggal_penerimaan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dip"
-                    android:text="@string/tgl_penerimaan"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/tanggal_surat" />
-
-                <TextView
-                    android:id="@+id/tv_tgl_surat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dip"
-                    android:text="@string/tanggal_surat"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/no_surat" />
-
-                <TextView
-                    android:id="@+id/tv_no_surat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dip"
-                    android:text="@string/no_surat"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/asal_surat" />
-
-                <TextView
-                    android:id="@+id/tv_dari_mana"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:maxLines="2"
-                    android:padding="6dip"
-                    android:text="@string/asal_surat"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/kategori_surat" />
-
-                <TextView
-                    android:id="@+id/tv_kategori_surat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dip"
-                    android:text="@string/kategori_surat"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/perihal" />
-
-                <TextView
-                    android:id="@+id/tv_perihal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:maxLines="3"
-                    android:padding="6dip"
-                    android:text="@string/perihal"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/keterangan" />
-
-                <TextView
-                    android:id="@+id/tv_keterangan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dip"
-                    android:text="@string/keterangan"
-                    android:textStyle="bold" />
-            </TableRow>
-        </TableLayout>
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/btn_add_disposisi"
+            app:layout_constraintTop_toTopOf="parent"
             app:tabTextColor="@color/black" />
 
         <androidx.viewpager2.widget.ViewPager2
@@ -150,28 +29,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tabs" />
-
-        <Button
-            android:id="@+id/btn_add_disposisi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/buat_disposisi"
-            app:layout_constraintBottom_toTopOf="@+id/tabs"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
-
-        <Button
-            android:id="@+id/btn_lihat_disposisi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/lihat_disposisi"
-            app:layout_constraintBottom_toTopOf="@+id/tabs"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -31,17 +31,16 @@ import retrofit2.http.HTTP
 import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface ApiService {
+
+    //Suart Masuk
     @Headers("ngrok-skip-browser-warning: 123")
     @GET("SURAT/surat_masuk/search")
     suspend fun getPerihalMasuk(@Query("perihal")perihalSuratMasuk: String): SuratMasukResponse
-
-    @Headers("ngrok-skip-browser-warning: 1234")
-    @POST("SURAT/surat_masuk/create")
-    fun postSuratMasuk(@Body suratMasuk: SuratMasuk): Call<PostSuratMasukResponse>
 
     @Multipart
     @Headers("ngrok-skip-browser-warning: 1234")
@@ -58,41 +57,88 @@ interface ApiService {
         @Part imageSurat : MultipartBody.Part?
     ): Call<PostSuratMasukResponse>
 
-    @Headers("ngrok-skip-browser-warning: 123")
-    @GET("SURAT/surat_keluar/search")
-    suspend fun getPerihalKeluar(@Query("perihal")perihalSuratKeluar: String): SuratKeluarResponse
-
+    @Multipart
     @Headers("ngrok-skip-browser-warning: 1234")
-    @POST("SURAT/surat_keluar/create")
-    fun postSuratkeluar(@Body suratKeluar: SuratKeluar): Call<PostSuratKeluarResponse>
+    @PUT("SURAT/surat_masuk/update")
+    fun updateSuratMasuk(
+        @Part("id") id: RequestBody,
+        @Part("tgl_penerimaan") tglPenerimaan: RequestBody,
+        @Part("tgl_surat") tglSurat: RequestBody,
+        @Part("no_surat") noSurat: RequestBody,
+        @Part("kategori") kategori: RequestBody,
+        @Part("dari_mana") dariMana: RequestBody,
+        @Part("perihal") perihal: RequestBody,
+        @Part("keterangan") keterangan: RequestBody,
+        @Part lampiran: MultipartBody.Part?,
+        @Part imageSurat: MultipartBody.Part?
+    ): Call<UpdateSuratMasukResponse>
 
     @Headers("ngrok-skip-browser-warning: 1234")
     @HTTP(method = "DELETE", path = "SURAT/surat_masuk/delete", hasBody = true)
     suspend fun deleteSuratMasuk(@Body param: DeleteSuratMasuk): PostSuratMasukResponse
+
+
+    //Surat Keluar
+    @Headers("ngrok-skip-browser-warning: 123")
+    @GET("SURAT/surat_keluar/search")
+    suspend fun getPerihalKeluar(@Query("perihal")perihalSuratKeluar: String): SuratKeluarResponse
+
+    @Multipart
+    @Headers("ngrok-skip-browser-warning: 1234")
+    @POST("SURAT/surat_keluar/create")
+    fun createSuratKeluar(
+        @Part("tgl_catat") tglCatat: RequestBody,
+        @Part("tgl_surat") tglSurat: RequestBody,
+        @Part("no_surat") noSurat: RequestBody,
+        @Part("kategori") kategori: RequestBody,
+        @Part("dikirim_kepada") dikirimKepada: RequestBody,
+        @Part("perihal") perihal: RequestBody,
+        @Part("keterangan") keterangan: RequestBody,
+        @Part lampiran : MultipartBody.Part?,
+        @Part imageSurat : MultipartBody.Part?
+    ): Call<PostSuratKeluarResponse>
+
+    @Multipart
+    @Headers("ngrok-skip-browser-warning: 1234")
+    @PUT("SURAT/surat_keluar/update")
+    fun updateSuratKeluar(
+        @Part("id") id: RequestBody,
+        @Part("tgl_penerimaan") tglPenerimaan: RequestBody,
+        @Part("tgl_surat") tglSurat: RequestBody,
+        @Part("no_surat") noSurat: RequestBody,
+        @Part("kategori") kategori: RequestBody,
+        @Part("dari_mana") dariMana: RequestBody,
+        @Part("perihal") perihal: RequestBody,
+        @Part("keterangan") keterangan: RequestBody,
+        @Part lampiran: MultipartBody.Part?,
+        @Part imageSurat: MultipartBody.Part?
+    ): Call<UpdateSuratKeluarResponse>
 
     @Headers("ngrok-skip-browser-warning: 1234")
     @HTTP(method = "DELETE", path = "SURAT/surat_keluar/delete", hasBody = true)
     suspend fun deleteSuratKeluar(@Body param: DeleteSuratKeluar): PostSuratKeluarResponse
 
     @Headers("ngrok-skip-browser-warning: 1234")
-    @HTTP(method = "PUT", path = "SURAT/surat_masuk/update", hasBody = true)
-    fun updateSuratMasuk(@Body suratMasuk: ParamUpdateSuratMasuk): Call<UpdateSuratMasukResponse>
-
-    @Headers("ngrok-skip-browser-warning: 1234")
-    @HTTP(method = "PUT", path = "SURAT/surat_keluar/update", hasBody = true)
-    fun updateSuratKeluar(@Body suratKeluar: ParamUpdateSuratKeluar): Call<UpdateSuratKeluarResponse>
-
-    @Headers("ngrok-skip-browser-warning: 1234")
     @HTTP(method = "PUT", path = "SURAT/surat_masuk/update_disposisi", hasBody = true)
     fun updateDisposisi(@Body disposisi: ParamUpdateDisposisi): Call<UpdateDisposisiResponse>
 
+    //login
     @Headers("ngrok-skip-browser-warning: 1234")
     @POST("SURAT/user/login")
     fun login(@Body loginUser: LoginUser): Call<LoginResponse>
 
     @Headers("ngrok-skip-browser-warning: 1234")
-    @HTTP(method = "PUT", path = "SURAT/user/update", hasBody = true)
-    fun updateUser(@Body updateUser: ParamUpdateUser): Call<UpdateUserResponse>
+    @PUT("SURAT/user/update")
+    fun updateUser(
+        @Part("id") id: RequestBody,
+        @Part("username") username: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("nama_lengkap") namaLengkap: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("no_hp") noHp: RequestBody,
+        @Part("level") level: RequestBody,
+        @Part imageProfile : MultipartBody.Part?
+    ): Call<UpdateUserResponse>
 
     @Headers("ngrok-skip-browser-warning: 123")
     @GET("SURAT/user/read")
