@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
-import com.example.arsipsurat.data.model.SuratMasukItem
-import com.example.arsipsurat.data.model.user.LoginResponse
+import com.example.arsipsurat.data.model.surat_masuk.SuratMasukItem
+import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ItemSuratBinding
 import com.example.arsipsurat.ui.detail.surat_masuk.DetailSuratMasukActivity
 import com.google.gson.Gson
 
 class SuratMasukAdapter: RecyclerView.Adapter<SuratMasukAdapter.ViewHolder>() {
-
     class ViewHolder(var binding: ItemSuratBinding) : RecyclerView.ViewHolder(binding.root)
 
     var onLongClick : (suratMasukItem: SuratMasukItem) -> Unit = {}
@@ -36,6 +35,7 @@ class SuratMasukAdapter: RecyclerView.Adapter<SuratMasukAdapter.ViewHolder>() {
         holder.binding.tvTanggalSurat.text = tgl_surat
         holder.binding.tvPerihal.text = perihal
         holder.binding.tvKeterangan.text = keterangan
+
 
         holder.itemView.setOnClickListener { v ->
             val sharedPreferences = v.context.getSharedPreferences(

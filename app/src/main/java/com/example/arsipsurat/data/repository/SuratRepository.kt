@@ -4,9 +4,8 @@ import com.example.arsipsurat.data.model.DeleteSuratKeluar
 import com.example.arsipsurat.data.model.DeleteSuratMasuk
 import com.example.arsipsurat.data.model.SuratKeluarItem
 import com.example.arsipsurat.data.model.SuratKeluarResponse
-import com.example.arsipsurat.data.model.SuratMasukItem
-import com.example.arsipsurat.data.model.SuratMasukResponse
-import com.example.arsipsurat.data.model.user.LoginResponse
+import com.example.arsipsurat.data.model.surat_masuk.SuratMasukItem
+import com.example.arsipsurat.data.model.surat_masuk.SuratMasukResponse
 import com.example.arsipsurat.data.model.user.ReadResponse
 import com.example.arsipsurat.data.model.user.UserItem
 import com.example.arsipsurat.data.model.user.delete.DeleteAkun

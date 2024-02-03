@@ -11,17 +11,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
-import com.example.arsipsurat.data.model.SuratMasukItem
 import com.example.arsipsurat.data.model.disposisi.ParamUpdateDisposisi
 import com.example.arsipsurat.data.model.disposisi.UpdateDisposisiResponse
+import com.example.arsipsurat.data.model.surat_masuk.SuratMasukItem
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ActivityAddDisposisiBinding
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.Calendar
-import java.util.Locale
 
 class AddDisposisiActivity : AppCompatActivity(),View.OnClickListener{
 

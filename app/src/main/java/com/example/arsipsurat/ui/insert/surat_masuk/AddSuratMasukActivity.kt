@@ -1,11 +1,12 @@
 package com.example.arsipsurat.ui.insert.surat_masuk
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Intent
-import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Base64
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
@@ -17,17 +18,24 @@ import com.example.arsipsurat.data.model.PostSuratMasukResponse
 import com.example.arsipsurat.data.model.SuratMasuk
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ActivityAddSuratMasukBinding
+import com.example.arsipsurat.ui.insert.upload.UploadRequestBody
 import com.example.arsipsurat.utils.DatePickerFragment
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
-    DatePickerFragment.DialogDateListener{
+    DatePickerFragment.DialogDateListener, UploadRequestBody.UploadCallback{
 
     companion object{
         private const val DATE_PENERIMAAN_PICKER_TAG = "DatePickerPenerimaan"
@@ -39,9 +47,9 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
 
     private var _binding: ActivityAddSuratMasukBinding? = null
     private val binding get() = _binding
-    private var base64Lampiran = ""
-    private var base64Surat = ""
 
+    private var selectedImageSurat: Uri? = null
+    private var selectedImageLampiran: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAddSuratMasukBinding.inflate(layoutInflater)
@@ -56,14 +64,12 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         binding?.btnTglSurat?.setOnClickListener(this)
         binding?.btnSubmit?.setOnClickListener(this)
 
-        binding?.btnSurat?.setOnClickListener {
-            var i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(i, IMAGE_SURAT_PICKCODE)
+        binding?.ivSurat?.setOnClickListener {
+            openImageSurat()
         }
 
-        binding?.btnLampiran?.setOnClickListener {
-            var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, IMAGE_LAMPIRAN_PICKCODE)
+        binding?.ivLampiran?.setOnClickListener {
+            openImageLampiran()
         }
         val category = arrayOf("Surat Keputusan","Surat Permohonan","Surat Kuasa",
             "Surat Pengantar","Surat Perintah","Surat Undangan","Surat Edaran")
@@ -71,35 +77,29 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         (binding?.textField?.editText as? AutoCompleteTextView)?.setAdapter(adapter)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == IMAGE_SURAT_PICKCODE) {
-                val bmp = data?.extras?.get("data") as? Bitmap
-                binding?.ivSurat?.setImageBitmap(bmp)
-                val base64String = bitmapToBase64(bmp)
-                base64Surat = base64String
-                Log.d("Base64", base64String)
-            }
-            else if (requestCode == IMAGE_LAMPIRAN_PICKCODE) {
-                val bmp = data?.extras?.get("data") as? Bitmap
-                binding?.ivLampiran?.setImageBitmap(bmp)
-                val base64String = bitmapToBase64(bmp)
-                base64Lampiran = base64String
-                Log.d("Base64", base64String)
-            }
-        }
-
-        super.onActivityResult(requestCode, resultCode, data)
-
+    private fun openImageSurat(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_SURAT_PICKCODE)
     }
-    fun bitmapToBase64(bitmap: Bitmap?): String {
-        bitmap?.let {
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            it.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
-            val byteArray = byteArrayOutputStream.toByteArray()
-            return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    private fun openImageLampiran(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_LAMPIRAN_PICKCODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK){
+            if (requestCode == IMAGE_SURAT_PICKCODE) {
+                selectedImageSurat = data?.data
+                binding?.ivSurat?.setImageURI(selectedImageSurat)
+            }
+            else if (requestCode == IMAGE_LAMPIRAN_PICKCODE){
+                selectedImageLampiran = data?.data
+                binding?.ivLampiran?.setImageURI(selectedImageLampiran)
+            }
         }
-        return ""
     }
 
     override fun onClick(p0: View?) {
@@ -121,6 +121,16 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                 val perihal = binding?.edtPerihal?.text.toString()
                 val keterangan = binding?.edtKeterangan?.text.toString()
                 val category = binding?.autoCompleteTextView?.text.toString()
+
+                doUploadImage(
+                    binding?.btnTglPenerimaan?.text.toString(),
+                    binding?.btnTglSurat?.text.toString(),
+                    binding?.edtNoSurat?.text.toString(),
+                    binding?.autoCompleteTextView?.text.toString(),
+                    binding?.edtAsalSurat?.text.toString(),
+                    binding?.edtPerihal?.text.toString(),
+                    binding?.edtKeterangan?.text.toString(),
+                )
 
                 var isEmptyFields = false
                 when {
@@ -144,13 +154,93 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                         binding?.edtKeterangan?.error = "Tidak Boleh Kosong"
                     }
                     else->{
-                        postSuratMasuk(suratMasuk = SuratMasuk(
-                            tglPenerimaan,tglSurat,noSurat,category,base64Lampiran,asalSurat,perihal,keterangan,base64Surat)
-                        )
                     }
                 }
             }
         }
+    }
+
+   @SuppressLint("Recycle")
+   private fun doUploadImage(tglPenerimaan: String,
+                             tglSurat: String,
+                             noSurat: String,
+                             kategori: String,
+                             dariMana: String,
+                             perihal: String,
+                             keterangan: String,
+                              ){
+
+        if (selectedImageSurat == null || selectedImageLampiran == null) {
+            Toast.makeText(applicationContext, "Pilih gambar terlebih dahulu", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val parcelFileDescriptor =
+            contentResolver.openFileDescriptor(selectedImageLampiran!!, "r",null)?: return
+           val inputStreamLampiran = FileInputStream(parcelFileDescriptor.fileDescriptor)
+           val fileLampiran = File(cacheDir,contentResolver.getFileName(selectedImageLampiran!!))
+           val outputStream = FileOutputStream(fileLampiran)
+           inputStreamLampiran.copyTo(outputStream)
+
+       val parcelFileDescriptor2 =
+           contentResolver.openFileDescriptor(selectedImageSurat!!,"r",null)?: return
+            val inputStreamSurat = FileInputStream(parcelFileDescriptor2.fileDescriptor)
+            val fileSurat = File(cacheDir,contentResolver.getFileName(selectedImageSurat!!))
+            val outputStream2 = FileOutputStream(fileSurat)
+            inputStreamSurat.copyTo(outputStream2)
+
+        binding?.progressBar?.progress = 0
+        val imageLampiran = UploadRequestBody(fileLampiran,"image", this)
+        val imageSurat = UploadRequestBody(fileSurat,"image", this)
+
+        val ctglPenerimaan = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),tglPenerimaan)
+        val ctglSurat = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),tglSurat)
+        val cnoSurat = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),noSurat)
+        val ccategory = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),kategori)
+        val casalSurat = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),dariMana)
+        val cperihal = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),perihal)
+        val cketerangan = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),keterangan)
+        val lampiranPart = MultipartBody.Part.createFormData("lampiran", fileLampiran.name, imageLampiran)
+        val imageSuratPart = MultipartBody.Part.createFormData("imageSurat", fileSurat.name, imageSurat)
+
+        ApiConfig.getApiService().createSuratMasuk(
+            ctglPenerimaan,
+            ctglSurat,
+            cnoSurat,
+            ccategory,
+            casalSurat,
+            cperihal,
+            cketerangan,
+            lampiranPart,
+            imageSuratPart
+        ).
+        enqueue(object :Callback<PostSuratMasukResponse>{
+            override fun onResponse(
+                call: Call<PostSuratMasukResponse>,
+                response: Response<PostSuratMasukResponse>
+            ) {
+                if (response.isSuccessful){
+                    Toast.makeText(this@AddSuratMasukActivity,"Berhasil Menambahkan Surat Masuk", Toast.LENGTH_SHORT).show()
+                    Log.i("AddSuratMasuk","onSuccess: ${response.isSuccessful}")
+                }
+            }
+
+            override fun onFailure(call: Call<PostSuratMasukResponse>, t: Throwable) {
+                Log.e("AddSuratMasuk", "onFailure: ${t.message}")
+            }
+
+        })
+    }
+    private fun ContentResolver.getFileName(fileUri: Uri): String {
+        var name = ""
+        val returnCursor = this.query(fileUri,null,null,null,null)
+        if (returnCursor != null){
+            val nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            returnCursor.moveToFirst()
+            name = returnCursor.getString(nameIndex)
+            returnCursor.close()
+        }
+        return name
     }
 
     private fun postSuratMasuk(suratMasuk: SuratMasuk) {
@@ -197,4 +287,10 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         onBackPressed()
         return true
     }
+
+    override fun onProgressUpdate(percentage: Int) {
+        binding?.progressBar?.progress = percentage
+    }
 }
+
+

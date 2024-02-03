@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.arsipsurat.data.model.SuratMasukItem
+import com.example.arsipsurat.data.model.surat_masuk.SuratMasukItem
 import com.example.arsipsurat.data.repository.Result
 import com.example.arsipsurat.data.repository.SuratRepository
 import com.example.arsipsurat.utils.Event
@@ -27,6 +27,7 @@ class SuratMasukViewModel(private val suratRepository: SuratRepository) : ViewMo
         _uiStateSuratMasuk.value = Result.Loading
         viewModelScope.launch {
             try {
+
                 _uiStateSuratMasuk.value = Result.Success(suratRepository.getSuratMasuk(perihal).suratMasuk!!)
             } catch (e: Exception){
                 _uiStateSuratMasuk.value = Result.Error(e.message.toString())

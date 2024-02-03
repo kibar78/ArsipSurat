@@ -9,12 +9,12 @@
     <item
         android:id="@+id/navigation_surat_masuk"
         android:icon="@drawable/ic_surat_masuk_black"
-        android:title="@string/surat_masuk" />
+        android:title="@string/masuk" />
 
     <item
         android:id="@+id/navigation_surat_keluar"
         android:icon="@drawable/ic_surat_keluar_black"
-        android:title="@string/surat_keluar" />
+        android:title="@string/keluar" />
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_account_circle_black"

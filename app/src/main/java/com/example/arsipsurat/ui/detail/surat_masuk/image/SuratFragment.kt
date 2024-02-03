@@ -1,22 +1,16 @@
 package com.example.arsipsurat.ui.detail.surat_masuk.image
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Base64
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
-import com.example.arsipsurat.data.model.SuratMasukItem
+import com.example.arsipsurat.data.model.surat_masuk.SuratMasukItem
+import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.FragmentImageBinding
 import com.google.gson.Gson
 
@@ -58,46 +52,19 @@ class SuratFragment : Fragment() {
         val gson = Gson()
         val suratMasuk = gson.fromJson(sharedPreferences?.getString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, ""), SuratMasukItem::class.java)
 
-        val imageArgs = suratMasuk.imageSurat ?: ""
+        val imageUrl = ApiConfig.BASE_URL + IMAGE_SURAT
+        val image = imageUrl + "/" + suratMasuk.imageSurat
+        binding?.ivSuratMasuk.let {
+                Glide.with(requireActivity())
+                    .load(image)
+                    .into(binding?.ivSuratMasuk!!)
 
-        var image = if (Patterns.WEB_URL.matcher(imageArgs).matches()) {
-            imageArgs
         }
-        else {
-            Base64.decode(imageArgs, Base64.DEFAULT)
         }
 
-        binding?.ivSuratMasuk?.let {
-            Glide.with(binding?.ivSuratMasuk!!)
-                .load(image)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        image = null
-                        return false
-                    }
-
-                })
-                .into(it)
-        }
-    }
 
     companion object {
-        const val IMAGE_SURAT = "image_surat"
+        const val IMAGE_SURAT = "/SURAT/assets/surat_masuk"
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.

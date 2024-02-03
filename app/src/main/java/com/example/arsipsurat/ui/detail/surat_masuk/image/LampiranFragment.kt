@@ -10,14 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
-import com.example.arsipsurat.data.model.SuratMasukItem
+import com.example.arsipsurat.data.model.surat_masuk.SuratMasukItem
+import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.FragmentLampiranBinding
 import com.google.gson.Gson
 
@@ -56,41 +56,12 @@ class LampiranFragment : Fragment() {
         val gson = Gson()
         val suratMasuk = gson.fromJson(sharedPreferences?.getString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, ""), SuratMasukItem::class.java)
 
-        val imageArgs = suratMasuk.lampiran ?: ""
-
-        var image = if (Patterns.WEB_URL.matcher(imageArgs).matches()) {
-            imageArgs
-        }
-        else {
-            Base64.decode(imageArgs, Base64.DEFAULT)
-        }
-
-        binding?.ivLampiran?.let {
-            Glide.with(binding?.ivLampiran!!)
+        val imageUrl = ApiConfig.BASE_URL + IMAGE_LAMPIRAN
+        val image = imageUrl + "/" + suratMasuk.lampiran
+        binding?.ivLampiran.let {
+            Glide.with(requireActivity())
                 .load(image)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        image = null
-                        return false
-                    }
-
-                })
-                .into(it)
+                .into(binding?.ivLampiran!!)
         }
     }
 
@@ -100,7 +71,7 @@ class LampiranFragment : Fragment() {
     }
 
     companion object {
-        const val IMAGE_LAMPIRAN = "image_lampiran"
+        const val IMAGE_LAMPIRAN = "/SURAT/assets/surat_masuk"
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.

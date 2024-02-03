@@ -2,7 +2,6 @@ package com.example.arsipsurat.data.remote
 
 import com.example.arsipsurat.data.model.DeleteSuratKeluar
 import com.example.arsipsurat.data.model.DeleteSuratMasuk
-import com.example.arsipsurat.data.model.user.LoginUser
 import com.example.arsipsurat.data.model.ParamUpdateSuratKeluar
 import com.example.arsipsurat.data.model.ParamUpdateSuratMasuk
 import com.example.arsipsurat.data.model.PostSuratKeluarResponse
@@ -10,24 +9,29 @@ import com.example.arsipsurat.data.model.PostSuratMasukResponse
 import com.example.arsipsurat.data.model.SuratKeluar
 import com.example.arsipsurat.data.model.SuratKeluarResponse
 import com.example.arsipsurat.data.model.SuratMasuk
-import com.example.arsipsurat.data.model.SuratMasukResponse
 import com.example.arsipsurat.data.model.UpdateSuratKeluarResponse
 import com.example.arsipsurat.data.model.UpdateSuratMasukResponse
 import com.example.arsipsurat.data.model.disposisi.ParamUpdateDisposisi
 import com.example.arsipsurat.data.model.disposisi.UpdateDisposisiResponse
+import com.example.arsipsurat.data.model.surat_masuk.SuratMasukResponse
 import com.example.arsipsurat.data.model.user.LoginResponse
+import com.example.arsipsurat.data.model.user.LoginUser
 import com.example.arsipsurat.data.model.user.ParamUpdateUser
 import com.example.arsipsurat.data.model.user.ReadResponse
 import com.example.arsipsurat.data.model.user.UpdateUserResponse
 import com.example.arsipsurat.data.model.user.create.CreateUserResponse
 import com.example.arsipsurat.data.model.user.create.ParamCreateUser
 import com.example.arsipsurat.data.model.user.delete.DeleteAkun
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface ApiService {
@@ -35,13 +39,28 @@ interface ApiService {
     @GET("SURAT/surat_masuk/search")
     suspend fun getPerihalMasuk(@Query("perihal")perihalSuratMasuk: String): SuratMasukResponse
 
-    @Headers("ngrok-skip-browser-warning: 123")
-    @GET("SURAT/surat_keluar/search")
-    suspend fun getPerihalKeluar(@Query("perihal")perihalSuratKeluar: String): SuratKeluarResponse
-
     @Headers("ngrok-skip-browser-warning: 1234")
     @POST("SURAT/surat_masuk/create")
     fun postSuratMasuk(@Body suratMasuk: SuratMasuk): Call<PostSuratMasukResponse>
+
+    @Multipart
+    @Headers("ngrok-skip-browser-warning: 1234")
+    @POST("SURAT/surat_masuk/create")
+    fun createSuratMasuk(
+        @Part("tgl_penerimaan") tglPenerimaan: RequestBody,
+        @Part("tgl_surat") tglSurat: RequestBody,
+        @Part("no_surat") noSurat: RequestBody,
+        @Part("kategori") kategori: RequestBody,
+        @Part("dari_mana") dariMana: RequestBody,
+        @Part("perihal") perihal: RequestBody,
+        @Part("keterangan") keterangan: RequestBody,
+        @Part lampiran : MultipartBody.Part?,
+        @Part imageSurat : MultipartBody.Part?
+    ): Call<PostSuratMasukResponse>
+
+    @Headers("ngrok-skip-browser-warning: 123")
+    @GET("SURAT/surat_keluar/search")
+    suspend fun getPerihalKeluar(@Query("perihal")perihalSuratKeluar: String): SuratKeluarResponse
 
     @Headers("ngrok-skip-browser-warning: 1234")
     @POST("SURAT/surat_keluar/create")

@@ -79,4 +79,7 @@
     <string name="edit_profile">EDIT PROFILE</string>
     <string name="register">Register</string>
     <string name="daftar">DAFTAR</string>
+    <string name="masuk">Masuk</string>
+    <string name="keluar">Keluar</string>
+    <string name="tap_to_select_image">Tap to Select Image</string>
 </resources>

@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.model.ParamUpdateSuratMasuk
-import com.example.arsipsurat.data.model.SuratMasukItem
+import com.example.arsipsurat.data.model.surat_masuk.SuratMasukItem
 import com.example.arsipsurat.data.model.UpdateSuratMasukResponse
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ActivityAddSuratMasukBinding
@@ -65,15 +65,6 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         binding?.btnTglSurat?.setOnClickListener(this)
         binding?.btnSubmit?.setOnClickListener(this)
 
-        binding?.btnSurat?.setOnClickListener {
-            var i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(i, IMAGE_SURAT_PICKCODE)
-        }
-
-        binding?.btnLampiran?.setOnClickListener {
-            var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, IMAGE_LAMPIRAN_PICKCODE)
-        }
 
         val category = arrayOf("Surat Keputusan","Surat Permohonan","Surat Kuasa",
             "Surat Pengantar","Surat Perintah","Surat Undangan","Surat Edaran")

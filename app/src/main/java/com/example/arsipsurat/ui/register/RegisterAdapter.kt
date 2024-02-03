@@ -3,7 +3,6 @@ package com.example.arsipsurat.ui.register
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.arsipsurat.data.model.SuratMasukItem
 import com.example.arsipsurat.data.model.user.UserItem
 import com.example.arsipsurat.databinding.ItemUserBinding
 
