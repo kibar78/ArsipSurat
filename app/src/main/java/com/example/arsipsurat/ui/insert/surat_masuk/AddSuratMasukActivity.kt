@@ -14,7 +14,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arsipsurat.R
-import com.example.arsipsurat.data.model.PostSuratMasukResponse
+import com.example.arsipsurat.data.model.surat_masuk.PostSuratMasukResponse
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ActivityAddSuratMasukBinding
 import com.example.arsipsurat.ui.insert.upload.UploadRequestBody

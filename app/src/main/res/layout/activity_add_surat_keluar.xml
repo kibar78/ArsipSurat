@@ -185,21 +185,17 @@
                 app:layout_constraintStart_toStartOf="@+id/iv_lampiran"
                 app:layout_constraintTop_toBottomOf="@+id/iv_lampiran" />
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:max="100"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"
-                tools:progress="40"
-                android:progressBackgroundTint="@color/brown"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progressBackgroundTint="@color/brown"
+            android:layout_marginHorizontal="20dp"
+            tools:progress="40" />
         <Button
             android:id="@+id/btn_submit"
             android:layout_marginTop="16dp"

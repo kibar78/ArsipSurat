@@ -63,23 +63,29 @@ class LoginActivity : AppCompatActivity() {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 val responseBody = response.body()
                 if (response.isSuccessful && responseBody != null){
-                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    if (responseBody.level == "Admin" || responseBody.level == "Pimpinan"){
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        Log.i("LoginActivity", "onSuccess: ${response.isSuccessful}")
 
-                    Log.i("LoginActivity", "onSuccess: ${response.isSuccessful}")
-                    val sharedPreferences = this@LoginActivity.getSharedPreferences(
-                        this@LoginActivity.getString(R.string.shared_preferences_name_login),
-                        Context.MODE_PRIVATE
-                    )
-                    val editor = sharedPreferences.edit()
-                    val gson = Gson()
-                    editor.putString(SharedPreferences.KEY_CURRENT_USER_LOGIN, gson.toJson(
-                        responseBody))
-                    editor.apply()
-
-                    finish()
+                        val sharedPreferences = this@LoginActivity.getSharedPreferences(
+                            this@LoginActivity.getString(R.string.shared_preferences_name_login),
+                            Context.MODE_PRIVATE
+                        )
+                        val editor = sharedPreferences.edit()
+                        val gson = Gson()
+                        editor.putString(SharedPreferences.KEY_CURRENT_USER_LOGIN, gson.toJson(
+                            responseBody))
+                        editor.apply()
+                        finish()
+                    }
+                    else{
+                        showLoading(false)
+                        Toast.makeText(this@LoginActivity,"Hanya Admin & Pimpinan yang dapat menggunakan aplikasi ini", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 else{
-                    Toast.makeText(this@LoginActivity,"Hanya Admin & Pimpinan yang dapat menggunakan aplikasi ini", Toast.LENGTH_SHORT).show()
+                    showLoading(false)
+                    Toast.makeText(this@LoginActivity,"Username atau Password Salah", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {

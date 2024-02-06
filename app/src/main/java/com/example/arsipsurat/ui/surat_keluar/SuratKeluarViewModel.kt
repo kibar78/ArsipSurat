@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.arsipsurat.data.model.SuratKeluarItem
+import com.example.arsipsurat.data.model.surat_keluar.SuratKeluarItem
 import com.example.arsipsurat.data.repository.Result
 import com.example.arsipsurat.data.repository.SuratRepository
 import com.example.arsipsurat.utils.Event

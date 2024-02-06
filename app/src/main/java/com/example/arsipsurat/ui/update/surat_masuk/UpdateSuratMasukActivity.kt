@@ -17,12 +17,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
-import com.example.arsipsurat.data.model.UpdateSuratMasukResponse
 import com.example.arsipsurat.data.model.surat_masuk.SuratMasukItem
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ActivityAddSuratMasukBinding
 import com.example.arsipsurat.ui.insert.upload.UploadRequestBody
-import com.example.arsipsurat.utils.DateFormat
 import com.example.arsipsurat.utils.DatePickerFragment
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -53,6 +51,7 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
 
     private var _binding: ActivityAddSuratMasukBinding? = null
     private val binding get() = _binding
+
     private var selectedImageSurat: Uri? = null
     private var selectedImageLampiran: Uri? = null
 
@@ -73,8 +72,7 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
 
         binding?.ivSurat?.setOnClickListener {
             openImageSurat()
-        }
-
+            }
         binding?.ivLampiran?.setOnClickListener {
             openImageLampiran()
         }
@@ -92,31 +90,21 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         suratMasuk = gson.fromJson(sharedPreferences.getString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, ""), SuratMasukItem::class.java)
 
         suratMasuk.let { suratmasuk->
-            binding.let { binding->
-                binding?.btnTglPenerimaan?.text = DateFormat.format(suratmasuk?.tglPenerimaan ?: "", "yyyy-MM-dd")
-                binding?.btnTglSurat?.text = DateFormat.format(suratmasuk?.tglSurat ?: "", "yyyy-MM-dd")
+            binding.let { binding ->
+                binding?.btnTglPenerimaan?.setText(suratmasuk?.tglPenerimaan)
+                binding?.btnTglSurat?.setText(suratmasuk?.tglSurat)
                 binding?.edtNoSurat?.setText(suratmasuk?.noSurat)
                 binding?.edtAsalSurat?.setText(suratmasuk?.dariMana)
                 binding?.edtPerihal?.setText(suratMasuk?.perihal)
                 binding?.edtKeterangan?.setText(suratMasuk?.keterangan)
-
-                val imageUrlSurat = ApiConfig.BASE_URL + IMAGE_SURAT
-                val imageSurat = imageUrlSurat + "/" + suratmasuk?.imageSurat
-                binding?.ivSurat.let {
-                    Glide.with(this)
-                        .load(imageSurat)
-                        .into(binding?.ivSurat!!)
-                }
-
-                val imageUrlLampiran = ApiConfig.BASE_URL + IMAGE_SURAT
-                val imageLampiran = imageUrlLampiran + "/" + suratmasuk?.lampiran
-                binding?.ivLampiran.let {
-                    Glide.with(this)
-                        .load(imageLampiran)
-                        .into(binding?.ivLampiran!!)
+                val categoryIndex = category.indexOf(suratmasuk?.kategori)
+                if (categoryIndex != -1) {
+                    (binding?.textField?.editText as? AutoCompleteTextView)?.setText(
+                        category[categoryIndex],
+                        false
+                    )
                 }
             }
-
         }
 
     }
@@ -144,8 +132,8 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                 binding?.ivLampiran?.setImageURI(selectedImageLampiran)
             }
         }
-    }
 
+    }
 
     override fun onClick(p0: View?) {
         when(p0?.id){
@@ -153,7 +141,6 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                 val datePickerFragment = DatePickerFragment()
                 datePickerFragment.show(supportFragmentManager, DATE_PENERIMAAN_PICKER_TAG)
             }
-
             R.id.btn_tgl_surat->{
                 val datePickerFragment = DatePickerFragment()
                 datePickerFragment.show(supportFragmentManager, DATE_SURAT_PICKER_TAG)
@@ -167,17 +154,15 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                 val perihal = binding?.edtPerihal?.text.toString()
                 val keterangan = binding?.edtKeterangan?.text.toString()
 
-                selectedImageLampiran?.let {
                     doUpdateImage(
-                        binding?.btnTglPenerimaan?.text.toString(),
-                        binding?.btnTglSurat?.text.toString(),
-                        binding?.edtNoSurat?.text.toString(),
-                        binding?.autoCompleteTextView?.text.toString(),
-                        binding?.edtAsalSurat?.text.toString(),
-                        binding?.edtPerihal?.text.toString(),
-                        binding?.edtKeterangan?.text.toString()
+                        tglPenerimaan,
+                        tglSurat,
+                        noSurat,
+                        category,
+                        asalSurat,
+                        perihal,
+                        keterangan
                     )
-                }
                 var isEmptyFields = false
                 when {
                     noSurat.isEmpty() -> {
@@ -198,6 +183,22 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                     keterangan.isEmpty() -> {
                         isEmptyFields = true
                         binding?.edtKeterangan?.error = "Tidak Boleh Kosong"
+                    }
+                    tglPenerimaan.isEmpty()->{
+                        isEmptyFields = true
+                        Toast.makeText(this,"Pilih Tanggal terlebih dahulu", Toast.LENGTH_SHORT).show()
+                    }
+                    tglSurat.isEmpty()->{
+                        isEmptyFields = true
+                        Toast.makeText(this,"Pilih Tanggal terlebih dahulu", Toast.LENGTH_SHORT).show()
+                    }
+                    category.isEmpty()->{
+                        isEmptyFields = true
+                        Toast.makeText(this,"Pilih Jenis Surat", Toast.LENGTH_SHORT).show()
+                    }
+                    selectedImageSurat == null || selectedImageLampiran == null->{
+                        isEmptyFields = true
+                        Toast.makeText(this,"Pilih Gambar terlebih dahulu", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -237,6 +238,7 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         val image = UploadRequestBody(fileSurat,"image_surat", this)
 
         val idSurat = suratMasuk?.id ?: 0
+        Log.d("UpdateSuratMasuk","ID Surat: $idSurat")
         val id = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),idSurat.toString())
         val ctglPenerimaan = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),tglPenerimaan)
         val ctglSurat = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),tglSurat)
@@ -249,7 +251,7 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         val imageSuratPart = MultipartBody.Part.createFormData("image_surat", fileSurat.name, image)
 
         ApiConfig.getApiService().updateSuratMasuk(
-            id,
+            id = id,
             ctglPenerimaan,
             ctglSurat,
             cnoSurat,
@@ -260,22 +262,31 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
             lampiranPart,
             imageSuratPart
         ).
-        enqueue(object : Callback<UpdateSuratMasukResponse> {
+        enqueue(object : Callback<SuratMasukItem> {
             override fun onResponse(
-                call: Call<UpdateSuratMasukResponse>,
-                response: Response<UpdateSuratMasukResponse>
+                call: Call<SuratMasukItem>,
+                response: Response<SuratMasukItem>
             ) {
+                val responseBody = response.body()
                 if (response.isSuccessful){
-                    Toast.makeText(this@UpdateSuratMasukActivity,"Berhasil Menambahkan Surat Masuk", Toast.LENGTH_SHORT).show()
-                    Log.i("AddSuratMasuk","onSuccess: ${response.isSuccessful}")
+                    val sharedPreferences = getSharedPreferences(
+                        getString(R.string.shared_preferences_name),
+                        Context.MODE_PRIVATE
+                    )
+                    val editor = sharedPreferences.edit()
+                    val gson = Gson()
+                    editor.putString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, gson.toJson(responseBody))
+                    editor.apply()
+                    Toast.makeText(this@UpdateSuratMasukActivity,"Berhasil Ubah Surat Masuk", Toast.LENGTH_SHORT).show()
                     finish()
+                    Log.i("UpdateSuratMasuk","onSuccess: ${response.isSuccessful}")
                 }
                 else{
-                    Toast.makeText(this@UpdateSuratMasukActivity,"Gagal Menambahkan Surat Masuk", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@UpdateSuratMasukActivity,"Gagal Ubah Surat Masuk", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<UpdateSuratMasukResponse>, t: Throwable) {
+            override fun onFailure(call: Call<SuratMasukItem>, t: Throwable) {
                 Log.e("UpdateSuratMasuk", "onFailure: ${t.message}")
             }
 

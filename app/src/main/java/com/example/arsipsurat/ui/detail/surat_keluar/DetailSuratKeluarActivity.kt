@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
-import com.example.arsipsurat.data.model.SuratKeluarItem
+import com.example.arsipsurat.data.model.surat_keluar.SuratKeluarItem
 import com.example.arsipsurat.data.model.user.LoginResponse
 import com.example.arsipsurat.databinding.ActivityDetailSuratKeluarBinding
 import com.example.arsipsurat.ui.detail.surat_keluar.image.SectionPagerKeluarAdapter
@@ -26,7 +26,8 @@ class DetailSuratKeluarActivity : AppCompatActivity() {
     companion object{
         private val TAB_TITLES = intArrayOf(
             R.string.tab_text_1,
-            R.string.tab_text_2
+            R.string.tab_text_2,
+            R.string.tab_text_3
         )
     }
     private var suratKeluar : SuratKeluarItem? = null
@@ -54,24 +55,15 @@ class DetailSuratKeluarActivity : AppCompatActivity() {
             SuratKeluarItem::class.java
         )
 
-        suratKeluar?.let { suratkeluar ->
-            binding.tvTanggalCatat.text = suratkeluar.tglCatat
-            binding.tvTglSurat.text = suratkeluar.tglSurat
-            binding.tvNoSurat.text = suratkeluar.noSurat
-            binding.tvKategoriSurat.text = suratkeluar.kategori
-            binding.tvTujuanSurat.text = suratkeluar.dikirimKepada
-            binding.tvPerihal.text = suratkeluar.perihal
-            binding.tvKeterangan.text = suratkeluar.keterangan
-
             val sectionsPagerAdapter = SectionPagerKeluarAdapter(this)
             sectionsPagerAdapter.imageKeluar = suratKeluar
-            val viewPager: ViewPager2 = findViewById(R.id.view_pager_keluar)
+            val viewPager: ViewPager2 = binding.viewPagerKeluar
             viewPager.adapter = sectionsPagerAdapter
-            val tabs: TabLayout = findViewById(R.id.tabs_keluar)
+            val tabs: TabLayout = binding.tabsKeluar
             TabLayoutMediator(tabs, viewPager) { tab, position ->
                 tab.text = resources.getString(TAB_TITLES[position])
             }.attach()
-        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -86,7 +78,7 @@ class DetailSuratKeluarActivity : AppCompatActivity() {
             LoginResponse::class.java
         )
         userLogin.let {userLogin->
-            if (userLogin?.level == "pimpinan"){
+            if (userLogin?.level == "Pimpinan"){
                 return false
             }
             else{

@@ -103,7 +103,7 @@ class SuratMasukFragment : Fragment() {
             LoginResponse::class.java
         )
         userLogin.let {userLogin->
-            if (userLogin?.level == "pimpinan"){
+            if (userLogin?.level == "Pimpinan"){
                 binding.fab.hide()
             }
             else{
@@ -138,7 +138,7 @@ class SuratMasukFragment : Fragment() {
             LoginResponse::class.java)
 
         userLogin.let { userLogin->
-            if (userLogin?.level == "pimpinan"){
+            if (userLogin?.level == "Pimpinan"){
                 suratAdapter.onLongClick = {
                     Toast.makeText(requireActivity(),"Tidak Bisa dihapus", Toast.LENGTH_SHORT).show()
                 }

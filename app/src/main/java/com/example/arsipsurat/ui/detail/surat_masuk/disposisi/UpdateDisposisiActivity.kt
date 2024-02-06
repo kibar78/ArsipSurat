@@ -54,6 +54,20 @@ class UpdateDisposisiActivity: AppCompatActivity(),View.OnClickListener  {
 
         suratMasuk?.let { suratMasuk ->
             binding?.let { binding ->
+                val klasifikasiIndex = klasifikasi.indexOf(suratMasuk.klasifikasi)
+                if (klasifikasiIndex != -1) {
+                    (binding.textFieldKlasifikasi.editText as? AutoCompleteTextView)?.setText(
+                        klasifikasi[klasifikasiIndex],
+                        false
+                    )
+                }
+                val derajatIndex = derajat.indexOf(suratMasuk.derajat)
+                if (derajatIndex != -1) {
+                    (binding.textFieldDerajat.editText as? AutoCompleteTextView)?.setText(
+                        derajat[derajatIndex],
+                        false
+                    )
+                }
                 binding.edtNomorAgenda.setText(suratMasuk.nomorAgenda)
                 binding.edtIsiDisposisi.setText(suratMasuk.isiDisposisi)
             }
@@ -65,35 +79,7 @@ class UpdateDisposisiActivity: AppCompatActivity(),View.OnClickListener  {
         onBackPressed()
         return true
     }
-    private fun updateDisposisi(disposisi: ParamUpdateDisposisi){
-        val client = ApiConfig.getApiService().updateDisposisi(disposisi)
-        client.enqueue(object : Callback<UpdateDisposisiResponse> {
-            override fun onResponse(
-                call: Call<UpdateDisposisiResponse>,
-                response: Response<UpdateDisposisiResponse>
-            ) {
-                val responseBody = response.body()
 
-                if (response.isSuccessful && responseBody != null){
-                    val sharedPreferences = getSharedPreferences(
-                        getString(R.string.shared_preferences_name),
-                        Context.MODE_PRIVATE
-                    )
-                    val editor = sharedPreferences.edit()
-                    val gson = Gson()
-                    editor.putString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, gson.toJson(disposisi))
-                    editor.apply()
-                    Toast.makeText(this@UpdateDisposisiActivity,"Berhasil Update Disposisi", Toast.LENGTH_SHORT).show()
-                    finish()
-                    Log.i("AddDisposisi","onSuccess: ${response.isSuccessful}")
-                }
-            }
-            override fun onFailure(call: Call<UpdateDisposisiResponse>, t: Throwable) {
-                Toast.makeText(this@UpdateDisposisiActivity,"Gagal Update Disposisi", Toast.LENGTH_SHORT).show()
-                Log.e("AddDisposisi", "onFailure: ${t.message}")
-            }
-        })
-    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -135,6 +121,37 @@ class UpdateDisposisiActivity: AppCompatActivity(),View.OnClickListener  {
                 }
             }
         }
+    }
+
+    private fun updateDisposisi(disposisi: ParamUpdateDisposisi){
+        val client = ApiConfig.getApiService().updateDisposisi(disposisi)
+        client.enqueue(object : Callback<SuratMasukItem> {
+            override fun onResponse(
+                call: Call<SuratMasukItem>,
+                response: Response<SuratMasukItem>
+            ) {
+                val responseBody = response.body()
+                if (response.isSuccessful){
+                    val sharedPreferences = getSharedPreferences(
+                        getString(R.string.shared_preferences_name),
+                        Context.MODE_PRIVATE
+                    )
+                    val editor = sharedPreferences.edit()
+                    val gson = Gson()
+                    editor.putString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, gson.toJson(responseBody))
+                    editor.apply()
+                    Toast.makeText(this@UpdateDisposisiActivity,"Berhasil Menambahkan Disposisi", Toast.LENGTH_SHORT).show()
+                    finish()
+                    Log.i("AddDisposisi","onSuccess: ${response.isSuccessful}")
+                }
+                else{
+                    Toast.makeText(this@UpdateDisposisiActivity,"Gagal Menambahkan Disposisi", Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onFailure(call: Call<SuratMasukItem>, t: Throwable) {
+                Log.e("AddDisposisi", "onFailure: ${t.message}")
+            }
+        })
     }
     private fun submitCheckBox(): String{
         val checkBoxWakaStatus = if (binding?.checkBoxWaka?.isChecked == true) "Waka" else ""

@@ -1,8 +1,9 @@
-package com.example.arsipsurat.data.model
+package com.example.arsipsurat.data.model.surat_keluar
 
 import com.google.gson.annotations.SerializedName
 
-data class PostSuratMasukResponse(
+data class PostSuratKeluarResponse(
+
 	@field:SerializedName("message")
 	val message: String? = null
 )

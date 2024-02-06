@@ -1,25 +1,17 @@
 package com.example.arsipsurat.ui.detail.surat_keluar.image
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Base64
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
-import com.example.arsipsurat.data.model.SuratKeluarItem
+import com.example.arsipsurat.data.model.surat_keluar.SuratKeluarItem
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.FragmentSuratBinding
-import com.example.arsipsurat.ui.detail.surat_masuk.image.SuratFragment
 import com.google.gson.Gson
 
 // TODO: Rename parameter arguments, choose names that match

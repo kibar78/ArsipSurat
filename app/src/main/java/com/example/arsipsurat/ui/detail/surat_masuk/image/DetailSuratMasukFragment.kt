@@ -1,6 +1,7 @@
 package com.example.arsipsurat.ui.detail.surat_masuk.image
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,10 @@ import androidx.fragment.app.Fragment
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.model.surat_masuk.SuratMasukItem
+import com.example.arsipsurat.data.model.user.LoginResponse
 import com.example.arsipsurat.databinding.FragmentDetailSuratMasukBinding
+import com.example.arsipsurat.ui.detail.surat_masuk.disposisi.AddDisposisiActivity
+import com.example.arsipsurat.ui.detail.surat_masuk.disposisi.UpdateDisposisiActivity
 import com.google.gson.Gson
 
 /**
@@ -21,6 +25,8 @@ class DetailSuratMasukFragment : Fragment() {
 
     private var _binding: FragmentDetailSuratMasukBinding? = null
     private val binding get() = _binding
+
+    private var userLogin : LoginResponse? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,6 +61,34 @@ class DetailSuratMasukFragment : Fragment() {
             binding?.tvIsiDisposisi?.text = suratMasukItem.isiDisposisi
             binding?.tvDiteruskanKepada?.text = suratMasukItem.diteruskanKepada
         }
+
+        val sharedPreferencesLogin = context?.getSharedPreferences(
+            getString(R.string.shared_preferences_name_login),
+            Context.MODE_PRIVATE
+        )
+        val gsonLogin = Gson()
+        userLogin = gsonLogin.fromJson(
+            sharedPreferencesLogin?.getString
+                (SharedPreferences.KEY_CURRENT_USER_LOGIN, ""),
+            LoginResponse::class.java)
+
+        userLogin.let { userLoginItem->
+            if (userLoginItem?.level == "Admin"){
+                binding?.btnAddDisposisi?.visibility = View.INVISIBLE
+                binding?.btnEditDisposisi?.visibility = View.INVISIBLE
+            }
+        }
+
+        binding?.btnAddDisposisi?.setOnClickListener {
+            val goAddDisposisi = Intent(requireActivity(), AddDisposisiActivity::class.java)
+            startActivity(goAddDisposisi)
+        }
+
+        binding?.btnEditDisposisi?.setOnClickListener {
+            val goEditDisposisi = Intent(requireActivity(), UpdateDisposisiActivity::class.java)
+            startActivity(goEditDisposisi)
+        }
+
     }
 
     companion object {

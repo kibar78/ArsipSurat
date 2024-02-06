@@ -49,7 +49,6 @@ class DetailSuratMasukActivity : AppCompatActivity() {
         actionBar!!.title = "Detail Surat Masuk"
         actionBar.setDisplayHomeAsUpEnabled(true)
 
-
     }
 
     override fun onResume() {
@@ -87,7 +86,7 @@ class DetailSuratMasukActivity : AppCompatActivity() {
             LoginResponse::class.java)
 
         userLogin.let {userLogin->
-            if (userLogin?.level == "pimpinan"){
+            if (userLogin?.level == "Pimpinan"){
                 return false
             }
             else{

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.ViewModelFactory
-import com.example.arsipsurat.data.model.SuratKeluarItem
+import com.example.arsipsurat.data.model.surat_keluar.SuratKeluarItem
 import com.example.arsipsurat.data.model.user.LoginResponse
 import com.example.arsipsurat.data.repository.Result
 import com.example.arsipsurat.databinding.FragmentSuratKeluarBinding
@@ -104,7 +104,7 @@ class SuratKeluarFragment : Fragment() {
             LoginResponse::class.java
         )
         userLogin.let {userLogin->
-            if (userLogin?.level == "pimpinan"){
+            if (userLogin?.level == "Pimpinan"){
                 binding.fab.hide()
             }
             else{
@@ -142,7 +142,7 @@ class SuratKeluarFragment : Fragment() {
             LoginResponse::class.java)
 
         userLogin.let {userLogin->
-            if (userLogin?.level == "pimpinan"){
+            if (userLogin?.level == "Pimpinan"){
                 suratkeluarAdapter.onLongClick = {
                     Toast.makeText(requireActivity(),"Tidak Bisa dihapus", Toast.LENGTH_SHORT).show()
                 }

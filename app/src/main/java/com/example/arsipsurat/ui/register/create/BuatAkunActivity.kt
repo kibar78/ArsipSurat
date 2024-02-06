@@ -26,8 +26,8 @@ class BuatAkunActivity : AppCompatActivity() {
         actionBar!!.title = "Buatkan Akun Unit Satuan"
         actionBar.setDisplayHomeAsUpEnabled(true)
 
-        val category = arrayOf("waka","kanit reskrim","kanit samapta","kanit intelkam","kanit binmas","kasi umum",
-            "kasi hukum","kanit lantas","kanit propam","kanit spkt I","kanit spkt II","kanit spkt III","kasi humas")
+        val category = arrayOf("Waka","Kanit Reskrim","Kanit Samapta","Kanit Intelkam","Kanit Binmas","Kasi Umum",
+            "Kasi Hukum","Kanit Lantas","Kanit Propam","Kanit Spkt I","Kanit Spkt II","Kanit Spkt III","Kasi Humas")
         val adapter = ArrayAdapter(this,R.layout.dropdown_item, category)
         (binding.textFieldLevel.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
@@ -71,11 +71,9 @@ class BuatAkunActivity : AppCompatActivity() {
                     Toast.makeText(this@BuatAkunActivity,"Gagal Buat Akun", Toast.LENGTH_SHORT).show()
                 }
             }
-
             override fun onFailure(call: Call<CreateUserResponse>, t: Throwable) {
                 Toast.makeText(this@BuatAkunActivity,"Gagal Buat Akun", Toast.LENGTH_SHORT).show()
             }
-
         })
     }
 }

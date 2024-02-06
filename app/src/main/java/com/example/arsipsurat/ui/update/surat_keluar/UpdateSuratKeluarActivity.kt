@@ -5,30 +5,21 @@ import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.util.Base64
 import android.util.Log
-import android.util.Patterns
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
-import com.example.arsipsurat.data.model.ParamUpdateSuratKeluar
-import com.example.arsipsurat.data.model.SuratKeluarItem
-import com.example.arsipsurat.data.model.UpdateSuratKeluarResponse
+import com.example.arsipsurat.data.model.surat_keluar.SuratKeluarItem
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.ActivityAddSuratKeluarBinding
 import com.example.arsipsurat.ui.insert.upload.UploadRequestBody
-import com.example.arsipsurat.ui.update.surat_masuk.UpdateSuratMasukActivity
-import com.example.arsipsurat.utils.DateFormat
 import com.example.arsipsurat.utils.DatePickerFragment
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -37,7 +28,6 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -100,27 +90,18 @@ class UpdateSuratKeluarActivity: AppCompatActivity(),
 
         suratKeluar?.let { suratKeluar ->
             binding?.let { binding ->
-                binding.btnTglCatat.text = DateFormat.format(suratKeluar.tglCatat ?: "", "yyyy-MM-dd")
-                binding.btnTglSurat.text = DateFormat.format(suratKeluar.tglSurat ?: "", "yyyy-MM-dd")
+                binding.btnTglCatat.setText(suratKeluar.tglCatat)
+                binding.btnTglSurat.setText(suratKeluar.tglSurat)
                 binding.edtNoSurat.setText(suratKeluar.noSurat)
                 binding.edtTujuanSurat.setText(suratKeluar.dikirimKepada)
                 binding.edtPerihal.setText(suratKeluar.perihal)
                 binding.edtKeterangan.setText(suratKeluar.keterangan)
-
-                val imageUrlSurat = ApiConfig.BASE_URL + IMAGE_SURAT
-                val imageSurat = imageUrlSurat + "/" + suratKeluar.imageSurat
-                binding.ivSurat.let {
-                    Glide.with(this)
-                        .load(imageSurat)
-                        .into(binding.ivSurat)
-                }
-
-                val imageUrlLampiran = ApiConfig.BASE_URL + IMAGE_SURAT
-                val imageLampiran = imageUrlLampiran + "/" + suratKeluar.lampiran
-                binding.ivLampiran.let {
-                    Glide.with(this)
-                        .load(imageLampiran)
-                        .into(binding.ivLampiran)
+                val categoryIndex = category.indexOf(suratKeluar.kategori)
+                if (categoryIndex != -1) {
+                    (binding.textField?.editText as? AutoCompleteTextView)?.setText(
+                        category[categoryIndex],
+                        false
+                    )
                 }
             }
         }
@@ -212,6 +193,7 @@ class UpdateSuratKeluarActivity: AppCompatActivity(),
         val imageSurat = UploadRequestBody(fileSurat,"image_surat", this)
 
         val idSurat = suratKeluar?.id ?: 0
+        Log.d("UpdateSuratKeluar","ID Surat: $idSurat")
         val id = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),idSurat.toString())
         val ctglCatat = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),tglCatat)
         val ctglSurat = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),tglSurat)
@@ -224,7 +206,7 @@ class UpdateSuratKeluarActivity: AppCompatActivity(),
         val imageSuratPart = MultipartBody.Part.createFormData("image_surat", fileSurat.name, imageSurat)
 
         ApiConfig.getApiService().updateSuratKeluar(
-            id,
+            id = id,
             ctglCatat,
             ctglSurat,
             cnoSurat,
@@ -234,24 +216,32 @@ class UpdateSuratKeluarActivity: AppCompatActivity(),
             cketerangan,
             lampiranPart,
             imageSuratPart
-        ).enqueue(object : Callback<UpdateSuratKeluarResponse>{
+        ).enqueue(object : Callback<SuratKeluarItem>{
             override fun onResponse(
-                call: Call<UpdateSuratKeluarResponse>,
-                response: Response<UpdateSuratKeluarResponse>
+                call: Call<SuratKeluarItem>,
+                response: Response<SuratKeluarItem>
             ) {
+                val responseBody = response.body()
                 if (response.isSuccessful){
-                    Toast.makeText(this@UpdateSuratKeluarActivity,"Berhasil Menambahkan Surat Keluar", Toast.LENGTH_SHORT).show()
+                    val sharedPreferences = getSharedPreferences(
+                        getString(R.string.shared_preferences_name_keluar),
+                        Context.MODE_PRIVATE
+                    )
+                    val editor = sharedPreferences.edit()
+                    val gson = Gson()
+                    editor.putString(SharedPreferences.KEY_CURRENT_SURAT_KELUAR, gson.toJson(responseBody))
+                    editor.apply()
+                    Toast.makeText(this@UpdateSuratKeluarActivity,"Berhasil Ubah Surat Keluar", Toast.LENGTH_SHORT).show()
                     Log.i("AddSuratKeluar","onSuccess: ${response.isSuccessful}")
                     finish()
                 }
                 else{
-                    Toast.makeText(this@UpdateSuratKeluarActivity,"Gagal Menambahkan Surat Keluar", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@UpdateSuratKeluarActivity,"Gagal Ubah Surat Keluar", Toast.LENGTH_SHORT).show()
                 }
             }
-            override fun onFailure(call: Call<UpdateSuratKeluarResponse>, t: Throwable) {
+            override fun onFailure(call: Call<SuratKeluarItem>, t: Throwable) {
                 Log.d("UpdateSuratKeluar", "onFailure: ${t.message}")
             }
-
         })
     }
 

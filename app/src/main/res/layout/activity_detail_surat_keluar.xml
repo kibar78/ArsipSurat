@@ -11,135 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TableLayout
-            android:id="@+id/tableLayout"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs_keluar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:stretchColumns="1"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/tgl_catat" />
-
-                <TextView
-                    android:id="@+id/tv_tanggal_catat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dip"
-                    android:textStyle="bold"
-                    android:text="@string/tgl_catat" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/tanggal_surat" />
-
-                <TextView
-                    android:id="@+id/tv_tgl_surat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:padding="6dip"
-                    android:text="@string/tanggal_surat" />
-            </TableRow>
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/no_surat" />
-
-                <TextView
-                    android:id="@+id/tv_no_surat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:padding="6dip"
-                    android:text="@string/no_surat" />
-            </TableRow>
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/tujuan_surat" />
-
-                <TextView
-                    android:id="@+id/tv_tujuan_surat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="3"
-                    android:layout_weight="2"
-                    android:textStyle="bold"
-                    android:padding="6dip"
-                    android:text="@string/tujuan_surat" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/kategori_surat" />
-
-                <TextView
-                    android:id="@+id/tv_kategori_surat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:padding="6dip"
-                    android:text="@string/kategori_surat" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/perihal" />
-
-                <TextView
-                    android:id="@+id/tv_perihal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:textStyle="bold"
-                    android:maxLines="5"
-                    android:padding="6dip"
-                    android:text="@string/perihal"
-                    tools:ignore="RtlHardcoded" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:padding="6dip"
-                    android:text="@string/keterangan" />
-
-                <TextView
-                    android:id="@+id/tv_keterangan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:padding="6dip"
-                    android:text="@string/keterangan" />
-            </TableRow>
-        </TableLayout>
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs_keluar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-        app:tabTextColor="@color/black" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabTextColor="@color/black" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager_keluar"

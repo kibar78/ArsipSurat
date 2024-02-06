@@ -1,7 +1,6 @@
 package com.example.arsipsurat.ui.detail.surat_masuk.disposisi
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -54,36 +53,33 @@ class AddDisposisiActivity : AppCompatActivity(),View.OnClickListener{
         suratMasuk = gson.fromJson(sharedPreferences.getString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, ""), SuratMasukItem::class.java)
     }
 
-    private fun updateDisposisi(disposisi: ParamUpdateDisposisi){
+    private fun addDisposisi(disposisi: ParamUpdateDisposisi){
         val client = ApiConfig.getApiService().updateDisposisi(disposisi)
-        client.enqueue(object : Callback<UpdateDisposisiResponse> {
+        client.enqueue(object : Callback<SuratMasukItem> {
             override fun onResponse(
-                call: Call<UpdateDisposisiResponse>,
-                response: Response<UpdateDisposisiResponse>
+                call: Call<SuratMasukItem>,
+                response: Response<SuratMasukItem>
             ) {
                 val responseBody = response.body()
-
-                if (response.isSuccessful && responseBody != null){
+                if (response.isSuccessful){
                     val sharedPreferences = getSharedPreferences(
                         getString(R.string.shared_preferences_name),
                         Context.MODE_PRIVATE
                     )
                     val editor = sharedPreferences.edit()
                     val gson = Gson()
-                    editor.putString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, gson.toJson(disposisi))
+                    editor.putString(SharedPreferences.KEY_CURRENT_SURAT_MASUK, gson.toJson(responseBody))
                     editor.apply()
-
                     Toast.makeText(this@AddDisposisiActivity,"Berhasil Menambahkan Disposisi", Toast.LENGTH_SHORT).show()
-
-                    val intent = Intent(this@AddDisposisiActivity, DisposisiActivity::class.java)
-                    startActivity(intent)
-
                     finish()
                     Log.i("AddDisposisi","onSuccess: ${response.isSuccessful}")
                 }
+                else{
+                    Toast.makeText(this@AddDisposisiActivity,"Gagal Menambahkan Disposisi", Toast.LENGTH_SHORT).show()
+
+                }
             }
-            override fun onFailure(call: Call<UpdateDisposisiResponse>, t: Throwable) {
-                Toast.makeText(this@AddDisposisiActivity,"Gagal Menambahkan Disposisi", Toast.LENGTH_SHORT).show()
+            override fun onFailure(call: Call<SuratMasukItem>, t: Throwable) {
                 Log.e("AddDisposisi", "onFailure: ${t.message}")
             }
         })
@@ -120,7 +116,7 @@ class AddDisposisiActivity : AppCompatActivity(),View.OnClickListener{
                         binding?.edtIsiDisposisi?.error = "Tidak Boleh Kosong"
                     }
                     else->{
-                        updateDisposisi(
+                        addDisposisi(
                             ParamUpdateDisposisi(
                                 suratMasuk?.id ?: 0,
                                 klasifikasi,

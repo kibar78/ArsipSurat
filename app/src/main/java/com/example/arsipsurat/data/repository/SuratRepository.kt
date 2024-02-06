@@ -1,9 +1,9 @@
 package com.example.arsipsurat.data.repository
 
-import com.example.arsipsurat.data.model.DeleteSuratKeluar
-import com.example.arsipsurat.data.model.DeleteSuratMasuk
-import com.example.arsipsurat.data.model.SuratKeluarItem
-import com.example.arsipsurat.data.model.SuratKeluarResponse
+import com.example.arsipsurat.data.model.surat_keluar.DeleteSuratKeluar
+import com.example.arsipsurat.data.model.surat_masuk.DeleteSuratMasuk
+import com.example.arsipsurat.data.model.surat_keluar.SuratKeluarItem
+import com.example.arsipsurat.data.model.surat_keluar.SuratKeluarResponse
 import com.example.arsipsurat.data.model.surat_masuk.SuratMasukItem
 import com.example.arsipsurat.data.model.surat_masuk.SuratMasukResponse
 import com.example.arsipsurat.data.model.user.ReadResponse
@@ -19,7 +19,7 @@ class SuratRepository private constructor(
         return apiService.getPerihalMasuk(perihalSuratMasuk)
     }
 
-    suspend fun getSuratKeluar(perihalSuratKeluar: String): SuratKeluarResponse{
+    suspend fun getSuratKeluar(perihalSuratKeluar: String): SuratKeluarResponse {
         return apiService.getPerihalKeluar(perihalSuratKeluar)
     }
 
