@@ -23,12 +23,9 @@ class RegisterAdapter: RecyclerView.Adapter<RegisterAdapter.ViewHolderRegister>(
     override fun onBindViewHolder(holder: ViewHolderRegister, position: Int) {
         val username = listUser[position]?.username
         val level = listUser[position]?.level
-        val passowrd = listUser[position]?.password
 
         holder.binding.tvUsername.text = username
         holder.binding.tvLevel.text = level
-        holder.binding.tvPassword.text = passowrd
-
         holder.itemView.setOnClickListener {v->
 
         }

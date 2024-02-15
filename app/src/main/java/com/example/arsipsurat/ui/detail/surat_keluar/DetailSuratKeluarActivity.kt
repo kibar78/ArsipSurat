@@ -1,5 +1,6 @@
 package com.example.arsipsurat.ui.detail.surat_keluar
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +15,7 @@ import com.example.arsipsurat.data.model.surat_keluar.SuratKeluarItem
 import com.example.arsipsurat.data.model.user.LoginResponse
 import com.example.arsipsurat.databinding.ActivityDetailSuratKeluarBinding
 import com.example.arsipsurat.ui.detail.surat_keluar.image.SectionPagerKeluarAdapter
+import com.example.arsipsurat.ui.detail.surat_masuk.DetailSuratMasukActivity
 import com.example.arsipsurat.ui.update.surat_keluar.UpdateSuratKeluarActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -29,6 +31,11 @@ class DetailSuratKeluarActivity : AppCompatActivity() {
             R.string.tab_text_2,
             R.string.tab_text_3
         )
+        private val TAB_ICON = intArrayOf(
+            R.drawable.ic_description_24,
+            R.drawable.ic_surat_masuk_black,
+            R.drawable.ic_attachment_24
+        )
     }
     private var suratKeluar : SuratKeluarItem? = null
 
@@ -43,6 +50,7 @@ class DetailSuratKeluarActivity : AppCompatActivity() {
         actionBar.setDisplayHomeAsUpEnabled(true)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onResume() {
         super.onResume()
         val sharedPreferences = getSharedPreferences(
@@ -62,6 +70,7 @@ class DetailSuratKeluarActivity : AppCompatActivity() {
             val tabs: TabLayout = binding.tabsKeluar
             TabLayoutMediator(tabs, viewPager) { tab, position ->
                 tab.text = resources.getString(TAB_TITLES[position])
+                tab.icon = resources.getDrawable(TAB_ICON[position])
             }.attach()
 
     }

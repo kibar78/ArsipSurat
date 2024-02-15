@@ -62,7 +62,6 @@ class SuratFragment : Fragment() {
         }
     }
 
-
     companion object {
         const val IMAGE_SURAT = "/SURAT/assets/surat_masuk"
         /**

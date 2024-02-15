@@ -85,4 +85,49 @@
     <string name="tap_to_select_image">Tap to Select Image</string>
     <string name="deskripsi">DESKRIPSI</string>
     <string name="edit_disposisi">UBAH DISPOSISI</string>
+    <string name="visi">VISI</string>
+
+    <string-array name="photo">
+        <item>@drawable/poster_polsek_1</item>
+        <item>@drawable/poster_polsek_2</item>
+        <item>@drawable/poster_polsek_3</item>
+        <item>@drawable/poster_polsek_4</item>
+        <item>@drawable/poster_polsek_5</item>
+    </string-array>
+
+    <string-array name="data_name">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string name="visi_text">
+       Terwujudnya insan Polri yang profesional, bermoral, bersih dan terpercaya dalam penegakan hukum serta sebagai Pelindung Pengayom Pelayan masyarakat yang mampu memberikan rasa aman, tentram dan dipercaya.
+    </string>
+    <string name="misi">MISI</string>
+    <string name="misi_text">
+        "Memberikan  perlindungan, pengayoman dan pelayanan secara mudah, tanggap / responsif dan tidak diskriminatif agar masyarakat bebas dari segala bentuk gangguan fisik dan psikis.\n\n"
+
+        Memelihara keamanan dan ketertiban masyarakat dengan tetap memperhatikan norma-norma dan nilai-nilai yang berlaku dalam bingkai integritas wilayah hukum Negara Kesatuan Republik Indonesia.\n\n
+
+        Mengembangkan Perpolisian Masyarakat (Community Policing ) yang berbasis pada masyarakat patuh hukum ( Law Abiding Citizen ).\n\n
+
+        Menegakkan hukum secara profesional, objektif, proposional, transparan dan akuntabel untuk menjamin kepastian hukum dan rasa keadilan.\n\n
+
+        Mengelola secara profesional, transparan, akuntabel dan modern seluruh sumber daya Polri guna mendukung operasional tugas.\n\n
+
+        Meningkatkan kesadaran hukum dan kesadaran berbangsa dari masyarakat yang ber bhineka tunggal ika.
+    </string>
+    <string name="alamat_text">
+        Jl. Perintis Kemerdekaan No.2,
+        Klumpang Kb., Kec. Hamparan Perak, Kabupaten Deli Serdang,
+        Sumatera Utara 20374
+    </string>
+    <string name="alamat">Alamat</string>
+    <string name="telepon">Telepon</string>
+    <string name="telepon_text">(061) 80801279</string>
+    <string name="provinsi">Provinsi</string>
+    <string name="provinsi_text">Sumatera Utara</string>
 </resources>

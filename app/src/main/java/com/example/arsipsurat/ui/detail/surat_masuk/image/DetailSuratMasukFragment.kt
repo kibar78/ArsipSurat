@@ -60,6 +60,12 @@ class DetailSuratMasukFragment : Fragment() {
             binding?.tvNomorAgenda?.text = suratMasukItem.nomorAgenda
             binding?.tvIsiDisposisi?.text = suratMasukItem.isiDisposisi
             binding?.tvDiteruskanKepada?.text = suratMasukItem.diteruskanKepada
+
+            if (suratMasukItem.isiDisposisi != null){
+                binding?.btnAddDisposisi?.visibility = View.INVISIBLE
+            }else{
+                binding?.btnAddDisposisi?.visibility = View.VISIBLE
+            }
         }
 
         val sharedPreferencesLogin = context?.getSharedPreferences(

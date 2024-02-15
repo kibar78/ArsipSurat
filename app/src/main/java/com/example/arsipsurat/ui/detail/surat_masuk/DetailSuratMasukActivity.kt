@@ -1,23 +1,19 @@
 package com.example.arsipsurat.ui.detail.surat_masuk
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.example.arsipsurat.R
 import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.model.surat_masuk.SuratMasukItem
 import com.example.arsipsurat.data.model.user.LoginResponse
 import com.example.arsipsurat.databinding.ActivityDetailSuratMasukBinding
-import com.example.arsipsurat.ui.detail.surat_masuk.disposisi.AddDisposisiActivity
-import com.example.arsipsurat.ui.detail.surat_masuk.disposisi.DisposisiActivity
 import com.example.arsipsurat.ui.detail.surat_masuk.image.SectionsPagerAdapter
 import com.example.arsipsurat.ui.update.surat_masuk.UpdateSuratMasukActivity
 import com.google.android.material.tabs.TabLayout
@@ -33,6 +29,12 @@ class DetailSuratMasukActivity : AppCompatActivity() {
             R.string.tab_text_1,
             R.string.tab_text_2,
             R.string.tab_text_3,
+        )
+
+        private val TAB_ICON = intArrayOf(
+            R.drawable.ic_description_24,
+            R.drawable.ic_surat_masuk_black,
+            R.drawable.ic_attachment_24
         )
     }
 
@@ -51,6 +53,7 @@ class DetailSuratMasukActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onResume() {
         super.onResume()
         val sharedPreferences = getSharedPreferences(
@@ -70,6 +73,7 @@ class DetailSuratMasukActivity : AppCompatActivity() {
             val tabs: TabLayout = binding.tabs
             TabLayoutMediator(tabs, viewPager) { tab, position ->
                 tab.text = resources.getString(TAB_TITLES[position])
+                tab.icon = resources.getDrawable(TAB_ICON[position])
             }.attach()
 
     }

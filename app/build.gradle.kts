@@ -78,4 +78,7 @@ dependencies {
 
     //Circle ImageView
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    //curved bottom navigation
+    //implementation("com.github.qamarelsafadi:CurvedBottomNavigation:0.1.3")
 }

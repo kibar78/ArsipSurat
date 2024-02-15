@@ -24,7 +24,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TableRow>
-
                 <TextView
                     android:padding="6dip"
                     android:text="@string/tgl_penerimaan" />
