@@ -33,7 +33,7 @@ class DetailSuratKeluarActivity : AppCompatActivity() {
         )
         private val TAB_ICON = intArrayOf(
             R.drawable.ic_description_24,
-            R.drawable.ic_surat_masuk_black,
+            R.drawable.ic_surat_keluar_black,
             R.drawable.ic_attachment_24
         )
     }

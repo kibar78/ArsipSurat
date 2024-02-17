@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tab_text_2"
-                android:icon="@drawable/ic_surat_masuk_black"/>
+                android:icon="@drawable/ic_surat_keluar_black"/>
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

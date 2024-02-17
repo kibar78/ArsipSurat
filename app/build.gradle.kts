@@ -71,14 +71,18 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
     //PhotoView
-    implementation ("com.github.chrisbanes:PhotoView:2.3.0")
+    implementation("com.github.chrisbanes:PhotoView:2.3.0")
 
     //ViewPager2
-    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
 
     //Circle ImageView
-    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
     //curved bottom navigation
     //implementation("com.github.qamarelsafadi:CurvedBottomNavigation:0.1.3")
+
+    //pdf
+    implementation("com.itextpdf:itextpdf:5.5.10")
+
 }
