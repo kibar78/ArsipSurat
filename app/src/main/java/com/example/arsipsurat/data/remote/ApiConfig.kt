@@ -11,7 +11,7 @@ class ApiConfig {
 
     companion object{
 
-        const val BASE_URL = "https://92c9-2001-448a-1070-8519-b002-6111-5924-35e1.ngrok-free.app"
+        const val BASE_URL = "http://10.0.2.2/"
         fun getApiService(): ApiService{
             val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val authInterceptor = Interceptor{chain ->

@@ -21,6 +21,7 @@ import com.example.arsipsurat.data.SharedPreferences
 import com.example.arsipsurat.data.model.user.LoginResponse
 import com.example.arsipsurat.data.remote.ApiConfig
 import com.example.arsipsurat.databinding.FragmentProfileBinding
+import com.example.arsipsurat.ui.login.LoginActivity
 import com.google.gson.Gson
 
 class ProfileFragment : Fragment() {
@@ -63,7 +64,11 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireActivity(), EditProfileActivity::class.java)
             startActivity(intent)
         }
-
+        binding?.btnLogout?.setOnClickListener {
+            val intent = Intent(requireActivity(), LoginActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
     }
 
     override fun onResume() {
