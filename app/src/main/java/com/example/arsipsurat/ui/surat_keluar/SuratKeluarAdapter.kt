@@ -30,11 +30,11 @@ class SuratKeluarAdapter(): RecyclerView.Adapter<SuratKeluarAdapter.ViewHolderSu
 
         val tglSurat = listSuratKeluar[position]?.tglSurat
         val perihal = listSuratKeluar[position]?.perihal
-        val keterangan  = listSuratKeluar[position]?.keterangan
+        val noSurat  = listSuratKeluar[position]?.noSurat
 
         holder.binding.tvTanggalSurat.text = tglSurat
         holder.binding.tvPerihal.text = perihal
-        holder.binding.tvKeterangan.text = keterangan
+        holder.binding.tvNomorSurat.text = noSurat
 
         holder.itemView.setOnClickListener { v->
             val sharedPreferences = v.context.getSharedPreferences(

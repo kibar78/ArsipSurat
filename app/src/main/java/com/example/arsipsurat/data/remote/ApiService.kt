@@ -45,7 +45,10 @@ interface ApiService {
         @Part("dari_mana") dariMana: RequestBody,
         @Part("perihal") perihal: RequestBody,
         @Part("keterangan") keterangan: RequestBody,
+        @Part("lokasi_file") lokasiFile: RequestBody,
         @Part lampiran : MultipartBody.Part?,
+        @Part lampiran_2 : MultipartBody.Part?,
+        @Part lampiran_3 : MultipartBody.Part?,
         @Part imageSurat : MultipartBody.Part?
     ): Call<PostSuratMasukResponse>
 
@@ -61,7 +64,10 @@ interface ApiService {
         @Part("dari_mana") dariMana: RequestBody,
         @Part("perihal") perihal: RequestBody,
         @Part("keterangan") keterangan: RequestBody,
+        @Part("lokasi_file") lokasiFile: RequestBody,
         @Part lampiran: MultipartBody.Part?,
+        @Part lampiran_2: MultipartBody.Part?,
+        @Part lampiran_3: MultipartBody.Part?,
         @Part imageSurat: MultipartBody.Part?
     ): Call<SuratMasukItem>
 
@@ -87,6 +93,8 @@ interface ApiService {
         @Part("perihal") perihal: RequestBody,
         @Part("keterangan") keterangan: RequestBody,
         @Part lampiran : MultipartBody.Part?,
+        @Part lampiran_2 : MultipartBody.Part?,
+        @Part lampiran_3 : MultipartBody.Part?,
         @Part imageSurat : MultipartBody.Part?
     ): Call<PostSuratKeluarResponse>
 

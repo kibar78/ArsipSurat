@@ -41,6 +41,8 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
 
         private const val IMAGE_SURAT_PICKCODE = 1000
         private const val IMAGE_LAMPIRAN_PICKCODE = 2000
+        private const val IMAGE_LAMPIRAN_2_PICKCODE = 3000
+        private const val IMAGE_LAMPIRAN_3_PICKCODE = 4000
     }
 
     private var _binding: ActivityAddSuratMasukBinding? = null
@@ -48,6 +50,8 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
 
     private var selectedImageSurat: Uri? = null
     private var selectedImageLampiran: Uri? = null
+    private var selectedImageLampiran_2: Uri? = null
+    private var selectedImageLampiran_3: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAddSuratMasukBinding.inflate(layoutInflater)
@@ -69,10 +73,23 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         binding?.ivLampiran?.setOnClickListener {
             openImageLampiran()
         }
+
+        binding?.ivLampiran2?.setOnClickListener{
+            openImageLampiran2()
+        }
+
+        binding?.ivLampiran3?.setOnClickListener{
+            openImageLampiran3()
+        }
+
         val category = arrayOf("Surat Keputusan","Surat Permohonan","Surat Kuasa",
             "Surat Pengantar","Surat Perintah","Surat Undangan","Surat Edaran")
         val adapter = ArrayAdapter(this,R.layout.dropdown_item, category)
         (binding?.textField?.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+
+        val lokasiFile = arrayOf("A1","A2","A3","A4","A5","A6","A7")
+        val adapterLokasi = ArrayAdapter(this,R.layout.dropdown_item, lokasiFile)
+        (binding?.textFieldLokasi?.editText as? AutoCompleteTextView)?.setAdapter(adapterLokasi)
     }
 
     private fun openImageSurat(){
@@ -86,6 +103,18 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         startActivityForResult(intent, IMAGE_LAMPIRAN_PICKCODE)
     }
 
+    private fun openImageLampiran2(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_LAMPIRAN_2_PICKCODE)
+    }
+
+    private fun openImageLampiran3(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_LAMPIRAN_3_PICKCODE)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK){
@@ -96,6 +125,14 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
             else if (requestCode == IMAGE_LAMPIRAN_PICKCODE){
                 selectedImageLampiran = data?.data
                 binding?.ivLampiran?.setImageURI(selectedImageLampiran)
+            }
+            else if (requestCode == IMAGE_LAMPIRAN_2_PICKCODE){
+                selectedImageLampiran_2 = data?.data
+                binding?.ivLampiran2?.setImageURI(selectedImageLampiran_2)
+            }
+            else if (requestCode == IMAGE_LAMPIRAN_3_PICKCODE){
+                selectedImageLampiran_3 = data?.data
+                binding?.ivLampiran3?.setImageURI(selectedImageLampiran_3)
             }
         }
     }
@@ -125,6 +162,7 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                     binding?.edtAsalSurat?.text.toString(),
                     binding?.edtPerihal?.text.toString(),
                     binding?.edtKeterangan?.text.toString(),
+                    binding?.autoCompleteTextViewLokasi?.text.toString()
                 )
 
                 var isEmptyFields = false
@@ -160,7 +198,8 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                              kategori: String,
                              dariMana: String,
                              perihal: String,
-                             keterangan: String
+                             keterangan: String,
+                             lokasiFile: String,
                               ){
         if (selectedImageSurat == null || selectedImageLampiran == null) {
             Toast.makeText(applicationContext, "Pilih gambar terlebih dahulu", Toast.LENGTH_SHORT).show()
@@ -175,14 +214,30 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
            inputStreamLampiran.copyTo(outputStream)
 
        val parcelFileDescriptor2 =
+           contentResolver.openFileDescriptor(selectedImageLampiran_2!!, "r",null)?: return
+       val inputStreamLampiran2 = FileInputStream(parcelFileDescriptor2.fileDescriptor)
+       val fileLampiran2 = File(cacheDir,contentResolver.getFileName(selectedImageLampiran_2!!))
+       val outputStream2 = FileOutputStream(fileLampiran2)
+       inputStreamLampiran.copyTo(outputStream2)
+
+       val parcelFileDescriptor3 =
+           contentResolver.openFileDescriptor(selectedImageLampiran_3!!, "r",null)?: return
+       val inputStreamLampiran3 = FileInputStream(parcelFileDescriptor3.fileDescriptor)
+       val fileLampiran3 = File(cacheDir,contentResolver.getFileName(selectedImageLampiran_3!!))
+       val outputStream3 = FileOutputStream(fileLampiran3)
+       inputStreamLampiran.copyTo(outputStream3)
+
+       val parcelFileDescriptor4 =
            contentResolver.openFileDescriptor(selectedImageSurat!!,"r",null)?: return
-            val inputStreamSurat = FileInputStream(parcelFileDescriptor2.fileDescriptor)
+            val inputStreamSurat = FileInputStream(parcelFileDescriptor4.fileDescriptor)
             val fileSurat = File(cacheDir,contentResolver.getFileName(selectedImageSurat!!))
-            val outputStream2 = FileOutputStream(fileSurat)
-            inputStreamSurat.copyTo(outputStream2)
+            val outputStream4 = FileOutputStream(fileSurat)
+            inputStreamSurat.copyTo(outputStream4)
 
         binding?.progressBar?.progress = 0
         val imageLampiran = UploadRequestBody(fileLampiran,"lampiran", this)
+        val imageLampiran_2 = UploadRequestBody(fileLampiran2,"lampiran_2", this)
+        val imageLampiran_3 = UploadRequestBody(fileLampiran3,"lampiran_3", this)
         val imageSurat = UploadRequestBody(fileSurat,"image_surat", this)
 
         val ctglPenerimaan = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),tglPenerimaan)
@@ -192,7 +247,10 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         val casalSurat = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),dariMana)
         val cperihal = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),perihal)
         val cketerangan = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),keterangan)
+        val clokasiFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),lokasiFile)
         val lampiranPart = MultipartBody.Part.createFormData("lampiran", fileLampiran.name, imageLampiran)
+        val lampiranPart2 = MultipartBody.Part.createFormData("lampiran_2", fileLampiran2.name, imageLampiran_2)
+        val lampiranPart3 = MultipartBody.Part.createFormData("lampiran_3", fileLampiran3.name, imageLampiran_3)
         val imageSuratPart = MultipartBody.Part.createFormData("image_surat", fileSurat.name, imageSurat)
 
         ApiConfig.getApiService().createSuratMasuk(
@@ -203,7 +261,10 @@ class AddSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
             casalSurat,
             cperihal,
             cketerangan,
+            clokasiFile,
             lampiranPart,
+            lampiranPart2,
+            lampiranPart3,
             imageSuratPart
         ).
         enqueue(object :Callback<PostSuratMasukResponse>{

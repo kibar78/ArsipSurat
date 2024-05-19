@@ -130,6 +130,21 @@
                     android:text="@string/keterangan"
                     android:textStyle="bold" />
             </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:padding="6dip"
+                    android:text="@string/lokasi_file" />
+
+                <TextView
+                    android:id="@+id/tv_lokasi_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="6dip"
+                    android:text="@string/lokasi_file"
+                    android:textStyle="bold" />
+            </TableRow>
         </TableLayout>
 
         <TextView

@@ -82,6 +82,10 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         val adapter = ArrayAdapter(this,R.layout.dropdown_item, category)
         (binding?.textField?.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
+        val lokasiFile = arrayOf("A1","A2","A3","A4","A5","A6","A7")
+        val adapterLokasi = ArrayAdapter(this,R.layout.dropdown_item, lokasiFile)
+        (binding?.textFieldLokasi?.editText as? AutoCompleteTextView)?.setAdapter(adapterLokasi)
+
         val sharedPreferences = getSharedPreferences(
             getString(R.string.shared_preferences_name),
             Context.MODE_PRIVATE
@@ -101,6 +105,13 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                 if (categoryIndex != -1) {
                     (binding?.textField?.editText as? AutoCompleteTextView)?.setText(
                         category[categoryIndex],
+                        false
+                    )
+                }
+                val lokasiFileIndex = lokasiFile.indexOf(suratmasuk?.lokasiFile)
+                if (lokasiFileIndex != -1 ){
+                    (binding?.textFieldLokasi?.editText as? AutoCompleteTextView)?.setText(
+                        lokasiFile[lokasiFileIndex],
                         false
                     )
                 }
@@ -153,6 +164,7 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                 val asalSurat = binding?.edtAsalSurat?.text.toString()
                 val perihal = binding?.edtPerihal?.text.toString()
                 val keterangan = binding?.edtKeterangan?.text.toString()
+                val lokasiFile = binding?.autoCompleteTextViewLokasi?.text.toString()
 
                     doUpdateImage(
                         tglPenerimaan,
@@ -161,7 +173,8 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                         category,
                         asalSurat,
                         perihal,
-                        keterangan
+                        keterangan,
+                        lokasiFile
                     )
                 var isEmptyFields = false
                 when {
@@ -212,7 +225,8 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
                               kategori: String,
                               dariMana: String,
                               perihal: String,
-                              keterangan: String)
+                              keterangan: String,
+                              lokasiFile: String)
     {
         if (selectedImageSurat == null || selectedImageLampiran == null) {
             Toast.makeText(applicationContext, "Pilih gambar terlebih dahulu", Toast.LENGTH_SHORT).show()
@@ -247,6 +261,7 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
         val casalSurat = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),dariMana)
         val cperihal = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),perihal)
         val cketerangan = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),keterangan)
+        val clokasiFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),lokasiFile)
         val lampiranPart = MultipartBody.Part.createFormData("lampiran", fileLampiran.name, imageLampiran)
         val imageSuratPart = MultipartBody.Part.createFormData("image_surat", fileSurat.name, image)
 
@@ -259,6 +274,9 @@ class UpdateSuratMasukActivity : AppCompatActivity(), View.OnClickListener,
             casalSurat,
             cperihal,
             cketerangan,
+            clokasiFile,
+            lampiranPart,
+            lampiranPart,
             lampiranPart,
             imageSuratPart
         ).

@@ -90,6 +90,7 @@
                 android:inputType="textCapSentences"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,6 +104,23 @@
                 android:inputType="textCapSentences"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldLokasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/lokasi_file"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextViewLokasi"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none"
+                tools:text="@string/lokasi_file"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textField"
@@ -183,6 +201,71 @@
                 app:layout_constraintEnd_toEndOf="@+id/iv_lampiran"
                 app:layout_constraintStart_toStartOf="@+id/iv_lampiran"
                 app:layout_constraintTop_toBottomOf="@+id/iv_lampiran" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/lampiran"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/iv_lampiran_2"
+                app:layout_constraintStart_toStartOf="@+id/iv_lampiran_2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_lampiran_2"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="8dp"
+                android:padding="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView17"
+                app:srcCompat="@drawable/baseline_image_24" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tap_to_select_image"
+                app:layout_constraintEnd_toEndOf="@+id/iv_lampiran_2"
+                app:layout_constraintStart_toStartOf="@+id/iv_lampiran_2"
+                app:layout_constraintTop_toBottomOf="@+id/iv_lampiran_2" />
+
+            <ImageView
+                android:id="@+id/iv_lampiran_3"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginEnd="8dp"
+                android:padding="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView16"
+                app:srcCompat="@drawable/baseline_image_24" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/lampiran"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/iv_lampiran_3"
+                app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tap_to_select_image"
+                app:layout_constraintEnd_toEndOf="@+id/iv_lampiran_3"
+                app:layout_constraintStart_toStartOf="@+id/iv_lampiran_3"
+                app:layout_constraintTop_toBottomOf="@+id/iv_lampiran_3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar

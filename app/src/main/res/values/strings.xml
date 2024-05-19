@@ -130,4 +130,5 @@
     <string name="telepon_text">(061) 80801279</string>
     <string name="provinsi">Provinsi</string>
     <string name="provinsi_text">Sumatera Utara</string>
+    <string name="lokasi_file">Lokasi File</string>
 </resources>

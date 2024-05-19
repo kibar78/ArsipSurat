@@ -40,6 +40,8 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
 
         private const val IMAGE_SURAT_PICKCODE = 3000
         private const val IMAGE_LAMPIRAN_PICKCODE = 4000
+        private const val IMAGE_LAMPIRAN_2_PICKCODE = 5000
+        private const val IMAGE_LAMPIRAN_3_PICKCODE = 6000
     }
 
     private var _binding : ActivityAddSuratKeluarBinding? = null
@@ -47,6 +49,8 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
 
     private var selectedImageSurat: Uri? = null
     private var selectedImageLampiran: Uri? = null
+    private var selectedImageLampiran2: Uri? = null
+    private var selectedImageLampiran3: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +71,14 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
 
         binding?.ivLampiran?.setOnClickListener {
             openImageLampiran()
+        }
+
+        binding?.ivLampiran2?.setOnClickListener {
+            openImageLampiran2()
+        }
+
+        binding?.ivLampiran3?.setOnClickListener {
+            openImageLampiran3()
         }
 
         val category = arrayOf("Surat Keputusan","Surat Permohonan","Surat Kuasa",
@@ -137,6 +149,17 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
         startActivityForResult(intent, IMAGE_LAMPIRAN_PICKCODE)
     }
 
+    private fun openImageLampiran2(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_LAMPIRAN_2_PICKCODE)
+    }
+
+    private fun openImageLampiran3(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_LAMPIRAN_3_PICKCODE)
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK){
@@ -147,6 +170,14 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
             else if (requestCode == IMAGE_LAMPIRAN_PICKCODE){
                 selectedImageLampiran = data?.data
                 binding?.ivLampiran?.setImageURI(selectedImageLampiran)
+            }
+            else if (requestCode == IMAGE_LAMPIRAN_2_PICKCODE){
+                selectedImageLampiran2 = data?.data
+                binding?.ivLampiran2?.setImageURI(selectedImageLampiran2)
+            }
+            else if (requestCode == IMAGE_LAMPIRAN_3_PICKCODE){
+                selectedImageLampiran2 = data?.data
+                binding?.ivLampiran3?.setImageURI(selectedImageLampiran3)
             }
         }
     }
@@ -173,14 +204,30 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
         inputStreamLampiran.copyTo(outputStream)
 
         val parcelFileDescriptor2 =
+            contentResolver.openFileDescriptor(selectedImageLampiran2!!, "r",null)?: return
+        val inputStreamLampiran2 = FileInputStream(parcelFileDescriptor2.fileDescriptor)
+        val fileLampiran2 = File(cacheDir,contentResolver.getFileName(selectedImageLampiran2!!))
+        val outputStream2 = FileOutputStream(fileLampiran2)
+        inputStreamLampiran2.copyTo(outputStream2)
+
+        val parcelFileDescriptor3 =
+            contentResolver.openFileDescriptor(selectedImageLampiran3!!, "r",null)?: return
+        val inputStreamLampiran3 = FileInputStream(parcelFileDescriptor3.fileDescriptor)
+        val fileLampiran3 = File(cacheDir,contentResolver.getFileName(selectedImageLampiran3!!))
+        val outputStream3 = FileOutputStream(fileLampiran3)
+        inputStreamLampiran3.copyTo(outputStream3)
+
+        val parcelFileDescriptor4 =
             contentResolver.openFileDescriptor(selectedImageSurat!!,"r",null)?: return
-        val inputStreamSurat = FileInputStream(parcelFileDescriptor2.fileDescriptor)
+        val inputStreamSurat = FileInputStream(parcelFileDescriptor4.fileDescriptor)
         val fileSurat = File(cacheDir,contentResolver.getFileName(selectedImageSurat!!))
-        val outputStream2 = FileOutputStream(fileSurat)
-        inputStreamSurat.copyTo(outputStream2)
+        val outputStream4 = FileOutputStream(fileSurat)
+        inputStreamSurat.copyTo(outputStream4)
 
         binding?.progressBar?.progress = 0
         val imageLampiran = UploadRequestBody(fileLampiran,"lampiran", this)
+        val imageLampiran2 = UploadRequestBody(fileLampiran2,"lampiran_2", this)
+        val imageLampiran3 = UploadRequestBody(fileLampiran3,"lampira_3", this)
         val imageSurat = UploadRequestBody(fileSurat,"image_surat", this)
 
         val ctglcatat = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),tglCatat)
@@ -191,6 +238,8 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
         val cperihal = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),perihal)
         val cketerangan = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),keterangan)
         val lampiranPart = MultipartBody.Part.createFormData("lampiran", fileLampiran.name, imageLampiran)
+        val lampiranPart2 = MultipartBody.Part.createFormData("lampiran", fileLampiran.name, imageLampiran2)
+        val lampiranPart3 = MultipartBody.Part.createFormData("lampiran", fileLampiran.name, imageLampiran3)
         val imageSuratPart = MultipartBody.Part.createFormData("image_surat", fileSurat.name, imageSurat)
 
         ApiConfig.getApiService().createSuratKeluar(
@@ -202,6 +251,8 @@ class AddSuratKeluarActivity : AppCompatActivity(), View.OnClickListener,
             cperihal,
             cketerangan,
             lampiranPart,
+            lampiranPart2,
+            lampiranPart3,
             imageSuratPart
         ).enqueue(object : Callback<PostSuratKeluarResponse>{
             override fun onResponse(

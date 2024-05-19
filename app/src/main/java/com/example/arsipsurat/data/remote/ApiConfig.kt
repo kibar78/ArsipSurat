@@ -11,6 +11,7 @@ class ApiConfig {
 
     companion object{
 
+        //"http://10.0.2.2/"
         const val BASE_URL = "http://10.0.2.2/"
         fun getApiService(): ApiService{
             val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)

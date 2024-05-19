@@ -21,6 +21,9 @@ data class SuratMasukItem(
 	@field:SerializedName("tgl_penerimaan")
 	val tglPenerimaan: String? = null,
 
+	@field:SerializedName("lokasi_file")
+	val lokasiFile: String? = null,
+
 	@field:SerializedName("image_surat")
 	val imageSurat: String? = null,
 

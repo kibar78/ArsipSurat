@@ -41,11 +41,11 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
             <TextView
-                android:id="@+id/tv_keterangan"
+                android:id="@+id/tv_nomor_surat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text="@string/keterangan"
+                android:text="@string/no_surat"
                 android:textSize="14sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

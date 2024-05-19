@@ -53,6 +53,7 @@ class DetailSuratMasukFragment : Fragment() {
             binding?.tvDariMana?.text = suratMasukItem.dariMana
             binding?.tvPerihal?.text = suratMasukItem.perihal
             binding?.tvKeterangan?.text = suratMasukItem.keterangan
+            binding?.tvLokasiFile?.text = suratMasukItem.lokasiFile
 
             //Disposisi
             binding?.tvKlasifikasi?.text = suratMasukItem.klasifikasi

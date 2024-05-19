@@ -28,13 +28,13 @@ class SuratMasukAdapter: RecyclerView.Adapter<SuratMasukAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val tgl_surat = listSuratMasuk[position]?.tglSurat
+        val tglSurat = listSuratMasuk[position]?.tglSurat
         val perihal = listSuratMasuk[position]?.perihal
-        val keterangan = listSuratMasuk[position]?.keterangan
+        val noSurat = listSuratMasuk[position]?.noSurat
 
-        holder.binding.tvTanggalSurat.text = tgl_surat
+        holder.binding.tvTanggalSurat.text = tglSurat
         holder.binding.tvPerihal.text = perihal
-        holder.binding.tvKeterangan.text = keterangan
+        holder.binding.tvNomorSurat.text = noSurat
 
 
         holder.itemView.setOnClickListener { v ->
